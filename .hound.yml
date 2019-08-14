@@ -1,0 +1,4 @@
+eslint:
+  enabled: true
+  config_file: .eslintre
+  ignore_file: .eslintignore
