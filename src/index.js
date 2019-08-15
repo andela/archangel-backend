@@ -8,7 +8,8 @@ const fs = require("fs"),
     cors = require("cors"),
     passport = require("passport"),
     errorhandler = require("errorhandler"),
-    mongoose = require("mongoose");
+    mongoose = require("mongoose"),
+    dotenv = require("dotenv");
 
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -18,7 +19,8 @@ const app = express();
 
 app.use(cors());
 
-
+//dotenv config
+dotenv.config();
 
 // Normal express config defaults
 app.use(require("morgan")("dev"));
