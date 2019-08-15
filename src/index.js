@@ -10,12 +10,15 @@ const fs = require("fs"),
     errorhandler = require("errorhandler"),
     mongoose = require("mongoose");
 
+
 const isProduction = process.env.NODE_ENV === "production";
 
 // Create global app object
 const app = express();
 
 app.use(cors());
+
+
 
 // Normal express config defaults
 app.use(require("morgan")("dev"));
