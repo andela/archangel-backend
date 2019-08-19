@@ -1,0 +1,17 @@
+FROM node:alpine
+
+#set working directory
+WORKDIR '/app'
+
+#copy package.json to working dir to prevent reinstallation
+#of npm packages 
+COPY ./package.json ./
+
+#run package installations
+RUN npm install
+
+#copy the project into the working dir
+COPY . .
+
+#start your node project with this command
+CMD ["npm","run","start"]

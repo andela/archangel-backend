@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+    postgres:
+      image: 'postgres:latest'
+      volumes:
+          - db_data:/var/lib/postgresql/data/
+      networks:
+        - db_nw
+
+    api:
+      build: 
+        context: .
+        dockerfile: Dockerfile.dev
+      depends_on:
+        - postgres
+      volumes:
+        - ./src:/app/
+      networks:
+        - db_nw
+
+
+volumes:
+  db_data:
+
+
+networks:
+  db_nw:
+    driver: bridge
+
+    
