@@ -44,5 +44,9 @@
 		"eslint-plugin-react-hooks": "^1.7.0",
 		"mocha": "^6.2.0",
 		"nodemon": "^1.19.1"
+	},
+	"parserOption": {
+		"sourceType": "module",
+		"ecmaVersion": 2018
 	}
 }
