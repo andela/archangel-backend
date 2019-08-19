@@ -4,7 +4,7 @@
 	"description": "A Social platform for the creative at heart",
 	"main": "index.js",
 	"scripts": {
-		"test": "mocha --timeout 1000 ./src/tests/*.js",
+		"test": "set NODE_ENV=test& mocha --timeout 1000 ./src/tests/*.js --require babel-core/register --reporter spec --exec babel-node --exit",
 		"dev": "set DEBUG=web-app & set NODE_ENV=development& nodemon src/index.js --exec babel-node",
 		"coverage": "nyc report --reporter=text-lcov | coveralls",
 		"coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
