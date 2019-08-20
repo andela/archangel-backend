@@ -4,7 +4,6 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import session from 'express-session';
 
 // import routes from './routes';
 
@@ -24,14 +23,8 @@ app.options('*', cors());
 
 app.use(methodOverride());
 
-app.use(
-	session({
-		secret: 'barefootnomad',
-		cookie: { maxAge: 60000 },
-		resave: false,
-		saveUninitialized: false,
-	})
-);
+// serve the api endpoints built in routes folder
+// app.use(routes);
 
 app.get('/', (req, res) => {
 	res.status(200).send({
@@ -39,9 +32,6 @@ app.get('/', (req, res) => {
 		message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
 	});
 });
-
-// serve the api endpoints built in routes folder
-// app.use(routes);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
