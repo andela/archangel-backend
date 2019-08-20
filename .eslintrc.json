@@ -1,11 +1,11 @@
 {
+	"root": true,
+	"extends": "airbnb-base",
 	"env": {
-		"browser": true,
 		"node": true,
 		"es6": true,
 		"mocha": true
 	},
-	"extends": ["airbnb"],
 	"globals": {
 		"Atomics": "readonly",
 		"SharedArrayBuffer": "readonly"
@@ -19,6 +19,10 @@
 	},
 	"plugins": ["react"],
 	"rules": {
+		"indent": [0, "tab"],
+		"no-tabs": 0,
+		"camelcase": 0,
+		"linebreak-style": "off",
 		"one-var": 0,
 		"one-var-declaration-per-line": 0,
 		"new-cap": 0,

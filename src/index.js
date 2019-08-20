@@ -30,7 +30,7 @@ app.use(
 		cookie: { maxAge: 60000 },
 		resave: false,
 		saveUninitialized: false,
-	}),
+	})
 );
 
 app.get('/', (req, res) => {
@@ -45,14 +45,14 @@ app.get('/', (req, res) => {
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
 	const err = new Error('Not Found');
 	err.status = 404;
 	next(err);
 });
 
-/// error handlers
+// error handlers
 
 // development error handler
 // will print stacktrace
@@ -68,6 +68,7 @@ if (!isProduction) {
 				error: err,
 			},
 		});
+		next();
 	});
 }
 
@@ -81,6 +82,7 @@ app.use((err, req, res, next) => {
 			error: {},
 		},
 	});
+	next();
 });
 
 const server = app.listen(port || 5000, () => {
