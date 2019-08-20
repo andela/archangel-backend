@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "babel -d ./build ./src -s",
 		"prod": "set NODE_ENV=production& node build/index.js",
-		"start": "set NODE_ENV=development& babel-node api/v1/index.js",
+		"start": "set NODE_ENV=development& babel-node src/index.js",
 		"dev": "set DEBUG=web-app & set NODE_ENV=development& nodemon src/index.js --exec babel-node",
 		"test": "set NODE_ENV=test& mocha --timeout 1000 ./src/tests/*.js --require @babel/register --reporter spec --exec babel-node --exit",
 		"coverage": "nyc report --reporter=text-lcov | coveralls",
