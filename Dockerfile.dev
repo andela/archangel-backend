@@ -16,4 +16,4 @@ WORKDIR '/var/www/app'
 COPY . .
 
 #start your node project with this command
-CMD ["npm","run","start"]
+CMD ["npm","run","dev"]
