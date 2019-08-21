@@ -17,6 +17,7 @@ services:
       volumes:
         - ./src:/app/
       networks:
+        - api_nw
         - db_nw
     nginx:
       restart: always
@@ -34,6 +35,8 @@ volumes:
 
 networks:
   db_nw:
+    driver: bridge
+  api_nw:
     driver: bridge
 
     
