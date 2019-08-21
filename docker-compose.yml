@@ -18,7 +18,15 @@ services:
         - ./src:/app/
       networks:
         - db_nw
-
+    nginx:
+      restart: always
+      build:
+        dockerfile: Dockerfile.dev
+        context:  ./nginx
+      networks:
+        - api_nw
+      ports:
+        - "3000:80"
 
 volumes:
   db_data:
