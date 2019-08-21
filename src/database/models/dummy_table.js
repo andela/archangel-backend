@@ -1,7 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-  const dummytable = sequelize.define('dummytable', {
+  const dummy_table = sequelize.define('dummy_table', {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING
   }, {});
-  return dummytable;
+
+  return dummy_table;
 };
