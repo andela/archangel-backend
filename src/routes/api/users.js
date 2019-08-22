@@ -1,87 +1,44 @@
-const mongoose = require("mongoose");
-const router = require("express").Router();
-const passport = require("passport");
-const User = mongoose.model("User");
+import express from 'express';
+import passport from 'passport';
 
-router.get("/user", function(req, res, next) {
-    User.findById(req.payload.id)
-        .then(function(user) {
-            if (!user) {
-                return res.sendStatus(401);
-            }
-            return res.json({ user: user.toAuthJSON() });
-        })
-        .catch(next);
+const router = express.Router();
+
+router.get('/api/v1/auth/login/facebook',
+  passport.authenticate('facebook'));
+
+router.get('/api/v1/auth/login/facebook/callback',
+  passport.authenticate('facebook', {
+    failureRedirect: '/api/v1/auth/login',
+    successRedirect: '/api/v1/requests',
+  }));
+
+router.get('/api/v1/requests', (req, res) => {
+  return res.status(200).send({
+    status: 'success',
+    data: {
+      first_name: req.user.displayName,
+      email: req.user.emails[0].value,
+    },
+  });
 });
 
-router.put("/user", function(req, res, next) {
-    User.findById(req.payload.id)
-        .then(function(user) {
-            if (!user) {
-                return res.sendStatus(401);
-            }
+router.get('/api/v1/auth/login/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-            // only update fields that were actually passed...
-            if (typeof req.body.user.username !== "undefined") {
-                user.username = req.body.user.username;
-            }
-            if (typeof req.body.user.email !== "undefined") {
-                user.email = req.body.user.email;
-            }
-            if (typeof req.body.user.bio !== "undefined") {
-                user.bio = req.body.user.bio;
-            }
-            if (typeof req.body.user.image !== "undefined") {
-                user.image = req.body.user.image;
-            }
-            if (typeof req.body.user.password !== "undefined") {
-                user.setPassword(req.body.user.password);
-            }
+router.get('/api/v1/auth/login/google/callback',
+  passport.authenticate('facebook', {
+    failureRedirect: '/api/v1/auth/login',
+    successRedirect: '/api/v1/requests',
+  }));
 
-            return user.save().then(function() {
-                return res.json({ user: user.toAuthJSON() });
-            });
-        })
-        .catch(next);
+router.get('/api/v1/requests', (req, res) => {
+  return res.status(200).send({
+    status: 'success',
+    data: {
+      name: req.user.displayName,
+      email: req.user.emails[0].value,
+    },
+  });
 });
 
-router.post("/users/login", function(req, res, next) {
-    if (!req.body.user.email) {
-        return res.status(422).json({ errors: { email: "can't be blank" } });
-    }
-
-    if (!req.body.user.password) {
-        return res.status(422).json({ errors: { password: "can't be blank" } });
-    }
-    passport.authenticate("local", { session: false }, function(
-        err,
-        user,
-        info
-    ) {
-        if (err) {
-            return next(err);
-        }
-
-        if (user) {
-            return res.json({ user: user.toAuthJSON() });
-        } else {
-            return res.status(422).json(info);
-        }
-    })(req, res, next);
-});
-
-router.post("/users", function(req, res, next) {
-    const user = new User();
-
-    user.username = req.body.user.username;
-    user.email = req.body.user.email;
-    user.setPassword(req.body.user.password);
-
-    user.save()
-        .then(function() {
-            return res.json({ user: user.toAuthJSON() });
-        })
-        .catch(next);
-});
-
-module.exports = router;
+export default router;
