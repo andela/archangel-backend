@@ -2,10 +2,25 @@ import express from 'express';
 import bodyparser from 'body-parser';
 import session from 'express-session';
 import passport from 'passport';
-import 'dotenv/config';
 import errorhandler from 'errorhandler';
-import router from './routes/api/users';
+import dotenv from 'dotenv';
+import logger from 'morgan';
+import debug from 'debug';
+import cors from 'cors';
+import methodOverride from 'method-override';
+import router from './routes/api/auth';
 import { fbStrategy, googleStrategy } from './config/passport';
+
+dotenv.config();
+const debugLog = debug('web-app');
+const { port } = process.env;
+
+// Enable Cross-Origin Resource Sharing (CORS)
+app.use(cors());
+app.options('*', cors());
+app.use(methodOverride());
+
+app.use(logger('dev'));
 
 passport.use(fbStrategy);
 passport.use(googleStrategy);
@@ -42,7 +57,8 @@ app.use(passport.session());
 if (!isProduction) {
   app.use(errorhandler());
 }
-
+// serve the api endpoints built in routes folder
+// app.use(routes);
 app.use(router);
 
 // catch 404 and forward to error handler
@@ -51,39 +67,59 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
+// import routes from './routes';
+
+app.get('/', (req, res) => {
+	res.status(200).send({
+		status: 200,
+		message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
+	});
+});
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+	const err = new Error('Not Found');
+	err.status = 404;
+	next(err);
+});
 
 // error handlers
 
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-  app.use((err, req, res, next) => {
-    console.log(err.stack);
+	app.use((err, req, res, next) => {
+		debugLog(`Error Stack: ${err.stack}`);
 
-    res.status(err.status || 500);
+		res.status(err.status || 500);
 
-    res.json({
-      errors: {
-        message: err.message,
-        error: err,
-      }
-    });
-  });
+		res.json({
+			errors: {
+				message: err.message,
+				error: err,
+			},
+		});
+		next();
+	});
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json({
-    errors: {
-      message: err.message,
-      error: {},
-    },
-  });
+	res.status(err.status || 500);
+	res.json({
+		errors: {
+			message: err.message,
+			error: {},
+		},
+	});
+	next();
 });
 
-// finally, let's start our server...
-const server = app.listen(process.env.PORT || 3000, () => {
-  console.log(`Listening on port ${server.address().port}`);
+const server = app.listen(port || 5000, () => {
+	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
 });
+
+// for testing
+module.exports = app;
+module.exports.port = server.address().port;

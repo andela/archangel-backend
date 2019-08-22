@@ -1,0 +1,17 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ],
+  "description": "Make company global travel and accommodation easy and convenient for the strong workforce of savvy members of staff",
+  "env": {
+  },
+  "formation": {
+  },
+  "name": "archangel-backend",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
