@@ -1,6 +1,6 @@
 import { check, validationResult } from 'express-validator';
 
-import Users from '../database/models.users';
+import Users from '../database/models/users';
 import ApiError from '../utils/ApiError';
 
 export default {
@@ -8,13 +8,11 @@ export default {
 		check('email')
 			.isEmail()
 			.withMessage('Invalid e-mail address.')
-			.custom((email) => {
-				return Users.findUserByEmail(email).then((user) => {
-					if (user) {
-						throw new ApiError(400, 'E-mail already in use.');
-					}
-				});
-			});
+			.custom((email) => Users.findUserByEmail(email).then((user) => {
+				if (user) {
+					throw new ApiError(400, 'E-mail already in use.');
+				}
+			}));
 		check('password')
 			.isLength({ min: 8 })
 			.withMessage('Password length must be 8 or more.')
