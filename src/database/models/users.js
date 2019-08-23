@@ -5,10 +5,7 @@ export default (sequelize, DataTypes) => {
         staff_id: {
             type: DataTypes.TEXT,
             unique: true,
-            allowNull: false,
-            validate: {
-                msg: 'Please provide your staff_id'
-            },
+            allowNull: true,
         },
 
         first_name: {
@@ -36,23 +33,45 @@ export default (sequelize, DataTypes) => {
             }
         },
 
-        password: DataTypes.TEXT,
+        password: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            validate: {
+                msg: 'Please provide a password'
+            }
+        },
 
-        dob: DataTypes.TEXT,
+        dob: {
+            type: DataTypes.TEXT
+        },
 
-        gender: DataTypes.TEXT,
+        gender: {
+            type: DataTypes.TEXT,
+        },
 
-        address: DataTypes.TEXT,
+        address: {
+            type: DataTypes.TEXT,
+        },
 
-        preferred_language: DataTypes.TEXT,
+        preferred_language: {
+            type: DataTypes.TEXT,
+        },
 
-        preferred_currency: DataTypes.TEXT,
+        preferred_currency: {
+            type: DataTypes.TEXT,
+        },
 
-        role: DataTypes.TEXT,
+        role: {
+            type: DataTypes.TEXT,
+        },
 
-        is_active: DataTypes.BOOLEAN,
+        is_active: {
+            type: DataTypes.BOOLEAN,
+        },
 
-        dept_id: DataTypes.INTEGER,
+        dept_id: {
+            type: DataTypes.INTEGER,
+        },
 
     });
 

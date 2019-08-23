@@ -1,8 +1,10 @@
 import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize('barefoot', 'postgres', '1battalion', {
-    dialect: 'postgres',
-});
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config')[env];
+
+// eslint-disable-next-line max-len
+const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 const models = {
     users: sequelize.import('./users'),

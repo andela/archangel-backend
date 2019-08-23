@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
 });
 
 // sync() will create all table if they don't exist in the database
-models.sequelize.sync({ force: true }).then(() => {
+models.sequelize.sync().then(() => {
     app.listen(port || 5000, () => {
         debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
     });
