@@ -14,8 +14,8 @@ const {
 
 module.exports = {
     DB_USERNAME,
-    DB_PASSWORD,
     DATABASE,
+    DB_PASSWORD,
     DB_HOST,
     DB_PORT,
     PORT,
