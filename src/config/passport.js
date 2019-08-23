@@ -25,7 +25,7 @@ const createUser = async (newUser) => {
 
     return user.id;
   } catch (err) {
-    return null;
+    return err;
   }
 };
 
@@ -55,7 +55,7 @@ async (accessToken, refreshToken, profile, cb) => {
       id,
     };
 
-    createUser(user);
+    await createUser(user);
 
     return cb(null, user);
   } catch (err) {

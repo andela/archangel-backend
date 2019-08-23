@@ -13,11 +13,16 @@ router.get('/api/v1/auth/login/facebook/callback',
   }));
 
 router.get('/api/v1/requests', (req, res) => {
+  const { displayName } = req.user;
+  const [lastName, firstName] = displayName.split(' ');
+
   return res.status(200).send({
     status: 'success',
     data: {
-      first_name: req.user.displayName,
+      first_name: firstName,
+      last_name: lastName,
       email: req.user.emails[0].value,
+      id: req.user.id,
     },
   });
 });
@@ -35,8 +40,10 @@ router.get('/api/v1/requests', (req, res) => {
   return res.status(200).send({
     status: 'success',
     data: {
-      name: req.user.displayName,
+      first_name: req.user.givenName,
+      last_name: req.user.familyName,
       email: req.user.emails[0].value,
+      id: req.user.id,
     },
   });
 });
