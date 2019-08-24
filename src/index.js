@@ -5,13 +5,18 @@ import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
+import messages from './utils/messages';
+import routerV1 from './routes/api/v1/routesV1';
+import response from './utils/response';
+import statusCode from './utils/statusCode';
+
 // import routes from './routes';
 
 dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
-const { port } = process.env;
+const PORT = process.env.port || 5000;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -26,19 +31,18 @@ app.use(methodOverride());
 // serve the api endpoints built in routes folder
 // app.use(routes);
 
-app.get('/', (req, res) => {
-	res.status(200).send({
-		status: 200,
-		message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
-	});
-});
+// handles the api home route...
+app.all('/', (req, res) => response(res, statusCode.success, 'success', { message: messages.defaultWelcome }));
+
+// This is the point where the main API routes is served from...
+app.use('/api/v1', routerV1);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
 	const err = new Error('Not Found');
-	err.status = 404;
+	err.status = statusCode.notFound;
 	next(err);
 });
 
@@ -50,7 +54,7 @@ if (!isProduction) {
 	app.use((err, req, res, next) => {
 		debugLog(`Error Stack: ${err.stack}`);
 
-		res.status(err.status || 500);
+		res.status(err.status || statusCode.serverError);
 
 		res.json({
 			errors: {
@@ -65,7 +69,7 @@ if (!isProduction) {
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
-	res.status(err.status || 500);
+	res.status(err.status || statusCode.serverError);
 	res.json({
 		errors: {
 			message: err.message,
@@ -75,10 +79,9 @@ app.use((err, req, res, next) => {
 	next();
 });
 
-const server = app.listen(port || 5000, () => {
-	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
+const server = app.listen(PORT, () => {
+	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing
 module.exports = app;
-module.exports.port = server.address().port;
