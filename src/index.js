@@ -5,10 +5,8 @@ import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
-import message from './utils/messageUtils';
-import response from './utils/response';
-import statusCode from './utils/statusCode';
-import routes from './routes/api';
+// import routes from './routes';
+import router from './routes/api/emailVerification';
 
 dotenv.config();
 const debugLog = debug('web-app');
@@ -31,11 +29,14 @@ app.use(methodOverride());
 
 // handles the api home route...
 app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
+// serve the api endpoints built in routes folder
+// app.use(routes);
+app.use('/', router);
 
 // This is the point where the main API routes is served from...
-app.all(`${prefix}/`, (req, res) => {
-  response.successResponse(res, statusCode.success, message.welcome);
-});
+// app.all(`${prefix}/`, (req, res) => {
+//   response.successResponse(res, statusCode.success, message.welcome);
+// });
 
 // serve the api endpoints built in routes folder
 routes(prefix, app);
