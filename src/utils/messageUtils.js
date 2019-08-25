@@ -14,9 +14,12 @@ export default {
     noDigitInPassword: 'Password must contain at least one digit.',
     emptyFirstname: 'First name cannot be empty.',
     emptyLastname: 'Last name cannot be empty.',
-
     unauthorized: 'Not authorized.',
     invalidToken: 'Invalid Token, please login.',
-
     logoutSuccess: 'Logged out successfully.',
+    incorrectPassword: 'Sorry, the password entered is not correct.',
+    loginSuccess: 'You have been logged in sucessfully.',
+    signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
+    userEmailNotFound: (email) => { return `Sorry, there is no user with email: ${email} in the database.` },
+    userIdNotFound: (id) => { return `Sorry, there is no user with id: ${id} in the database.` }
 };
