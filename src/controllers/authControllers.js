@@ -25,13 +25,35 @@ export default {
             errorResponse(res, statusCode.serverError, err);
         }
     },
-    logout: async (req,res) => {
-        try {
-            const { token } = req;
-            await logoutService(token);
-            successResponse(res, statusCode.success, message.logoutSuccess);
-        } catch (err) {
-            errorResponse(res, statusCode.serverError, err.message);
-        }
-    }
+
+    signIn: async (req, res) => {
+     try {
+       const { email, password } = req.body;
+       const validUser = await findUserByEmail(email);
+       if (validUser == null || validUser == undefined) {
+         throw new ApiErrors(messages.userEmailNotFound(email), statusCode.notFound);
+       };
+       const { password : hashedPassword, ...data } = validUser.dataValues;
+       const validPassword = await comparePassword(password, hashedPassword);
+       if (!validPassword) {
+         throw new ApiErrors(messages.incorrectPassword, statusCode.badRequest);
+       }
+       else {
+         const token = generateToken({ ...data });
+         return successResponseWithData(res, statusCode.success, message.loginSuccess, { ...data, token });
+       };
+     } catch (err) {
+            errorResponse(res, statusCode.serverError, err);
+     }
+   },
+
+   logout: async (req,res) => {
+     try {
+       const { token } = req;
+       await logoutService(token);
+       successResponse(res, statusCode.success, message.logoutSuccess);
+     } catch (err) {
+       errorResponse(res, statusCode.serverError, err.message);
+     }
+   }
 };
