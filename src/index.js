@@ -39,7 +39,6 @@ app.all(`${prefix}/`, (req, res) => {
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 
-
 const isProduction = process.env.NODE_ENV === 'production';
 
 // catch 404 and forward to error handler

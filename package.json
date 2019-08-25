@@ -77,19 +77,17 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "babel -d ./build ./src -s",
-		"coverage": "nyc report --reporter=text-lcov | coveralls",
-		"coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-		"dev": "set DEBUG=web-app & set NODE_ENV=development& nodemon src/index.js --exec babel-node",
-		"lint": "eslint src/**/*.js --fix",
 		"prod": "set NODE_ENV=production& node build/index.js",
 		"start": "set NODE_ENV=development& babel-node src/index.js",
-		"test": "set NODE_ENV=test& mocha --timeout 1000 ./src/tests/*.js --require @babel/register --reporter spec --exec babel-node --exit"
+		"dev": "set DEBUG=web-app & set NODE_ENV=development& nodemon src/index.js --exec babel-node",
+		"test": "set NODE_ENV=test& mocha --timeout 1000 ./src/tests/*.js --require @babel/register --reporter spec --exec babel-node --exit",
+		"coverage": "nyc report --reporter=text-lcov | coveralls",
+		"coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
 	},
 	"author": "Andela Simulations Programme",
 	"license": "MIT",
 	"dependencies": {
 		"@babel/runtime": "^7.5.5",
-		"bcrypt": "3.0.6",
 		"cors": "^2.8.4",
 		"coveralls": "^3.0.3",
 		"debug": "^4.1.1",
@@ -106,8 +104,6 @@
 		"passport": "^0.4.0",
 		"passport-local": "^1.0.0",
 		"path": "^0.12.7",
-		"pg": "7.12.1",
-		"pg-hstore": "2.3.3",
 		"request": "^2.87.0",
 		"sequelize": "^5.15.2",
 		"underscore": "^1.9.1"
