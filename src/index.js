@@ -5,8 +5,8 @@ import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
+import routesV1 from './routes/api/v1/routesV1';
 import messages from './utils/messages';
-import routerV1 from './routes/api/v1/routesV1';
 import response from './utils/response';
 import statusCode from './utils/statusCode';
 
@@ -31,18 +31,17 @@ app.use(methodOverride());
 // serve the api endpoints built in routes folder
 // app.use(routes);
 
-// handles the api home route...
+// This route handles the call to the base url...
 app.all('/', (req, res) => response(res, statusCode.success, 'success', { message: messages.defaultWelcome }));
 
-// This is the point where the main API routes is served from...
-app.use('/api/v1', routerV1);
+app.use('/api/v1', routesV1);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
 	const err = new Error('Not Found');
-	err.status = statusCode.notFound;
+	err.status = 404;
 	next(err);
 });
 
@@ -54,7 +53,7 @@ if (!isProduction) {
 	app.use((err, req, res, next) => {
 		debugLog(`Error Stack: ${err.stack}`);
 
-		res.status(err.status || statusCode.serverError);
+		res.status(err.status || 500);
 
 		res.json({
 			errors: {
@@ -69,7 +68,7 @@ if (!isProduction) {
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
-	res.status(err.status || statusCode.serverError);
+	res.status(err.status || 500);
 	res.json({
 		errors: {
 			message: err.message,
@@ -79,7 +78,7 @@ app.use((err, req, res, next) => {
 	next();
 });
 
-const server = app.listen(PORT, () => {
+const server = app.listen( PORT, () => {
 	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
