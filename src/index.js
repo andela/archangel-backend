@@ -5,10 +5,7 @@ import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
-import models from './database/models';
-
-// import routes from './routes';
-
+// import routes from './routes/api';
 
 dotenv.config();
 const debugLog = debug('web-app');
@@ -78,11 +75,8 @@ app.use((err, req, res, next) => {
     next();
 });
 
-// sync() will create all table if they don't exist in the database
-models.sequelize.sync().then(() => {
-    app.listen(port || 5000, () => {
-        debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
-    });
+app.listen(port || 5000, () => {
+    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
 });
 
 // for testing
