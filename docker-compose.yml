@@ -15,7 +15,7 @@ services:
       depends_on:
         - postgres
       volumes:
-        - ./src:/app/
+        - .:/app/
       networks:
         - api_nw
         - db_nw
@@ -27,7 +27,7 @@ services:
       networks:
         - api_nw
       ports:
-        - "3000:80"
+        - "5000:80"
 
 volumes:
   db_data:
