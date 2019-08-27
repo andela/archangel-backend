@@ -70,17 +70,17 @@ app.use((req, res, next) => {
 // import routes from './routes';
 
 app.get('/', (req, res) => {
-	res.status(200).send({
-		status: 200,
-		message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
-	});
+    res.status(200).send({
+        status: 200,
+        message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
+    });
 });
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-	const err = new Error('Not Found');
-	err.status = 404;
-	next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -88,38 +88,37 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-	app.use((err, req, res, next) => {
-		debugLog(`Error Stack: ${err.stack}`);
+    app.use((err, req, res, next) => {
+        debugLog(`Error Stack: ${err.stack}`);
 
-		res.status(err.status || 500);
+        res.status(err.status || 500);
 
-		res.json({
-			errors: {
-				message: err.message,
-				error: err,
-			},
-		});
-		next();
-	});
+        res.json({
+            errors: {
+                message: err.message,
+                error: err,
+            },
+        });
+        next();
+    });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
-	res.status(err.status || 500);
-	res.json({
-		errors: {
-			message: err.message,
-			error: {},
-		},
-	});
-	next();
+    res.status(err.status || 500);
+    res.json({
+        errors: {
+            message: err.message,
+            error: {},
+        },
+    });
+    next();
 });
 
-const server = app.listen(port || 5000, () => {
-	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
+app.listen(port || 5000, () => {
+    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
 });
 
 // for testing
 module.exports = app;
-module.exports.port = server.address().port;
