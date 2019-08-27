@@ -5,9 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "babel -d ./build ./src -s",
-		"prod": "set NODE_ENV=production& node build/index.js",
-		"start": "set NODE_ENV=development& babel-node src/index.js",
-		"dev": "set DEBUG=web-app & set NODE_ENV=development& nodemon src/index.js --exec babel-node",
+		"prod": "set NODE_ENV=production && node build/index.js",
+		"start": "set NODE_ENV=development && nodemon --exec babel-node src/index.js",
+		"dev": "set DEBUG=web-app && set NODE_ENV=development && nodemon src/index.js --exec babel-node",
 		"test": "set NODE_ENV=test& mocha --timeout 1000 ./src/tests/*.js --require @babel/register --reporter spec --exec babel-node --exit",
 		"coverage": "nyc report --reporter=text-lcov | coveralls",
 		"coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
