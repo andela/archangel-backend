@@ -58,7 +58,6 @@ if (!isProduction) {
   app.use(errorhandler());
 }
 // serve the api endpoints built in routes folder
-// app.use(routes);
 app.use(router);
 
 // catch 404 and forward to error handler
@@ -67,20 +66,12 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
-// import routes from './routes';
 
 app.get('/', (req, res) => {
-    res.status(200).send({
+   res.status(200).send({
         status: 200,
         message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
-    });
-});
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    }); 
 });
 
 // error handlers
@@ -121,4 +112,4 @@ app.listen(port || 5000, () => {
 });
 
 // for testing
-module.exports = app;
+export default app;

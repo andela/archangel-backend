@@ -28,14 +28,14 @@ module.exports = {
             email: {
                 type: Sequelize.TEXT,
                 unique: true,
-                allowNull: false,
+                allowNull: true,
                 validate: {
                     msg: 'Please provide a valid email address'
                 }
             },
             password: {
                 type: Sequelize.TEXT,
-                allowNull: false,
+                allowNull: true,
                 validate: {
                     msg: 'Please provide a password'
                 }

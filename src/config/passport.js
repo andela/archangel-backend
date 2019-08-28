@@ -1,13 +1,13 @@
 import FacebookStrategy from 'passport-facebook';
 import { Strategy } from 'passport-google-oauth20';
+import dotenv from 'dotenv';
+import user from '../database/models/user';
 
-const userDb = {
-// soon to be replaced dummy database
-};
+dotenv.config()
 
 const findUser = async (id) => {
   try {
-    const userExists = await userDb.findAll({
+    const userExists = await user.findAll({
       where: {
         id,
       },
@@ -21,9 +21,8 @@ const findUser = async (id) => {
 
 const createUser = async (newUser) => {
   try {
-    const user = await userDb.create(newUser);
+    await user.create(newUser);
 
-    return user.id;
   } catch (err) {
     return err;
   }
@@ -37,27 +36,27 @@ const fbStrategy = new FacebookStrategy({
 
 async (accessToken, refreshToken, profile, cb) => {
   try {
-    const email = profile.emails[0].value;
+    const email = profile.emails? profile.emails[0].value : null;
     const { id } = profile;
-    let user = await findUser(id);
+    let userExists = await findUser(id);
 
-    if (user) {
-      return cb(null, user);
+    if (userExists) {
+      return cb(null, userExists);
     }
 
     const { displayName } = profile;
     const [lastName, firstName] = displayName.split(' ');
 
-    user = {
+    const newUser = {
       first_name: firstName,
       last_name: lastName,
       email,
       id,
     };
 
-    await createUser(user);
+    await createUser(newUser);
 
-    return cb(null, user);
+    return cb(null, newUser);
   } catch (err) {
     return cb(err, false);
   }
@@ -74,22 +73,22 @@ async (accessToken, refreshToken, profile, cb) => {
     const email = profile.emails[0].value;
     const { id } = profile;
     // check if user in database
-    let user = await findUser(id);
+    let userExists = await findUser(id);
 
-    if (user) {
-      return cb(null, user);
+    if (userExists) {
+      return cb(null, userExists);
     }
 
-    user = {
+    const newUser = {
       first_name: profile.name.givenName,
       last_name: profile.name.familyName,
       email,
       id,
     };
     // store in database
-    createUser(user);
+    createUser(newUser);
 
-    return cb(null, user);
+    return cb(null, newUser);
   } catch (err) {
     return cb(err, false);
   }
