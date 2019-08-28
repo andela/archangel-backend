@@ -1,8 +1,6 @@
 import dotenv from 'dotenv';
-import { Pool } from "pg";
 
 dotenv.config();
-
 
 const {
     DB_USERNAME,
@@ -11,8 +9,7 @@ const {
     DB_HOST,
     DB_PORT,
     PORT,
-    DB_DIALECT,
-    SECRETE
+    DB_DIALECT
 } = process.env;
 
 module.exports = {
@@ -22,19 +19,5 @@ module.exports = {
     DB_HOST,
     DB_PORT,
     PORT,
-    DB_DIALECT,
-    SECRETE,
-    getPool: function (conusername,condatabase,conhost,conpassword,conssl){
-        //if(pool) return pool;
-        const pool = new Pool({
-           host: conhost,
-           user: conusername,
-           database: condatabase,
-           password: conpassword,
-           port: "5432",
-           ssl: conssl
-       });
-       return pool;
-   }
-       
+    DB_DIALECT
 };

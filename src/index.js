@@ -4,18 +4,15 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import  auth from './routes/api/auth';
+import routes from './routes/api/authRoute';
 
-
-
+// import routes from './routes/api/indexRoute';
 
 dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
 const { port } = process.env;
-
-app.use("/", auth);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -26,7 +23,7 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(methodOverride());
-
+app.use("/api/v1", routes);
 // serve the api endpoints built in routes folder
 // app.use(routes);
 
@@ -82,7 +79,6 @@ app.use((err, req, res, next) => {
 app.listen(port || 5000, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
 });
-
 
 // for testing
 module.exports = app;
