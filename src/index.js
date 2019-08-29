@@ -22,7 +22,6 @@ const prefix = '/api/v1';
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 app.options('*', cors());
