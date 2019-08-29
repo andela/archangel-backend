@@ -40,7 +40,6 @@ app.get(`${prefix}/`, (req, res) => {
 // handles the api home route...
 app.all('/', (req, res) => response(res, statusCode.success, 'success', { message: messages.defaultWelcome }));
 
-
 const isProduction = process.env.NODE_ENV === 'production';
 
 // catch 404 and forward to error handler
