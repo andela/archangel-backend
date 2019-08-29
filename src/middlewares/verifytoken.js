@@ -19,7 +19,7 @@ export default {
     },
     verifyToken: (req,res,next) => {
         jwt.verify(req.token, secrete, (err, data) => {
-            if (!err) {
+            if (err) {
                 res.status(403).send({error:"Not authorized ,Please log in"});
             }else{
                 req.userData = data;
