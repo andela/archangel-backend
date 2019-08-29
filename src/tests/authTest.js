@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';

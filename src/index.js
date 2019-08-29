@@ -36,6 +36,7 @@ passport.serializeUser((user, cb) => {
 
 passport.deserializeUser((user, cb) => {
   cb(null, user);
+});
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 
