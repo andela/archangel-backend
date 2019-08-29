@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         travel_purpose: DataTypes.TEXT
     }, {});
     travel.associate = (models) => {
-        travel.belongsTo(models.user, {
+        travel.belongsTo(models.users, {
             foreignKey: 'user_id',
             onDelete: 'CASCADE'
         });
