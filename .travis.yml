@@ -9,6 +9,12 @@ cache:
 env:
   global:
     - NODE_ENV=test
+    - FACEBOOK_CLIENT_ID=521471335085949
+    - FACEBOOK_CLIENT_SECRET=c2c3ecee71b0c551da16ab1e583bd4f9 
+    - FACEBOOK_CALLBACK_URL=http://localhost:3000/auth/signup/facebook/callback
+    - GOOGLE_CONSUMER_KEY=1067398423034-4v8un608vocv9fq87h6gr9gigh6v640d.apps.googleusercontent.com
+    - GOOGLE_CONSUMER_SECRET=OfhuKVyTG5Ug8N4RSkMfh3HN
+    - GOOGLE_CALLBACK_URL=http://localhost:3000/auth/signup/google/callback  
 
 services:
   - postgresql
