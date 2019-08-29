@@ -8,12 +8,17 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import router from './routes/api/auth';
+
 import { fbStrategy, googleStrategy } from './config/passport';
+import message from './utils/messageUtils';
+import response from './utils/response';
+import statusCode from './utils/statusCode';
+import routes from './routes/api';
 
 dotenv.config();
 const debugLog = debug('web-app');
 const { port } = process.env;
+const prefix = '/api/v1';
 
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
@@ -31,6 +36,11 @@ passport.serializeUser((user, cb) => {
 
 passport.deserializeUser((user, cb) => {
   cb(null, user);
+// serve the api endpoints built in routes folder
+routes(prefix, app);
+
+app.get(`${prefix}/`, (req, res) => {
+    response.successResponse(res, statusCode.success, message.welcome);
 });
 
 // Create global app object
@@ -95,7 +105,7 @@ if (!isProduction) {
 }
 
 // production error handler
-// no stacktraces leaked to user
+// no stack-traces leaked to user
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.json({

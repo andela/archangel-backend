@@ -1,32 +1,11 @@
 import FacebookStrategy from 'passport-facebook';
 import { Strategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
-import user from '../database/models/user';
+import authServices from '../services/authServices';
+
+const { signupService, siginService } = authServices;
 
 dotenv.config()
-
-const findUser = async (id) => {
-  try {
-    const userExists = await user.findAll({
-      where: {
-        id,
-      },
-    });
-
-    return userExists;
-  } catch (err) {
-    return null;
-  }
-};
-
-const createUser = async (newUser) => {
-  try {
-    await user.create(newUser);
-
-  } catch (err) {
-    return err;
-  }
-};
 
 const fbStrategy = new FacebookStrategy({
   clientID: process.env.FACEBOOK_CLIENT_ID,
@@ -38,7 +17,7 @@ async (accessToken, refreshToken, profile, cb) => {
   try {
     const email = profile.emails? profile.emails[0].value : null;
     const { id } = profile;
-    let userExists = await findUser(id);
+    const userExists = await siginService(id);
 
     if (userExists) {
       return cb(null, userExists);
@@ -52,9 +31,10 @@ async (accessToken, refreshToken, profile, cb) => {
       last_name: lastName,
       email,
       id,
+      role: 'user'
     };
 
-    await createUser(newUser);
+    await signupService(newUser);
 
     return cb(null, newUser);
   } catch (err) {
@@ -73,7 +53,7 @@ async (accessToken, refreshToken, profile, cb) => {
     const email = profile.emails[0].value;
     const { id } = profile;
     // check if user in database
-    let userExists = await findUser(id);
+    const userExists = await siginService(id);
 
     if (userExists) {
       return cb(null, userExists);
@@ -84,9 +64,10 @@ async (accessToken, refreshToken, profile, cb) => {
       last_name: profile.name.familyName,
       email,
       id,
+      role: 'user'
     };
     // store in database
-    createUser(newUser);
+    await signupService(newUser);
 
     return cb(null, newUser);
   } catch (err) {

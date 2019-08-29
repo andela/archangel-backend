@@ -1,6 +1,9 @@
 {
 	"root": true,
 	"extends": "airbnb-base",
+	"ecmaFeatures": {
+        "modules": true
+    },
 	"env": {
 		"browser": true,
 		"node": true,
@@ -47,8 +50,8 @@
 			{
 				"require": {
 					"FunctionDeclaration": true,
-					"MethodDefinition": true,
-					"ClassDeclaration": true
+					"MethodDefinition": false,
+					"ClassDeclaration": false
 				}
 			}
 		]
