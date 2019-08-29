@@ -27,7 +27,7 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(methodOverride());
-app.use("/api", route);
+app.use("/api/v1", route);
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 
