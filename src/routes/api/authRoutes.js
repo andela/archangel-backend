@@ -1,11 +1,11 @@
-import express from 'express';
+import { Router } from 'express';
 
-import auth from '../../controllers/authControllers';
+import authControllers from '../../controllers/authControllers';
 
-const route = express.Router();
-//   signup  = authControllers;
+const route = Router();
+const { signup } = authControllers;
 
 // handles the api home route...
-route.post('/auth/signup', auth.signup);
+route.post('/auth/signup', signup);
 
 export default route;

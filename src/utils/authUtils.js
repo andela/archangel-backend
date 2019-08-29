@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import jwt from 'json-web-token';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ export default {
             // Adding the string bearer to jwt object and get token string
         return jwt.sign(payload, jwtSecret, option);
     },
-    verifyToken: async (req, res, next) => {
+    verifyToken: async(req, res, next) => {
         const token = req.headers.authorization || req.headers['x-auth-token'] || req.query.token || req.body.token;
         if (!token) {
             return res.status(401).send({

@@ -8,4 +8,4 @@ export default class ApiErrors extends Error {
         this.message = message;
         this.statusCode = statusCode;
     }
-}
+};

@@ -16,7 +16,6 @@ export default {
             const userObj = { first_name, last_name, email, password, role: 'user' };
 
             const data = await signupService(userObj);
-            console.log(first_name, last_name);
             data.token = generateToken(data.id, email, data.role, first_name);
             delete data.password;
             successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
@@ -24,4 +23,4 @@ export default {
             errorResponse(res, statusCode.serverError, err);
         }
     },
-}
+};
