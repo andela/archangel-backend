@@ -20,6 +20,8 @@ const debugLog = debug('web-app');
 const { port } = process.env;
 const prefix = '/api/v1';
 
+// Create global app object
+const app = express();
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 app.options('*', cors());
@@ -43,9 +45,6 @@ routes(prefix, app);
 app.get(`${prefix}/`, (req, res) => {
     response.successResponse(res, statusCode.success, message.welcome);
 });
-
-// Create global app object
-const app = express();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
