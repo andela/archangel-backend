@@ -1,4 +1,7 @@
-module.exports = (sequelize, DataTypes) => {
+import { hashSync, genSaltSync } from 'bcrypt';
+
+export default (sequelize, DataTypes) => {
+    const salt = genSaltSync(10);
     const user = sequelize.define('user', {
         staff_id: DataTypes.STRING,
         first_name: DataTypes.TEXT,
@@ -24,5 +27,9 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'user_id'
         });
     };
+    user.beforeCreate((incomingUser) => {
+        incomingUser.password = hashSync(incomingUser.password, salt);
+    });
+
     return user;
 };

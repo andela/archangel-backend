@@ -7,6 +7,7 @@ dotenv.config();
 
 let env = process.env.NODE_ENV || 'development';
 let config = require('../config')[env];
+console.log(config)
 
 let db = {};
 
