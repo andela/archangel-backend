@@ -16,12 +16,13 @@ import statusCode from './utils/statusCode';
 import routes from './routes/api';
 
 dotenv.config();
+// Create global app object
+const app = express();
+
 const debugLog = debug('web-app');
 const { port } = process.env;
 const prefix = '/api/v1';
 
-// Create global app object
-const app = express();
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 app.options('*', cors());
@@ -69,9 +70,8 @@ if (!isProduction) {
 }
 // serve the api endpoints built in routes folder
 
-
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+ app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -115,7 +115,7 @@ app.use((err, req, res, next) => {
         },
     });
     next();
-});
+}); 
 
 app.listen(port || 5000, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
