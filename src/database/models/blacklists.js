@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const blacklist = sequelize.define('blacklist', {
+  const blacklists = sequelize.define('blacklists', {
     expired_tokens: DataTypes.STRING
   }, {});
-  return blacklist;
+  return blacklists;
 };

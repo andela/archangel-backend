@@ -120,7 +120,8 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 });
-describe('Test logout functions', () => {
+
+describe('Testing logout feature', () => {
     const testuser = {
         first_name: 'Emmatest',
         last_name: 'Koredetest',
@@ -139,35 +140,30 @@ describe('Test logout functions', () => {
             done();
         });
     })
-    it('should return an error not authorized', (done) => {
+    it('should return an error if token is not supplied', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
-        .send()
         .end((err, res) => {
             expect(res.status).to.equal(401);
             done();
         });
     });
-    it('should return an error not authorized', (done) => {
+    it('should return an error if the token is invalid', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
-        .send()
         .set("Authorization", "Bearer hjgvju")
         .end((err, res) => {
             expect(res.status).to.equal(401);
             done();
         });
     });
-    it('should return an error not authorized', (done) => {
+    it('should successfully logout a user', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
-        .send()
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
             expect(res.status).to.equal(200);
             done();
         });
     });
-
-
 });

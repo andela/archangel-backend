@@ -2,7 +2,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
 
-const { users, blacklist } = models;
+const { users, blacklists } = models;
 
 export default {
     signupService: async (userObj) => {
@@ -24,7 +24,7 @@ export default {
     },
     logoutService: async (token) => {
         try {
-            return await blacklist.create({ expired_tokens: token })
+            return await blacklists.create({ expired_tokens: token })
         } catch (err) {
             throw err;
         }

@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('blacklist', {
+    return queryInterface.createTable('blacklists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,6 +21,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('blacklist');
+    return queryInterface.dropTable('blacklists');
   }
 };

@@ -39,23 +39,5 @@ export default {
                 return next();
             }; 
         });
-    },
-    // verifyToken: async(req, res, next) => {
-    //     const token = req.headers.authorization || req.headers['x-auth-token'] || req.query.token || req.body.token;
-    //     if (!token) {
-    //         return res.status(401).send({
-    //             status: 401,
-    //             message: 'You have not provided a token for authorization',
-    //         });
-    //     }
-    //     try {
-    //         req.payload = await jwt.verify(token, jwtSecret);
-    //         return next();
-    //     } catch (err) {
-    //         return res.status(401).send({
-    //             status: 401,
-    //             message: 'You are unauthorized, token is invalid or expired',
-    //         });
-    //     }
-    // },
+    }
 };
