@@ -1,5 +1,5 @@
 /* eslint-disable prefer-object-spread */
-/* import chai, { expect } from 'chai';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 
@@ -13,9 +13,9 @@ chai.use(chaiHttp);
 
 describe('Test for the Auth controller functions', () => {
     const user = {
-        first_name: 'Emma',
+        first_name: 'EmmaJ',
         last_name: 'Korede',
-        email: 'emma.k@yahoo.com',
+        email: 'emma.kO@yahoo.com',
         password: 'testing123',
     };
     it('should successfully sign up a user', (done) => {
@@ -120,4 +120,4 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 });
- */
+ 
