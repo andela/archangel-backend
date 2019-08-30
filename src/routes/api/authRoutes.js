@@ -2,12 +2,14 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import authControllers from '../../controllers/authControllers';
+import authValidator from '../../validation/authValidation';
 
 const route = Router();
 const { signup, fbgooglesignup } = authControllers;
+const { validateSignup, validateResult } = authValidator;
 
 // handles the api home route...
-route.post('/auth/signup', signup);
+route.post('/auth/signup', validateSignup, validateResult, signup);
 
 // handles social media authentication
 route.get('/auth/signup/facebook',

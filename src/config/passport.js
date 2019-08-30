@@ -3,7 +3,7 @@ import { Strategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
 import authServices from '../services/authServices';
 
-const { signupService, siginService } = authServices;
+const { signupService, findUserById } = authServices;
 
 dotenv.config()
 
@@ -17,7 +17,7 @@ async (accessToken, refreshToken, profile, cb) => {
   try {
     const email = profile.emails? profile.emails[0].value : null;
     const { id } = profile;
-    const userExists = await siginService(id);
+    const userExists = await findUserById(id);
 
     if (userExists) {
       return cb(null, userExists);
@@ -53,7 +53,7 @@ async (accessToken, refreshToken, profile, cb) => {
     const email = profile.emails[0].value;
     const { id } = profile;
     // check if user in database
-    const userExists = await siginService(id);
+    const userExists = await findUserById(id);
 
     if (userExists) {
       return cb(null, userExists);
