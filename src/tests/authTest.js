@@ -13,9 +13,9 @@ chai.use(chaiHttp);
 
 describe('Test for the Auth controller functions', () => {
     const user = {
-        first_name: 'EmmaJ',
+        first_name: 'Emma',
         last_name: 'Korede',
-        email: 'emma.kO@yahoo.com',
+        email: 'emma.k@yahoo.com',
         password: 'testing123',
     };
     it('should successfully sign up a user', (done) => {
