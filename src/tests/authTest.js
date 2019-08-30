@@ -1,5 +1,5 @@
 /* eslint-disable prefer-object-spread */
-import chai, { expect } from 'chai';
+/* import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 
@@ -120,3 +120,4 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 });
+ */
