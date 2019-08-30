@@ -2,7 +2,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
 
-const { users,blacklist } = models;
+const { users, blacklist } = models;
 
 export default {
     signupService: async (userObj) => {
