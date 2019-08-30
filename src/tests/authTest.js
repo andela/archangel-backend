@@ -120,3 +120,54 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 });
+describe('Test logout functions', () => {
+    const testuser = {
+        first_name: 'Emmatest',
+        last_name: 'Koredetest',
+        email: 'emmaff.k@yahoo.com',
+        password: 'testing321',
+    };
+    let token;
+    before( (done) => {
+        chai
+        .request(app)
+        .post(`${prefix}/auth/signup`)
+        .send(testuser)
+        .end((err, res) => {
+            const { data } = res.body;
+            token = data.token;
+            done();
+        });
+    })
+    it('should return an error not authorized', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .send()
+        .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();
+        });
+    });
+    it('should return an error not authorized', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .send()
+        .set("Authorization", "Bearer hjgvju")
+        .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();
+        });
+    });
+    it('should return an error not authorized', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .send()
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+            expect(res.status).to.equal(200);
+            done();
+        });
+    });
+
+
+});

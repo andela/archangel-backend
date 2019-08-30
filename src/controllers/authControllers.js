@@ -1,13 +1,13 @@
 import authServices from '../services/authServices';
-import authUtils from '../utils/authUtils';
+import tokenMiddleware from '../middlewares/tokenMiddleware';
 
 import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
 const { signupService,logoutService } = authServices;
-const { generateToken } = authUtils;
-const { successResponseWithData, errorResponse } = response;
+const { generateToken } = tokenMiddleware;
+const { successResponseWithData, successResponse, errorResponse } = response;
 
 export default {
     signup: async(req, res) => {
@@ -29,17 +29,9 @@ export default {
         try {
             const { token } = req;
             await logoutService(token);
-            res.status(200)
-            .send({
-                statusCode: 200,
-                message: 'Logged out successfully.'
-            });
+            successResponse(res, statusCode.success, message.logoutSuccess);
         } catch (err) {
-            res.status(400)
-            .send({
-                statusCode: 400,
-                error: err.message,
-            });
+            errorResponse(res, statusCode.serverError, err.message);
         }
     }
 };

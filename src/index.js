@@ -4,9 +4,7 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import route from './routes/api/authRoute';
 
-// import routes from './routes/api/indexRoute';
 import message from './utils/messageUtils';
 import response from './utils/response';
 import statusCode from './utils/statusCode';
@@ -22,12 +20,13 @@ const prefix = '/api/v1';
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 // Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 app.options('*', cors());
 
 app.use(methodOverride());
-app.use("/api/v1", route);
+
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 

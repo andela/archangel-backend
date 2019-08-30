@@ -12,13 +12,6 @@ export default {
             throw err;
         }
     },
-    logoutService: async (token) => {
-        try {
-            return await blacklist.create({ expired_tokens: token })
-        } catch (err) {
-            throw err;
-        }
-    },
     findUserByEmail: async (email) => {
 		try {
 			return await users
@@ -28,5 +21,12 @@ export default {
 		} catch (err) {
 			throw err;
 		}
-	},
+    },
+    logoutService: async (token) => {
+        try {
+            return await blacklist.create({ expired_tokens: token })
+        } catch (err) {
+            throw err;
+        }
+    },
 };
