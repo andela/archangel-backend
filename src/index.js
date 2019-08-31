@@ -5,7 +5,6 @@ import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
-
 import message from './utils/messageUtils';
 import response from './utils/response';
 import statusCode from './utils/statusCode';
@@ -15,8 +14,10 @@ dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
+
 const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
+
 
 app.use(logger('dev'));
 app.use(express.json());
