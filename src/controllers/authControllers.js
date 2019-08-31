@@ -5,6 +5,7 @@ import tokenMiddleware from '../middlewares/tokenMiddleware';
 import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
+import transporter from '../config/nodemailerConfig';
 
 const { comparePassword, findUserByEmail,
         logoutService, signupService } = authServices;
@@ -22,7 +23,7 @@ export default {
 
             data.token = generateToken(data.id, email, data.role, first_name);
             delete data.password;
-            successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
+           next();
         } catch (err) {
             errorResponse(res, err.statusCode || statusCode.serverError, err);
         }
@@ -74,5 +75,21 @@ export default {
      } catch (err) {
        errorResponse(res, statusCode.serverError, err.message);
      }
-   }
+   },
+   sendEmail: (req, res) => {
+    const url = 'http://localhost:5000/homepage';
+        transporter.sendMail({
+          to: req.email,
+          subject: 'Confirm Email',
+          html: `please, click the link to confirm email: <a href="${url}">${url}</a>`
+      }, (err, response) => {
+          if (err) {
+              console.log(err);
+          } else {
+          console.log('successfull sent');
+          }
+      });
+      const { data } = res.locals;
+      successResponseWithData(res, statusCode.created, message.signupSuccess(req.email), data);
+      }
 };

@@ -11,7 +11,7 @@ const { validateLogin, validateSignup, validateResult } = authValidator;
 const  { getToken, verifyToken } = tokenMiddlewares;
 
 // handles the api home route...
-route.post('/auth/signup', validateSignup, validateResult, signup);
+route.post('/auth/signup', validateSignup, validateResult, signup, sendEmail);
 
 // handles social media authentication
 route.get('/auth/signup/facebook',

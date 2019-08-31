@@ -53,13 +53,10 @@ app.all('/', (req, res) => response.successResponse(res, statusCode.success, mes
 // app.use(routes);
 app.use('/', router);
 
-// This is the point where the main API routes is served from...
-// app.all(`${prefix}/`, (req, res) => {
-//   response.successResponse(res, statusCode.success, message.welcome);
-// });
 
-// serve the api endpoints built in routes folder
-routes(prefix, app);
+app.get(`${prefix}/`, (req, res) => {
+    response.successResponse(res, statusCode.success, message.welcome);
+});
 
 const isProduction = process.env.NODE_ENV === 'production';
 

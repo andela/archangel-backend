@@ -21,7 +21,7 @@ describe('Test for the Auth controller functions', () => {
     it('should successfully sign up a user', (done) => {
         chai
             .request(app)
-            .post(`${prefix}/auth/signup`)
+            .post('/auth/signup')
             .send(user)
             .end((err, res) => {
                 const { data } = res.body;
@@ -40,7 +40,7 @@ describe('Test for the Auth controller functions', () => {
 		mutatedUser.email = 'invalid@yahoo';
 
 		chai.request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(mutatedUser)
         .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -51,7 +51,7 @@ describe('Test for the Auth controller functions', () => {
     });
     it('should return an error message if the email already exists', (done) => {
         chai.request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(user)
         .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -66,7 +66,7 @@ describe('Test for the Auth controller functions', () => {
 		mutatedUser.email = 'valid@yahoo.com';
 
         chai.request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(mutatedUser)
         .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -81,7 +81,7 @@ describe('Test for the Auth controller functions', () => {
 		mutatedUser.email = 'valid@yahoo.com';
 
         chai.request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(mutatedUser)
         .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -96,7 +96,7 @@ describe('Test for the Auth controller functions', () => {
 		mutatedUser.email = 'valid@yahoo.com';
 
         chai.request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(mutatedUser)
         .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -111,7 +111,7 @@ describe('Test for the Auth controller functions', () => {
 		mutatedUser.email = 'valid@yahoo.com';
 
         chai.request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(mutatedUser)
         .end((err, res) => {
             expect(res.status).to.equal(400);
@@ -121,9 +121,9 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 
-    //This is the tests that will run for the user signin with username and password..
+    // This is the tests that will run for the user signin with username and password..
     describe('TEST USER LOGIN ROUTE', () => {
-      var signinRoute = `${prefix}/auth/login`;
+      var signinRoute = '/auth/login';
 
       const loginData = {
         email: 'emma.k@yahoo.com',
@@ -135,7 +135,7 @@ describe('Test for the Auth controller functions', () => {
       invalidData.email = 'invalidemail';
 
       chai.request(app)
-          .post(`${prefix}/auth/login`)
+          .post('/auth/login')
           .send(invalidData)
           .end((err, res) => {
               const { body, status} = res;
@@ -166,7 +166,7 @@ describe('Test for the Auth controller functions', () => {
         invalidData.password = 'pwdless';
 
           chai.request(app)
-          .post(`${prefix}/auth/login`)
+          .post('/auth/login')
           .send(invalidData)
           .end((err, res) => {
               const { body, status} = res;
@@ -182,7 +182,7 @@ describe('Test for the Auth controller functions', () => {
         invalidData.password = 'nodigitpwd';
 
           chai.request(app)
-          .post(`${prefix}/auth/login`)
+          .post('/auth/login')
           .send(invalidData)
           .end((err, res) => {
             const { body, status} = res;
@@ -250,7 +250,7 @@ describe('Test for the Auth controller functions', () => {
       before( (done) => {
         chai
         .request(app)
-        .post(`${prefix}/auth/signup`)
+        .post('/auth/signup')
         .send(testuser)
         .end((err, res) => {
           const { data } = res.body;
@@ -260,7 +260,7 @@ describe('Test for the Auth controller functions', () => {
       })
       it('should return an error if token is not supplied', (done) => {
         chai.request(app)
-        .post(`${prefix}/auth/logout`)
+        .post('/auth/logout')
         .end((err, res) => {
           expect(res.status).to.equal(401);
           done();
@@ -268,7 +268,7 @@ describe('Test for the Auth controller functions', () => {
       });
       it('should return an error if the token is invalid', (done) => {
         chai.request(app)
-        .post(`${prefix}/auth/logout`)
+        .post('/auth/logout')
         .set("Authorization", "Bearer hjgvju")
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -277,7 +277,7 @@ describe('Test for the Auth controller functions', () => {
       });
       it('should successfully logout a user', (done) => {
         chai.request(app)
-        .post(`${prefix}/auth/logout`)
+        .post('/auth/logout')
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
