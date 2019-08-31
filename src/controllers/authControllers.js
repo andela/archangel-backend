@@ -1,13 +1,13 @@
 import authServices from '../services/authServices';
-import authUtils from '../utils/authUtils';
+import tokenMiddleware from '../middlewares/tokenMiddleware';
 
 import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
-const { signupService } = authServices;
-const { generateToken } = authUtils;
-const { successResponseWithData, errorResponse } = response;
+const { signupService,logoutService } = authServices;
+const { generateToken } = tokenMiddleware;
+const { successResponseWithData, successResponse, errorResponse } = response;
 
 export default {
     signup: async(req, res) => {
@@ -25,6 +25,7 @@ export default {
             errorResponse(res, statusCode.serverError, err);
         }
     },
+<<<<<<< HEAD
 
     fbgooglesignup: async (req, res) => {
         try {
@@ -41,5 +42,15 @@ export default {
         } catch(err) {
             errorResponse(res, statusCode.serverError, err);
         }    
+=======
+    logout: async (req,res) => {
+        try {
+            const { token } = req;
+            await logoutService(token);
+            successResponse(res, statusCode.success, message.logoutSuccess);
+        } catch (err) {
+            errorResponse(res, statusCode.serverError, err.message);
+        }
+>>>>>>> 370bb056d2ef0197e3ae294a5d33eb9738409eb2
     }
 };
