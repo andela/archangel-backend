@@ -120,3 +120,50 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 });
+
+describe('Testing logout feature', () => {
+    const testuser = {
+        first_name: 'Emmatest',
+        last_name: 'Koredetest',
+        email: 'emmaff.k@yahoo.com',
+        password: 'testing321',
+    };
+    let token;
+    before( (done) => {
+        chai
+        .request(app)
+        .post(`${prefix}/auth/signup`)
+        .send(testuser)
+        .end((err, res) => {
+            const { data } = res.body;
+            token = data.token;
+            done();
+        });
+    })
+    it('should return an error if token is not supplied', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();
+        });
+    });
+    it('should return an error if the token is invalid', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .set("Authorization", "Bearer hjgvju")
+        .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();
+        });
+    });
+    it('should successfully logout a user', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+            expect(res.status).to.equal(200);
+            done();
+        });
+    });
+});
