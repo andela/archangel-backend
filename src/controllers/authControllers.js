@@ -25,7 +25,6 @@ export default {
             errorResponse(res, statusCode.serverError, err);
         }
     },
-<<<<<<< HEAD
 
     fbgooglesignup: async (req, res) => {
         try {
@@ -41,8 +40,8 @@ export default {
             successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
         } catch(err) {
             errorResponse(res, statusCode.serverError, err);
-        }    
-=======
+        }  
+    },  
     logout: async (req,res) => {
         try {
             const { token } = req;
@@ -51,6 +50,5 @@ export default {
         } catch (err) {
             errorResponse(res, statusCode.serverError, err.message);
         }
->>>>>>> 370bb056d2ef0197e3ae294a5d33eb9738409eb2
     }
 };
