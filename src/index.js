@@ -15,7 +15,7 @@ dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
 
 app.use(logger('dev'));
@@ -28,17 +28,17 @@ app.options('*', cors());
 
 app.use(methodOverride());
 
+// handles the api home route...
+app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
+
+// This is the point where the main API routes is served from...
+app.all(`${prefix}/`, (req, res) => {
+  response.successResponse(res, statusCode.success, message.welcome);
+});
+
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 
-
-// This is the point where the main API routes is served from...
-app.get(`${prefix}/`, (req, res) => {
-    response.successResponse(res, statusCode.success, message.welcome);
-});
-
-// handles the api home route...
-app.all('/', (req, res) => response(res, statusCode.success, 'success', { message: messages.defaultWelcome }));
 
 const isProduction = process.env.NODE_ENV === 'production';
 
