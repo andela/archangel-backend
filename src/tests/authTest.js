@@ -124,66 +124,114 @@ describe('Test for the Auth controller functions', () => {
     //This is the tests that will run for the user signin with username and password..
     describe('TEST USER LOGIN ROUTE', () => {
       var signinRoute = `${prefix}/auth/login`;
+
       const loginData = {
-        email: 'testerroremail@gmail.com',
-        password: 'adminpassword'
+        email: 'emma.k@yahoo.com',
+        password: 'testing123'
       };
-      it('should throw an error with a status of 404 if the email supplied is invalid', (done) => {
+
+      it('should throw an error with a status of 400 if the email supplied is invalid', (done) => {
+      let invalidData = Object.assign({}, loginData);
+      invalidData.email = 'invalidemail';
+
+      chai.request(app)
+          .post(`${prefix}/auth/login`)
+          .send(invalidData)
+          .end((err, res) => {
+              const { body, status} = res;
+              expect(status).to.equal(400);
+              expect(body.error[0]).to
+              .equal('Please, enter a valid email address.');
+              done();
+          });
+      });
+
+      it('should throw an error with a status of 404 if the email supplied does not exist', (done) => {
+        let invalidData = Object.assign({}, loginData);
+        invalidData.email = 'testerroremail@yahoo.com';
+
         chai
         .request(app)
         .post(signinRoute)
-        .send(loginData)
+        .send(invalidData)
         .end((err, res) => {
           const { status } = res;
-          chai.expect(status).to.be.eql(404);
+          expect(status).to.be.eql(404);
           done(err);
         });
       });
 
-      it('should throw an error with a status of 400 if the password supplied is invalid', (done) => {
-        const loginData = {
-          email: 'emma.k@yahoo.com',
-          password: 'adminpassword'
-        };
+      it('should return an error message if the password length is less than 8', (done) => {
+        let invalidData = Object.assign({}, loginData);
+        invalidData.password = 'pwdless';
+
+          chai.request(app)
+          .post(`${prefix}/auth/login`)
+          .send(invalidData)
+          .end((err, res) => {
+              const { body, status} = res;
+              expect(status).to.equal(400);
+              expect(body.error[0]).to
+              .equal('The length of the password must be 8 and above.');
+              done(err);
+          });
+      });
+
+      it('should return an error message if the password does not contain at least a digit', (done) => {
+        let invalidData = Object.assign({}, loginData);
+        invalidData.password = 'nodigitpwd';
+
+          chai.request(app)
+          .post(`${prefix}/auth/login`)
+          .send(invalidData)
+          .end((err, res) => {
+            const { body, status} = res;
+              expect(status).to.equal(400);
+              expect(body.error[0]).to
+              .equal('Password must contain at least one digit.');
+              done(err);
+          });
+      });
+
+      it('should throw an error with a status of 400 if the password supplied is wrong', (done) => {
+        let invalidData = Object.assign({}, loginData);
+        invalidData.password = 'passw4567';
+
         chai
         .request(app)
         .post(signinRoute)
-        .send(loginData)
+        .send(invalidData)
         .end((err, res) => {
-          const { status } = res;
-          chai.expect(status).to.be.eql(400);
+          const { body, status } = res;
+          expect(status).to.be.eql(400);
+          expect(body.error.message).to
+          .equal('Sorry, the password entered is not correct.');
           done(err);
         });
       });
 
       it('should authenticate a user with a valid email and password', (done) => {
-        const loginData = {
-          email: 'emma.k@yahoo.com',
-          password: 'adminpassword'
-        };
+
         chai
         .request(app)
         .post(signinRoute)
         .send(loginData)
         .end((err, res) => {
           const { body, status } = res;
-          chai.expect(body.data).to.not.eql(null);
-          chai.expect(status).to.be.eql(200);
+          expect(body.data).to.not.eql(null);
+          expect(status).to.be.eql(200);
           done(err);
         });
       });
 
       it('should contain a token value in its response data object', (done) => {
-        const loginData = {
-          email: 'emma.k@yahoo.com',
-          password: 'adminpassword'
-        };
+
         chai.request(app)
         .post(signinRoute)
         .send(loginData)
         .end((err, res) => {
           const { data } = res.body;
-          chai.expect(data).to.have.ownProperty('token');
+          expect(data).to.have.ownProperty('token');
           done(err);
         });
       });
@@ -227,14 +275,14 @@ describe('Test for the Auth controller functions', () => {
           done();
         });
       });
-      it('should successfully logout a user', (done) => {
-        chai.request(app)
-        .post(`${prefix}/auth/logout`)
-        .set('Authorization', `Bearer ${token}`)
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          done();
-        });
-      });
-
+      // it('should successfully logout a user', (done) => {
+      //   chai.request(app)
+      //   .post(`${prefix}/auth/logout`)
+      //   .set('Authorization', `Bearer ${token}`)
+      //   .end((err, res) => {
+      //     expect(res.status).to.equal(200);
+      //     done();
+      //   });
+      // });
+    });
 });

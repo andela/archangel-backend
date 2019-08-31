@@ -1,14 +1,14 @@
 import ApiErrors from '../utils/ApiErrors';
 
 import authServices from '../services/authServices';
-import generateToken from '../utils/generateToken';
+import genToken from '../utils/generateToken';
 import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
 const { comparePassword, findUserByEmail,
         logoutService, signupService } = authServices;
-const { generateToken } = generateToken;
+const { generateToken } = genToken;
 const { successResponseWithData, successResponse, errorResponse } = response;
 
 export default {
@@ -46,7 +46,6 @@ export default {
        };
      } catch (err) {
             errorResponse(res, err.statusCode || statusCode.serverError, err);
-            console.log(err);
      }
    },
 
