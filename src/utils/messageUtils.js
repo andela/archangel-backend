@@ -20,6 +20,6 @@ export default {
     incorrectPassword: 'Sorry, the password entered is not correct.',
     loginSuccess: 'You have been logged in sucessfully.',
     signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
-    userEmailNotFound: (email) => { return `Sorry, there is no user with email: ${email} in the database.` },
-    userIdNotFound: (id) => { return `Sorry, there is no user with id: ${id} in the database.` }
+    userEmailNotFound: (email) => `Sorry, there is no user with email ${email} in the database.`,
+    userIdNotFound: (id) => `Sorry, there is no user with id: ${id} in the database.`
 };

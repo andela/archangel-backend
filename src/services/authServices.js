@@ -1,6 +1,6 @@
 import { compareSync } from 'bcrypt';
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'regenerator-runtime/runtime';0
 import models from '../database/models';
 
 const { users, blacklists } = models;
@@ -35,5 +35,6 @@ export default {
         } catch (err) {
             throw err;
         }
-    },
+    }
+    
 };

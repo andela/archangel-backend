@@ -34,6 +34,7 @@ describe('Test for the Auth controller functions', () => {
                 done();
             });
     });
+
     it('should return an error message if the email is invalid', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		mutatedUser.email = 'invalid@yahoo';
@@ -119,51 +120,121 @@ describe('Test for the Auth controller functions', () => {
             done();
         });
     });
-});
 
-describe('Testing logout feature', () => {
-    const testuser = {
+    //This is the tests that will run for the user signin with username and password..
+    describe('TEST USER LOGIN ROUTE', () => {
+      var signinRoute = `${prefix}/auth/login`;
+      const loginData = {
+        email: 'testerroremail@gmail.com',
+        password: 'adminpassword'
+      };
+      it('should throw an error with a status of 404 if the email supplied is invalid', (done) => {
+        chai
+        .request(app)
+        .post(signinRoute)
+        .send(loginData)
+        .end((err, res) => {
+          const { status } = res;
+          chai.expect(status).to.be.eql(404);
+          done(err);
+        });
+      });
+
+      it('should throw an error with a status of 400 if the password supplied is invalid', (done) => {
+        const loginData = {
+          email: 'emma.k@yahoo.com',
+          password: 'adminpassword'
+        };
+        chai
+        .request(app)
+        .post(signinRoute)
+        .send(loginData)
+        .end((err, res) => {
+          const { status } = res;
+          chai.expect(status).to.be.eql(400);
+          done(err);
+        });
+      });
+
+      it('should authenticate a user with a valid email and password', (done) => {
+        const loginData = {
+          email: 'emma.k@yahoo.com',
+          password: 'adminpassword'
+        };
+        chai
+        .request(app)
+        .post(signinRoute)
+        .send(loginData)
+        .end((err, res) => {
+          const { body, status } = res;
+          chai.expect(body.data).to.not.eql(null);
+          chai.expect(status).to.be.eql(200);
+          done(err);
+        });
+      });
+
+      it('should contain a token value in its response data object', (done) => {
+        const loginData = {
+          email: 'emma.k@yahoo.com',
+          password: 'adminpassword'
+        };
+        chai.request(app)
+        .post(signinRoute)
+        .send(loginData)
+        .end((err, res) => {
+          const { data } = res.body;
+          chai.expect(data).to.have.ownProperty('token');
+          done(err);
+        });
+      });
+    });
+    //The test for the auth/login by email and paswword ends here...
+
+
+    describe('Testing logout feature', () => {
+      const testuser = {
         first_name: 'Emmatest',
         last_name: 'Koredetest',
         email: 'emmaff.k@yahoo.com',
         password: 'testing321',
-    };
-    let token;
-    before( (done) => {
+      };
+      let token;
+      before( (done) => {
         chai
         .request(app)
         .post(`${prefix}/auth/signup`)
         .send(testuser)
         .end((err, res) => {
-            const { data } = res.body;
-            token = data.token;
-            done();
+          const { data } = res.body;
+          token = data.token;
+          done();
         });
-    })
-    it('should return an error if token is not supplied', (done) => {
+      })
+      it('should return an error if token is not supplied', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
         .end((err, res) => {
-            expect(res.status).to.equal(401);
-            done();
+          expect(res.status).to.equal(401);
+          done();
         });
-    });
-    it('should return an error if the token is invalid', (done) => {
+      });
+      it('should return an error if the token is invalid', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
         .set("Authorization", "Bearer hjgvju")
         .end((err, res) => {
-            expect(res.status).to.equal(401);
-            done();
+          expect(res.status).to.equal(401);
+          done();
         });
-    });
-    it('should successfully logout a user', (done) => {
+      });
+      it('should successfully logout a user', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
-            expect(res.status).to.equal(200);
-            done();
+          expect(res.status).to.equal(200);
+          done();
         });
-    });
+      });
+
 });
