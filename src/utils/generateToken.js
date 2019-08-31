@@ -8,5 +8,5 @@ export default {
     //I add the string Bearer to the signed jwt object for the token full string...
     const token = `Bearer ${jwt.sign({ id: id }, jwtSecret, { expiresIn: '5 days'})}`;
     return token;
-  }  
+  }
 }

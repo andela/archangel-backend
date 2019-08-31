@@ -1,5 +1,5 @@
 import { compareSync } from 'bcrypt';
-import 'core-js/stable';
+// import 'core-js/stable';
 import 'regenerator-runtime/runtime';0
 import models from '../database/models';
 
@@ -36,5 +36,5 @@ export default {
             throw err;
         }
     }
-    
+
 };
