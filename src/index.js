@@ -4,6 +4,7 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import { userRouter } from './routes/api';
 
 // import routes from './routes/api';
 
@@ -25,6 +26,7 @@ app.use(methodOverride());
 
 // serve the api endpoints built in routes folder
 // app.use(routes);
+app.use('/api/users',userRouter);
 
 app.get('/', (req, res) => {
     res.status(200).send({

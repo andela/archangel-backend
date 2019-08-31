@@ -29,7 +29,7 @@ export class resetPasswordController {
 
 
 
- static async sendPasswordResetEmail(req, res) {
+ static async sendPasswordResetEmail (req, res) {
     
     const {email} = req.body;
     const params = [email];
