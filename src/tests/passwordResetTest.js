@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 const server = app;
 
-const prefix = '/api/users';
+const prefix = '/api/v1';
 
 const userId = 1215739
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyMTU3MzksImlhdCI6MTU2NzI4NDcwNywiZXhwIjoxNTY3Mjg4MzA3fQ.PqpH5J5FiHgCj4B-6lnHSUv9Hphj1H3fSJ4LwpCfB84';

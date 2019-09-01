@@ -1,5 +1,6 @@
-import { userRouter } from './auth';
+import auth from './authRoutes';
 
-export {
-  userRouter
+
+export default (prefix, app) => {
+    app.use(prefix, auth);
 };

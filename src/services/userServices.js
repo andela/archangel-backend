@@ -1,6 +1,6 @@
 import models from '../database/models';
 
-const { User } = models;
+const { users } = models;
 
 
 /**
@@ -8,14 +8,14 @@ const { User } = models;
  * @param {String} email - user's email
  * @returns {Promise} - sequelize response
 */
-export const queryByEmail = (email) => User.findOne({ where: { email } });
+export const queryByEmail = (email) => users.findOne({ where: { email } });
 
 /**
  * Helper function to find a user by id
  * @param {String} id - user's id
  * @returns {Promise} - sequelize response
  */
-export const queryById = (id) => User.findOne({ where: { id } });
+export const queryById = (id) => users.findOne({ where: { id } });
 
 
 /**
@@ -24,4 +24,4 @@ export const queryById = (id) => User.findOne({ where: { id } });
  *  @param {String} id  - user's id
  * @returns {Promise} - sequelize response
  */
-export const updatePassword = (hash, id) => User.update(hash, { where: { id } });
+export const updatePassword = (hash, id) => users.update(hash, { where: { id } });

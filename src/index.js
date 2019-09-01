@@ -4,14 +4,18 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import { userRouter } from './routes/api';
-// import routes from './routes/api';
+
+import message from './utils/messageUtils';
+import response from './utils/response';
+import statusCode from './utils/statusCode';
+import routes from './routes/api';
 
 dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
 const { PORT } = process.env;
+const prefix = '/api/v1';
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -25,17 +29,10 @@ app.use(methodOverride());
 
 
 // serve the api endpoints built in routes folder
-// app.use(routes);
-app.use('/api/users',userRouter);
+routes(prefix, app);
 
-app.use('/api/users', userRouter);
-
-
-app.get('/', (req, res) => {
-    res.status(200).send({
-        status: 200,
-        message: 'Welcome to my Archangel Barefoot Nomad Web App API.',
-    });
+app.get(`${prefix}/`, (req, res) => {
+    response.successResponse(res, statusCode.success, message.welcome);
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -68,7 +65,7 @@ if (!isProduction) {
 }
 
 // production error handler
-// no stacktraces leaked to user
+// no stack-traces leaked to user
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.json({

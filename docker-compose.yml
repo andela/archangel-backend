@@ -13,13 +13,12 @@ services:
       build: 
         context: .
         dockerfile: Dockerfile.dev
-      command: 'npm run dev'
+      command: 'npm run test'
       depends_on:
         - db
       volumes:
         - ./src:/app/
       env_file: .env
-      command: "npm run dev"
       networks:
         - api_nw
         - dbase_nw

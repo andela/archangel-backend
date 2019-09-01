@@ -32,7 +32,7 @@ export class resetPasswordController {
  static async sendPasswordResetEmail (req, res) {
     
     const {email} = req.body;
-    const params = [email];
+
 
     try {
       const result = await queryByEmail(email)
@@ -48,7 +48,6 @@ export class resetPasswordController {
         if (err) {
           res.status(500).json({"Error sending email":err})
         }
-        console.log(`** Email sent **`, info)
         res.status(200).json({"success":"Mail successfully sent to your inbox."})
       })
     }
