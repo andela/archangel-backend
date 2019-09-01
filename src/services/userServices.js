@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt-nodejs';
 import models from '../database/models';
 
 const { User } = models;

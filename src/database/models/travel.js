@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         return_date: DataTypes.DATE,
         travel_purpose: DataTypes.TEXT
     }, {});
-    travel.associate = (models) => {
-        travel.belongsTo(models.user, {
-            foreignKey: 'user_id',
-            onDelete: 'CASCADE'
-        });
-    };
+    // travel.associate = (models) => {
+    //     travel.belongsTo(models.User, {
+    //         foreignKey: 'user_id',
+    //         onDelete: 'CASCADE'
+    //     });
+    // };
     return travel;
 };

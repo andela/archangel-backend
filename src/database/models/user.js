@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
-    const user = sequelize.define('user', {
+export default (sequelize, DataTypes) => {
+    const User = sequelize.define('User', {
         staff_id: DataTypes.STRING,
         first_name: DataTypes.TEXT,
         last_name: DataTypes.TEXT,
@@ -15,14 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         is_active: DataTypes.BOOLEAN
     }, {});
 
-    user.associate = (models) => {
-        user.belongsTo(models.department, {
+    User.associate = (models) => {
+        User.belongsTo(models.department, {
             foreignKey: 'dept_id'
         });
 
-        user.hasMany(models.travel, {
+        User.hasMany(models.travel, {
             foreignKey: 'user_id'
         });
     };
-    return user;
+    return User;
 };

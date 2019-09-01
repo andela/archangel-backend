@@ -5,14 +5,13 @@ import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 import { userRouter } from './routes/api';
-
 // import routes from './routes/api';
 
 dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
-const { port } = process.env;
+const { PORT } = process.env;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -24,9 +23,13 @@ app.options('*', cors());
 
 app.use(methodOverride());
 
+
 // serve the api endpoints built in routes folder
 // app.use(routes);
 app.use('/api/users',userRouter);
+
+app.use('/api/users', userRouter);
+
 
 app.get('/', (req, res) => {
     res.status(200).send({
@@ -77,8 +80,8 @@ app.use((err, req, res, next) => {
     next();
 });
 
-app.listen(port || 5000, () => {
-    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
+app.listen(PORT || 5000, () => {
+    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing

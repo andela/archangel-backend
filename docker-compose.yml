@@ -1,12 +1,13 @@
 version: '3'
 
 services:
-    postgres:
+    db:
       image: 'postgres:latest'
+      env_file: .env
       volumes:
-          - db_data:/var/lib/postgresql/data/
+          - dbase_data:/var/lib/postgresql/data/
       networks:
-        - db_nw
+        - dbase_nw
 
     api:
       build: 
@@ -14,29 +15,37 @@ services:
         dockerfile: Dockerfile.dev
       command: 'npm run dev'
       depends_on:
-        - postgres
+        - db
       volumes:
-        - .:/app/
+        - ./src:/app/
+      env_file: .env
+      command: "npm run dev"
       networks:
         - api_nw
-        - db_nw
+        - dbase_nw
     nginx:
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile.dev
       restart: always
       volumes:
+        - ./nginx/log:/var/log/nginx
+      depends_on:
+        - api
       build:
         dockerfile: Dockerfile.dev
         context:  ./nginx
       networks:
         - api_nw
       ports:
-        - "5050:80"
+        - "3000:80"
 
 volumes:
-  db_data:
+  dbase_data:
 
 
 networks:
-  db_nw:
+  dbase_nw:
     driver: bridge
   api_nw:
     driver: bridge
