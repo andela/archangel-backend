@@ -1,4 +1,3 @@
-import pool from '../config/config';
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs"
 import {

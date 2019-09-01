@@ -1,13 +1,15 @@
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const transporter = nodemailer.createTransport({
   service: 'elasticemail',
   host: 'smtp.elasticemail.com',
   port: 25,
   auth: {
-    user: 'bakaretemitayo712@gmail.com',
-    pass: '893e40b5-a9b4-479d-b606-6c68c6742036'
+    user: `${process.env.EMAIL_USER}`,
+    pass: `${process.env.EMAIL_PASSWORD}`
   }
 });
 
