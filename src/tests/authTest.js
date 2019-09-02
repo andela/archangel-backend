@@ -275,14 +275,14 @@ describe('Test for the Auth controller functions', () => {
           done();
         });
       });
-      // it('should successfully logout a user', (done) => {
-      //   chai.request(app)
-      //   .post(`${prefix}/auth/logout`)
-      //   .set('Authorization', `Bearer ${token}`)
-      //   .end((err, res) => {
-      //     expect(res.status).to.equal(200);
-      //     done();
-      //   });
-      // });
+      it('should successfully logout a user', (done) => {
+        chai.request(app)
+        .post(`${prefix}/auth/logout`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          done();
+        });
+      });
     });
 });

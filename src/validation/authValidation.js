@@ -52,7 +52,6 @@ export default {
             errors.array().forEach((err) => {
                 error.push(err.msg);
             });
-                        console.log(errors);
             return errorResponse(res, statusCode.badRequest, error);
 		}
 		return next();

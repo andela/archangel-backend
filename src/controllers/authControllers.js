@@ -1,14 +1,14 @@
 import ApiErrors from '../utils/ApiErrors';
 
 import authServices from '../services/authServices';
-import genToken from '../utils/generateToken';
+import tokenMiddleware from '../middlewares/tokenMiddleware';
 import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
 const { comparePassword, findUserByEmail,
         logoutService, signupService } = authServices;
-const { generateToken } = genToken;
+const { generateToken } = tokenMiddleware;
 const { successResponseWithData, successResponse, errorResponse } = response;
 
 export default {
@@ -41,7 +41,7 @@ export default {
          throw new ApiErrors(message.incorrectPassword, statusCode.badRequest);
        }
        else {
-         const token = generateToken({ ...data });
+         const token = generateToken(data.id, email, data.role, data.first_name);
          return successResponseWithData(res, statusCode.success, message.loginSuccess, { ...data, token });
        };
      } catch (err) {
