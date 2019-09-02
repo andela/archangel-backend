@@ -1,6 +1,5 @@
 import { hashSync, genSaltSync } from 'bcrypt';
 
-<<<<<<< HEAD
 export default (sequelize, DataTypes) => {
 		const salt = genSaltSync(10);
 		const users = sequelize.define('users', {
@@ -34,17 +33,3 @@ export default (sequelize, DataTypes) => {
 
 		return users;
 };
-=======
-const salt = genSaltSync(parseInt(process.env.GEN_SALT_ROUND));
-
-export default (Sequelize, Datatypes) => {
-	const User = Sequelize.define('User', {}, {});
-
-	//This function will hash the password before it is stored in the database...
-	User.beforeCreate ((user) => {
-		user.password = hashSync(user.password, salt);
-	});
-
-	return User;
-}
->>>>>>> ft(user-signin):implement email and password user authentication
