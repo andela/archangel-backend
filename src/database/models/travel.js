@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
         destination: DataTypes.TEXT,
         departure_date: DataTypes.DATE,
         return_date: DataTypes.DATE,
-        travel_purpose: DataTypes.TEXT
+        travel_purpose: DataTypes.TEXT,
+        destination_count:DataTypes.INTEGER
     }, {});
     travels.associate = (models) => {
         travels.belongsTo(models.users, {

@@ -30,6 +30,12 @@ export default {
             return errorResponse(res, statusCode.badRequest, error);
 		}
 		return next();
-	},
+    },
+    getDestinationCount: (req, res, next) => {
+        let allDestinations = req.destination;
+        let destinationCount = allDestinations.split(",").length;
+        req.destination_count = destinationCount;
+        return next();
+    }
 
 };

@@ -12,7 +12,7 @@ export default {
             const { origin, destination, departure_date, travel_purpose } = req.body;
             const userId = req.userData.id;
             
-            const travelObj = { user_id:userId, origin, destination, departure_date, travel_purpose };
+            const travelObj = { user_id:userId, origin, destination, departure_date, travel_purpose, destination_count };
 
             const data = await onewayTripService(travelObj);
         

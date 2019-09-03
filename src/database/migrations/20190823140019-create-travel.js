@@ -25,6 +25,9 @@ module.exports = {
             travel_purpose: {
                 type: Sequelize.TEXT
             },
+            destination_count: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
