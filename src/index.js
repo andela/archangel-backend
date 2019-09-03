@@ -14,8 +14,10 @@ dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
-const { port } = process.env;
+
+const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,12 +29,16 @@ app.options('*', cors());
 
 app.use(methodOverride());
 
+// handles the api home route...
+app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
+
+// This is the point where the main API routes is served from...
+app.all(`${prefix}/`, (req, res) => {
+  response.successResponse(res, statusCode.success, message.welcome);
+});
+
 // serve the api endpoints built in routes folder
 routes(prefix, app);
-
-app.get(`${prefix}/`, (req, res) => {
-    response.successResponse(res, statusCode.success, message.welcome);
-});
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -76,8 +82,8 @@ app.use((err, req, res, next) => {
     next();
 });
 
-app.listen(port || 5000, () => {
-    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
+ app.listen(PORT, () => {
+	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing
