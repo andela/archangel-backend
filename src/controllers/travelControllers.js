@@ -18,7 +18,6 @@ export default {
         
             successResponseWithData(res, statusCode.created, message.oneWayTripCreated, data);
         } catch (err) {
-            console.log('error', err.message);
             errorResponse(res, statusCode.serverError, err);
         }
     },

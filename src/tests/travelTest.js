@@ -30,17 +30,6 @@ describe('Testing one way ticket feature', () => {
         travel_purpose: 'This is a one way trip'
     };
 
-    // before((done) => {
-    //     chai
-    //     .request(app)
-    //     .post(`${prefix}/auth/signup`)
-    //     .send(user)
-    //     .end((err, res) => {
-    //         const { data } = res.body;
-    //         token = data.token;
-    //         done();
-    //     });
-    // });
 
     it('should successfully create a user', (done) => {
         chai

@@ -116,7 +116,7 @@ app.use((err, req, res, next) => {
     next();
 }); 
 
-app.listen(PORT || 5000, () => {
+app.listen(PORT, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
