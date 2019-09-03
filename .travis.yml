@@ -8,7 +8,7 @@ cache:
 
 env:
   global:
-    - NODE_ENV=test
+    - NODE_ENV=test 
 
 services:
   - postgresql

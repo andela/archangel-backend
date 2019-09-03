@@ -1,6 +1,6 @@
 import { compareSync } from 'bcrypt';
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';0
+import 'regenerator-runtime/runtime';
 import models from '../database/models';
 
 const { users, blacklists } = models;
@@ -13,7 +13,18 @@ export default {
             throw err;
         }
     },
-
+    // subject to changes
+    findUserById: async(userId) => {
+        try {
+            return await users.findAll({
+                where: {
+                  id : userId
+                },
+            });
+        } catch (err) {
+            throw err;
+        }
+    },
     /**
     *This function will get a user by email address...
     *@param {String} email - the user's email
