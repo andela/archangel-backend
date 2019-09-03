@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         location: DataTypes.TEXT,
         capacity: DataTypes.INTEGER,
         accommodation_name: DataTypes.TEXT
-    }, {});
+    }, { freezeTableName: true });
 
     accommodation.associate = (models) => {
         accommodation.hasOne(models.travel, {

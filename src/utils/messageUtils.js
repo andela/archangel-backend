@@ -19,4 +19,12 @@ export default {
     invalidToken: 'Invalid Token, please login.',
 
     logoutSuccess: 'Logged out successfully.',
+
+    // comment messages
+    successComment: 'You have successfully commented on a travel request.',
+    unregisteredEmail: (email) => `User with this email (${email}) not found in our database.`,
+    emptyEmail: 'Email cannot be empty.',
+    invalidTravel: 'The travel ID must be an integer value.',
+    nonExistentTravel: 'The travel request does not exist.',
+    emptyComment: 'comment cannot be empty.'
 };

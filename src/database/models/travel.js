@@ -5,13 +5,14 @@ module.exports = (sequelize, DataTypes) => {
         destination: DataTypes.TEXT,
         departure_date: DataTypes.DATE,
         return_date: DataTypes.DATE,
-        travel_purpose: DataTypes.TEXT
-    }, {});
+        travel_purpose: DataTypes.TEXT,
+    }, { freezeTableName: true });
     travel.associate = (models) => {
         travel.belongsTo(models.users, {
             foreignKey: 'user_id',
             onDelete: 'CASCADE'
         });
     };
+
     return travel;
 };

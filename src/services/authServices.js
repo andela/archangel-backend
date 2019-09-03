@@ -1,5 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+
 import models from '../database/models';
 
 const { users, blacklists } = models;
