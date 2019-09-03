@@ -43,7 +43,7 @@ export class resetPasswordController {
         const emailTemplate = resetPasswordTemplate(user, url)
   
         const sendEmail = () => {
-        transporter.sendMail(emailTemplate, (err, info) => {
+        transporter.sendMail(emailTemplate, (err) => {
         if (err) {
           res.status(500).json({"Error sending email":err})
         }
