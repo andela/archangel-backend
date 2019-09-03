@@ -14,7 +14,7 @@ dotenv.config();
 const debugLog = debug('web-app');
 
 const app = express();
-const { port } = process.env;
+const { PORT } = process.env;
 const prefix = '/api/v1';
 
 app.use(logger('dev'));
@@ -76,8 +76,8 @@ app.use((err, req, res, next) => {
     next();
 });
 
-app.listen(port || 5000, () => {
-    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${port}`);
+app.listen(PORT || 5000, () => {
+    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing

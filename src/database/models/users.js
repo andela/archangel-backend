@@ -19,11 +19,11 @@
         }, {});
 
         users.associate = (models) => {
-            users.belongsTo(models.department, {
+            users.belongsTo(models.departments, {
                 foreignKey: 'dept_id'
             });
 
-            users.hasMany(models.travel, {
+            users.hasMany(models.travels, {
                 foreignKey: 'user_id'
             });
         };
