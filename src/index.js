@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -15,12 +16,12 @@ import routes from './routes/api';
 
 dotenv.config();
 const debugLog = debug('web-app');
+
 // Create global app object
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,35 +38,36 @@ passport.use(fbStrategy);
 passport.use(googleStrategy);
 
 passport.serializeUser((user, cb) => {
-  cb(null, user);
+    cb(null, user);
 });
 
 passport.deserializeUser((user, cb) => {
-  cb(null, user);
+    cb(null, user);
 });
+
 // serve the api endpoints built in routes folder
 routes(prefix, app);
+
 // handles the api home route...
-app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
+app.all('/', (req, res) => {
+    response.successResponse(res, statusCode.success, message.defaultWelcome);
+});
 
 // This is the point where the main API routes is served from...
 app.all(`${prefix}/`, (req, res) => {
-  response.successResponse(res, statusCode.success, message.welcome);
+    response.successResponse(res, statusCode.success, message.welcome);
 });
-
-// serve the api endpoints built in routes folder
-routes(prefix, app);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 // creating session
 app.use(
-  session({
-    secret: 'authorshaven',
-    cookie: { maxAge: 60000 },
-    resave: false,
-    saveUninitialized: false,
-  })
+    session({
+        secret: 'authorshaven',
+        cookie: { maxAge: 60000 },
+        resave: false,
+        saveUninitialized: false,
+    })
 );
 
 app.use(passport.initialize());
@@ -75,9 +77,9 @@ app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -114,7 +116,7 @@ app.use((err, req, res, next) => {
 });
 
  app.listen(PORT, () => {
-	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
+    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing
