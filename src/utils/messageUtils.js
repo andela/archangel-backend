@@ -14,10 +14,8 @@ export default {
     noDigitInPassword: 'Password must contain at least one digit.',
     emptyFirstname: 'First name cannot be empty.',
     emptyLastname: 'Last name cannot be empty.',
-
     unauthorized: 'Not authorized.',
     invalidToken: 'Invalid Token, please login.',
-
     logoutSuccess: 'Logged out successfully.',
 
     // comment messages
@@ -26,5 +24,11 @@ export default {
     emptyEmail: 'Email cannot be empty.',
     invalidTravel: 'The travel ID must be an integer value.',
     nonExistentTravel: 'The travel request does not exist.',
-    emptyComment: 'comment cannot be empty.'
+    emptyComment: 'comment cannot be empty.',
+
+    // log-in messages
+    incorrectPassword: 'Sorry, the password entered is not correct.',
+    loginSuccess: 'You have been logged in sucessfully.',
+    userEmailNotFound: (email) => `Sorry, there is no user with email ${email} in the database.`,
+    userIdNotFound: (id) => `Sorry, there is no user with id: ${id} in the database.`
 };
