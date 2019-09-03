@@ -34,7 +34,6 @@ describe('Test for the Auth controller functions', () => {
                 done();
             });
     });
-<<<<<<< HEAD
     it('should return an error message if the email is empty', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		delete mutatedUser.email;
@@ -49,9 +48,6 @@ describe('Test for the Auth controller functions', () => {
             done();
         });
     });
-=======
-
->>>>>>> a3abdcd2c5d77de4a65d6632d3262b110471bf4d
     it('should return an error message if the email is invalid', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		mutatedUser.email = 'invalid@yahoo';

@@ -18,7 +18,6 @@ export default (sequelize, DataTypes) => {
 				is_active: DataTypes.BOOLEAN
 		}, {});
 
-<<<<<<< HEAD
         users.associate = (models) => {
             users.belongsTo(models.departments, {
                 foreignKey: 'dept_id'
@@ -31,20 +30,6 @@ export default (sequelize, DataTypes) => {
         users.beforeCreate((incomingUser) => {
             incomingUser.password = hashSync(incomingUser.password, salt);
         });
-=======
-		users.associate = (models) => {
-				users.belongsTo(models.department, {
-						foreignKey: 'dept_id'
-				});
-
-				users.hasMany(models.travel, {
-						foreignKey: 'user_id'
-				});
-		};
-		users.beforeCreate((incomingUser) => {
-				incomingUser.password = hashSync(incomingUser.password, salt);
-		});
->>>>>>> a3abdcd2c5d77de4a65d6632d3262b110471bf4d
 
 		return users;
 };

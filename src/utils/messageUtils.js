@@ -8,25 +8,20 @@ export default {
     signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
     oneWayTripCreated: 'Your request has been successfully created',
 
-<<<<<<< HEAD
     noEmail: 'Email cannot be empty.',
-=======
     // sign-up validation messages
->>>>>>> a3abdcd2c5d77de4a65d6632d3262b110471bf4d
     invalidEmail: 'Please, enter a valid email address.',
     usedEmail: (email) => `User with this email (${email}) already exist.`,
     shortPassword: 'The length of the password must be 8 and above.',
     noDigitInPassword: 'Password must contain at least one digit.',
     emptyFirstname: 'First name cannot be empty.',
     emptyLastname: 'Last name cannot be empty.',
-<<<<<<< HEAD
     emptyOrigin: 'You must state your current city.',
     emptyDestination: 'You must state your destination',
     emptyDepartureDate: 'You must state your departure date',
     emptyReturnDate: 'You must state your return date',
     emptyTravelPurpose: 'You must state your travel purpose',
-    lettersAlone: 'Only letters are allowed'
-=======
+    lettersAlone: 'Only letters are allowed',
     unauthorized: 'Not authorized.',
     invalidToken: 'Invalid Token, please login.',
     logoutSuccess: 'Logged out successfully.',
@@ -35,5 +30,4 @@ export default {
     signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
     userEmailNotFound: (email) => `Sorry, there is no user with email ${email} in the database.`,
     userIdNotFound: (id) => `Sorry, there is no user with id: ${id} in the database.`
->>>>>>> a3abdcd2c5d77de4a65d6632d3262b110471bf4d
 };

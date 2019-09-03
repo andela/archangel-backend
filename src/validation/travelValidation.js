@@ -32,4 +32,4 @@ export default {
 		return next();
 	},
 
-}
+};
