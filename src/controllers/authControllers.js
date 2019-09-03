@@ -28,6 +28,23 @@ export default {
         }
     },
 
+    fbgooglesignup: async (req, res) => {
+        try {
+            const { first_name, last_name, email, id, role } = req.user;
+
+            const data = {
+                first_name,
+                last_name,
+                email,
+                role
+            };
+
+            successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
+        } catch(err) {
+            errorResponse(res, statusCode.serverError, err);
+        }  
+    },  
+    
     login: async (req, res) => {
      try {
        const { email, password } = req.body;

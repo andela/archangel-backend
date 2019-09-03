@@ -1,10 +1,15 @@
 import express from 'express';
+import bodyparser from 'body-parser';
+import session from 'express-session';
+import passport from 'passport';
+import errorhandler from 'errorhandler';
 import dotenv from 'dotenv';
 import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
+import { fbStrategy, googleStrategy } from './config/passport';
 import message from './utils/messageUtils';
 import response from './utils/response';
 import statusCode from './utils/statusCode';
@@ -12,7 +17,7 @@ import routes from './routes/api';
 
 dotenv.config();
 const debugLog = debug('web-app');
-
+// Create global app object
 const app = express();
 
 
@@ -30,6 +35,19 @@ app.options('*', cors());
 
 app.use(methodOverride());
 
+// social media authentication
+passport.use(fbStrategy);
+passport.use(googleStrategy);
+
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+
+passport.deserializeUser((user, cb) => {
+  cb(null, user);
+});
+// serve the api endpoints built in routes folder
+routes(prefix, app);
 // handles the api home route...
 app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
 
@@ -43,11 +61,26 @@ routes(prefix, app);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+// creating session
+app.use(
+  session({
+    secret: 'authorshaven',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// serve the api endpoints built in routes folder
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handlers
@@ -81,7 +114,7 @@ app.use((err, req, res, next) => {
         },
     });
     next();
-});
+}); 
 
 app.listen(PORT || 5000, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
