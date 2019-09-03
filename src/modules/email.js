@@ -8,8 +8,8 @@ export const transporter = nodemailer.createTransport({
   host: 'smtp.elasticemail.com',
   port: 25,
   auth: {
-    user: `${process.env.EMAIL_USER}`,
-    pass: `${process.env.EMAIL_PASSWORD}`
+    user: `${process.env.EMAIL_ADD}`,
+    pass: `${process.env.EMAIL_PASS}`
   }
 });
 
