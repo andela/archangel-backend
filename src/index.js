@@ -22,7 +22,7 @@ const debugLog = debug('web-app');
 
 // Create global app object
 const app = express();
-const server = http.server(app);
+const server = http.createServer(app);
 const io = socketIo(server);
 
 
@@ -69,9 +69,9 @@ app.all(`${prefix}/`, (req, res) => {
 });
 
 // serve the api endpoints built in routes folder
-routes(prefix, app);
+routes(prefix, app, io);
 
-app.use(routes(io));
+// app.use(routes(io));
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -130,11 +130,10 @@ app.use((err, req, res, next) => {
     next();
 });
 
-
-app.listen(PORT, () => { <<
-
+server.listen(PORT, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing
-export default app;
+module.exports = server;
+// module.exports = app;
