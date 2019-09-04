@@ -351,8 +351,7 @@ describe('Send Password Reset', () => {
         .post(`${prefix}/forgot`)
         .send(user_email)
         .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.be.a('object');
+            expect(res.status).to.equal(200);
             expect(user_email).to.have.property('email');
             done();
         });
@@ -360,15 +359,13 @@ describe('Send Password Reset', () => {
 
 
         it('it should reset password via password reset link', (done) => {
-            const passwordResetData = {passwordUserId,passwordResetToken}
+            const passwordResetData = {password:'testpassword'}
             chai.request(app)
               .post(`${prefix}/receive_new_password/${passwordUserId}/${passwordResetToken}`)
               .send(passwordResetData)
               .end((err,res) => {
-                res.should.have.status(200);
-                res.body.should.be.a('object');
-                expect(passwordResetData).to.have.property('userId');
-                expect(passwordResetData).to.have.property('token');
+                expect(res.status).to.equal(202);
+                expect(passwordResetData).to.have.property('password');
                 done();
                  });
               });
