@@ -1,4 +1,3 @@
-/* eslint-disable prefer-object-spread */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
@@ -65,7 +64,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error if origin is empty', (done) => {
-		const mutatedtravelRequest = Object.assign({}, travelRequest);
+		const mutatedtravelRequest = { ...travelRequest };
 		mutatedtravelRequest.origin = '';
 
 		chai
@@ -80,7 +79,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error message if origin contains integers', (done) => {
-		const mutatedtravelRequest = Object.assign({}, travelRequest);
+		const mutatedtravelRequest = { ...travelRequest };
 		mutatedtravelRequest.origin = '4Lag12';
 		chai
 			.request(app)
@@ -94,7 +93,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error message if the destination is empty', (done) => {
-		const mutatedtravelRequest = Object.assign({}, travelRequest);
+		const mutatedtravelRequest = { ...travelRequest };
 		mutatedtravelRequest.destination = '';
 
 		chai
@@ -109,7 +108,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error message if the destination contains integers', (done) => {
-		const mutatedtravelRequest = Object.assign({}, travelRequest);
+		const mutatedtravelRequest = { ...travelRequest };
 		mutatedtravelRequest.destination = '4Kigs23';
 
 		chai
@@ -124,7 +123,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error message if the departure date is empty', (done) => {
-		const mutatedtravelRequest = Object.assign({}, travelRequest);
+		const mutatedtravelRequest = { ...travelRequest };
 		mutatedtravelRequest.departure_date = '';
 
 		chai
@@ -139,7 +138,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error message if travel_purpose', (done) => {
-		const mutatedtravelRequest = Object.assign({}, travelRequest);
+		const mutatedtravelRequest = { ...travelRequest };
 		mutatedtravelRequest.travel_purpose = '';
 
 		chai

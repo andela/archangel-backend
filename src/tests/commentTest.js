@@ -1,4 +1,3 @@
-/* eslint-disable prefer-object-spread */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
@@ -49,7 +48,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error if an email is not supplied', (done) => {
-		const mutatedComment = Object.assign({}, user);
+		const mutatedComment = { ...user };
 		mutatedComment.email = '';
 		chai
 			.request(app)
@@ -63,7 +62,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error if the user does not exist', (done) => {
-		const mutatedComment = Object.assign({}, user);
+		const mutatedComment = { ...user };
 		mutatedComment.email = 'unregistered@email.com';
 		chai
 			.request(app)
@@ -103,7 +102,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 	it('should return an error if the comment field is empty', (done) => {
-		const mutatedComment = Object.assign({}, user);
+		const mutatedComment = { ...user };
 		mutatedComment.comment = '';
 		chai
 			.request(app)

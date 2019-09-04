@@ -1,9 +1,9 @@
-/* eslint-disable prefer-object-spread */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 
 import app from '../index';
+import message from '../utils/messageUtils';
 
 const prefix = '/api/v1';
 
@@ -37,7 +37,7 @@ describe('Test for the Auth controller functions', () => {
 			});
 	});
 	it('should return an error message if the email is empty', (done) => {
-		const mutatedUser = Object.assign({}, user);
+		const mutatedUser = { ...user };
 		delete mutatedUser.email;
 
 		chai
@@ -46,12 +46,12 @@ describe('Test for the Auth controller functions', () => {
 			.send(mutatedUser)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal('Email cannot be empty.');
+				expect(res.body.error[0]).to.equal(message.emptyEmail);
 				done();
 			});
 	});
 	it('should return an error message if the email is invalid', (done) => {
-		const mutatedUser = Object.assign({}, user);
+		const mutatedUser = { ...user };
 		mutatedUser.email = 'invalid@yahoo';
 
 		chai
@@ -60,9 +60,7 @@ describe('Test for the Auth controller functions', () => {
 			.send(mutatedUser)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal(
-					'Please, enter a valid email address.'
-				);
+				expect(res.body.error[0]).to.equal(message.invalidEmail);
 				done();
 			});
 	});
@@ -73,14 +71,12 @@ describe('Test for the Auth controller functions', () => {
 			.send(user)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal(
-					`User with this email (${user.email}) already exist.`
-				);
+				expect(res.body.error[0]).to.equal(message.usedEmail(user.email));
 				done();
 			});
 	});
 	it('should return an error message if the password length is less than 8', (done) => {
-		const mutatedUser = Object.assign({}, user);
+		const mutatedUser = { ...user };
 		mutatedUser.password = 'test';
 		mutatedUser.email = 'valid@yahoo.com';
 
@@ -90,14 +86,12 @@ describe('Test for the Auth controller functions', () => {
 			.send(mutatedUser)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal(
-					'The length of the password must be 8 and above.'
-				);
+				expect(res.body.error[0]).to.equal(message.shortPassword);
 				done();
 			});
 	});
 	it('should return an error message if the password does not contain at least a digit', (done) => {
-		const mutatedUser = Object.assign({}, user);
+		const mutatedUser = { ...user };
 		mutatedUser.password = 'testingit';
 		mutatedUser.email = 'valid@yahoo.com';
 
@@ -107,14 +101,12 @@ describe('Test for the Auth controller functions', () => {
 			.send(mutatedUser)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal(
-					'Password must contain at least one digit.'
-				);
+				expect(res.body.error[0]).to.equal(message.noDigitInPassword);
 				done();
 			});
 	});
 	it('should return an error message if the first name is empty', (done) => {
-		const mutatedUser = Object.assign({}, user);
+		const mutatedUser = { ...user };
 		mutatedUser.first_name = '';
 		mutatedUser.email = 'valid@yahoo.com';
 
@@ -124,12 +116,12 @@ describe('Test for the Auth controller functions', () => {
 			.send(mutatedUser)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal('First name cannot be empty.');
+				expect(res.body.error[0]).to.equal(message.emptyFirstname);
 				done();
 			});
 	});
 	it('should return an error message if the last name is empty', (done) => {
-		const mutatedUser = Object.assign({}, user);
+		const mutatedUser = { ...user };
 		mutatedUser.last_name = '';
 		mutatedUser.email = 'valid@yahoo.com';
 
@@ -139,7 +131,7 @@ describe('Test for the Auth controller functions', () => {
 			.send(mutatedUser)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
-				expect(res.body.error[0]).to.equal('Last name cannot be empty.');
+				expect(res.body.error[0]).to.equal(message.emptyLastname);
 				done();
 			});
 	});
@@ -154,7 +146,7 @@ describe('Test for the Auth controller functions', () => {
 		};
 
 		it('should throw an error with a status of 400 if the email supplied is invalid', (done) => {
-			const invalidData = Object.assign({}, loginData);
+			const invalidData = { ...loginData };
 			invalidData.email = 'invalidemail';
 
 			chai
@@ -164,15 +156,13 @@ describe('Test for the Auth controller functions', () => {
 				.end((err, res) => {
 					const { body, status } = res;
 					expect(status).to.equal(400);
-					expect(body.error[0]).to.equal(
-						'Please, enter a valid email address.'
-					);
+					expect(body.error[0]).to.equal(message.invalidEmail);
 					done();
 				});
 		});
 
 		it('should throw an error with a status of 404 if the email supplied does not exist', (done) => {
-			const invalidData = Object.assign({}, loginData);
+			const invalidData = { ...loginData };
 			invalidData.email = 'testerroremail@yahoo.com';
 
 			chai
@@ -187,7 +177,7 @@ describe('Test for the Auth controller functions', () => {
 		});
 
 		it('should return an error message if the password length is less than 8', (done) => {
-			const invalidData = Object.assign({}, loginData);
+			const invalidData = { ...loginData };
 			invalidData.password = 'pwdless';
 
 			chai
@@ -197,15 +187,13 @@ describe('Test for the Auth controller functions', () => {
 				.end((err, res) => {
 					const { body, status } = res;
 					expect(status).to.equal(400);
-					expect(body.error[0]).to.equal(
-						'The length of the password must be 8 and above.'
-					);
+					expect(body.error[0]).to.equal(message.shortPassword);
 					done(err);
 				});
 		});
 
 		it('should return an error message if the password does not contain at least a digit', (done) => {
-			const invalidData = Object.assign({}, loginData);
+			const invalidData = { ...loginData };
 			invalidData.password = 'nodigitpwd';
 
 			chai
@@ -215,15 +203,13 @@ describe('Test for the Auth controller functions', () => {
 				.end((err, res) => {
 					const { body, status } = res;
 					expect(status).to.equal(400);
-					expect(body.error[0]).to.equal(
-						'Password must contain at least one digit.'
-					);
+					expect(body.error[0]).to.equal(message.noDigitInPassword);
 					done(err);
 				});
 		});
 
 		it('should throw an error with a status of 400 if the password supplied is wrong', (done) => {
-			const invalidData = Object.assign({}, loginData);
+			const invalidData = { ...loginData };
 			invalidData.password = 'passw4567';
 
 			chai
@@ -233,9 +219,7 @@ describe('Test for the Auth controller functions', () => {
 				.end((err, res) => {
 					const { body, status } = res;
 					expect(status).to.be.eql(400);
-					expect(body.error.message).to.equal(
-						'Sorry, the password entered is not correct.'
-					);
+					expect(body.error.message).to.equal(message.incorrectPassword);
 					done(err);
 				});
 		});
