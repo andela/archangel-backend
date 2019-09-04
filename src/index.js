@@ -51,7 +51,7 @@ routes(prefix, app);
 app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
 // serve the api endpoints built in routes folder
 // app.use(routes);
-app.use('/', router);
+// app.use('/', router);
 
 
 app.get(`${prefix}/`, (req, res) => {
