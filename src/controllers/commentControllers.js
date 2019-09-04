@@ -30,10 +30,10 @@ export default {
 				data
 			);
 		} catch (err) {
-      errorResponse(res, statusCode.serverError, err);
+			errorResponse(res, statusCode.serverError, err);
 		}
 	},
-	getComments: async (req,res) => {
+	getComments: async (req, res) => {
 		try {
 			const { travel_id } = req.params;
 
@@ -43,8 +43,8 @@ export default {
 				res,
 				statusCode.success,
 				message.successComment[1],
-				comments,
-			)
+				comments
+			);
 		} catch (err) {
 			errorResponse(res, statusCode.serverError, err);
 		}

@@ -10,8 +10,6 @@ const prefix = '/api/v1';
 dotenv.config();
 chai.use(chaiHttp);
 
-let token;
-
 describe('Testing one way ticket feature', () => {
 	const user = {
 		email: 'emma.k@yahoo.com',
@@ -22,6 +20,8 @@ describe('Testing one way ticket feature', () => {
 		comment: 'This is a comment sample.',
 	};
 	const validTravelId = '1898451';
+
+	let token;
 
 	it('should successfully login a user', (done) => {
 		chai

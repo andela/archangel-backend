@@ -11,8 +11,6 @@ dotenv.config();
 
 chai.use(chaiHttp);
 
-let token;
-
 describe('Testing one way ticket feature', () => {
 	const user = {
 		first_name: 'thisismyname',
@@ -20,13 +18,14 @@ describe('Testing one way ticket feature', () => {
 		email: 'mygmailis@gmail.com',
 		password: 'protected123pass',
 	};
-
 	const travelRequest = {
 		origin: 'Lagos',
 		destination: 'Kigali',
 		departure_date: '2019-12-12',
 		travel_purpose: 'This is a one way trip',
 	};
+
+	let token;
 
 	it('should successfully create a user', (done) => {
 		chai
