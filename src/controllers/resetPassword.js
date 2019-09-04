@@ -37,10 +37,10 @@ const {
   const sendEmail = () => {
     transporter.sendMail(emailTemplate, (err, info) => {
       if (err) {
-        res.status(500).json({"Error sending email":err})
+       return res.status(500).json({"Error sending email":err})
       }
       
-      res.status(200).json({"success":"Mail successfully sent to your inbox."})
+      return res.status(200).json({"success":"Mail successfully sent to your inbox."})
     })
   }
   sendEmail()
