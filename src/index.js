@@ -20,7 +20,6 @@ const debugLog = debug('web-app');
 // Create global app object
 const app = express();
 
-
 const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
 
@@ -39,11 +38,11 @@ passport.use(fbStrategy);
 passport.use(googleStrategy);
 
 passport.serializeUser((user, cb) => {
-    cb(null, user);
+	cb(null, user);
 });
 
 passport.deserializeUser((user, cb) => {
-    cb(null, user);
+	cb(null, user);
 });
 
 // serve the api endpoints built in routes folder
@@ -51,24 +50,24 @@ routes(prefix, app);
 
 // handles the api home route...
 app.all('/', (req, res) => {
-    response.successResponse(res, statusCode.success, message.defaultWelcome);
+	response.successResponse(res, statusCode.success, message.defaultWelcome);
 });
 
 // This is the point where the main API routes is served from...
 app.all(`${prefix}/`, (req, res) => {
-    response.successResponse(res, statusCode.success, message.welcome);
+	response.successResponse(res, statusCode.success, message.welcome);
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 // creating session
 app.use(
-    session({
-        secret: 'authorshaven',
-        cookie: { maxAge: 60000 },
-        resave: false,
-        saveUninitialized: false,
-    })
+	session({
+		secret: 'authorshaven',
+		cookie: { maxAge: 60000 },
+		resave: false,
+		saveUninitialized: false,
+	})
 );
 
 app.use(passport.initialize());
@@ -78,9 +77,9 @@ app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+	const err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handlers
@@ -88,36 +87,36 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-    app.use((err, req, res, next) => {
-        debugLog(`Error Stack: ${err.stack}`);
+	app.use((err, req, res, next) => {
+		debugLog(`Error Stack: ${err.stack}`);
 
-        res.status(err.status || 500);
+		res.status(err.status || 500);
 
-        res.json({
-            errors: {
-                message: err.message,
-                error: err,
-            },
-        });
-        next();
-    });
+		res.send({
+			errors: {
+				message: err.message,
+				error: err,
+			},
+		});
+		next();
+	});
 }
 
 // production error handler
 // no stack-traces leaked to user
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({
-        errors: {
-            message: err.message,
-            error: {},
-        },
-    });
-    next();
+	res.status(err.status || 500);
+	res.send({
+		errors: {
+			message: err.message,
+			error: {},
+		},
+	});
+	next();
 });
 
 app.listen(PORT, () => {
-    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
+	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing

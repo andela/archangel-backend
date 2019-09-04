@@ -8,17 +8,21 @@ const { errorResponse } = response;
 const { findUserByEmail } = authServices;
 
 export default {
-    confirmUserEmail: async (req, res, next) => {
-        const { email } = req.body;
-        if (email === null || email === undefined || email === '') {
-            return errorResponse(res, statusCode.badRequest, message.emptyEmail);
-        }
+	confirmUserEmail: async (req, res, next) => {
+		const { email } = req.body;
+		if (email === null || email === undefined || email === '') {
+			return errorResponse(res, statusCode.badRequest, message.emptyEmail);
+		}
 
-        const user = await findUserByEmail(email);
-        if (!user) {
-            return errorResponse(res, statusCode.notFound, message.unregisteredEmail(email));
-        }
-        req.body.full_name = `${user.first_name} ${user.last_name}`;
-        return next();
-    },
+		const user = await findUserByEmail(email);
+		if (!user) {
+			return errorResponse(
+				res,
+				statusCode.notFound,
+				message.unregisteredEmail(email)
+			);
+		}
+		req.body.full_name = `${user.first_name} ${user.last_name}`;
+		return next();
+	},
 };

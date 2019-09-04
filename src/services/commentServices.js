@@ -17,7 +17,7 @@ export default {
 		try {
 			return await comments.findAll({
 				where: { travel_id },
-			})
+			});
 		} catch (err) {
 			throw err;
 		}

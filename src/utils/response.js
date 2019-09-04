@@ -7,17 +7,17 @@
  * @returns {function} a function that responds to the users.
  */
 export default {
-    successResponse: (res, statusCode, message) => res.status(statusCode).send({
-        statusCode,
-        message,
-    }),
-    successResponseWithData: (res, statusCode, message, data) => res.status(statusCode).send({
-        statusCode,
-        data,
-        message,
-    }),
-    errorResponse: (res, statusCode, error) => res.status(statusCode).send({
-        statusCode,
-        error,
-    }),
+	successResponse: (res, statusCode, message) => res.status(statusCode).send({
+			statusCode,
+			message,
+		}),
+	successResponseWithData: (res, statusCode, message, data) => res.status(statusCode).send({
+			statusCode,
+			data,
+			message,
+		}),
+	errorResponse: (res, statusCode, error) => res.status(statusCode).send({
+			statusCode,
+			error,
+		}),
 };

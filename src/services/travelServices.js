@@ -7,12 +7,12 @@ const { travels } = models;
 
 export default {
 	onewayTripService: async (travelObj) => {
-        try {
-            return await travels.create(travelObj);
-        } catch (err) {
-            throw err;
-        }
-    },
+		try {
+			return await travels.create(travelObj);
+		} catch (err) {
+			throw err;
+		}
+	},
 	findTravelById: async (id) => {
 		try {
 			return await travels.findOne({

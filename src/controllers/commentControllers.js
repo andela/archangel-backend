@@ -30,7 +30,7 @@ export default {
 				data
 			);
 		} catch (err) {
-            errorResponse(res, statusCode.serverError, err);
+      errorResponse(res, statusCode.serverError, err);
 		}
 	},
 	getComments: async (req,res) => {
