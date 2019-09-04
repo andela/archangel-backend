@@ -3,21 +3,20 @@ import 'regenerator-runtime/runtime';
 
 import models from '../database/models';
 
-const { travels } = models;
+const { comments } = models;
 
 export default {
-	onewayTripService: async (travelObj) => {
+	createComment: async (comment) => {
 		try {
-			return await travels.create(travelObj);
+			return await comments.create(comment);
 		} catch (err) {
 			throw err;
 		}
 	},
-	findTravelById: async (id) => {
+	getComments: async (travel_id) => {
 		try {
-			return await travels.findOne({
-				attributes: ['id'],
-				where: { id },
+			return await comments.findAll({
+				where: { travel_id },
 			});
 		} catch (err) {
 			throw err;
