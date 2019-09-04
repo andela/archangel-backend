@@ -6,6 +6,8 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import http from 'http';
+import socketIo from 'socket.io';
 
 import { fbStrategy, googleStrategy } from './config/passport';
 import message from './utils/messageUtils';
@@ -13,10 +15,15 @@ import response from './utils/response';
 import statusCode from './utils/statusCode';
 import routes from './routes';
 
+
+
 dotenv.config();
 const debugLog = debug('web-app');
+
 // Create global app object
 const app = express();
+const server = http.server(app);
+const io = socketIo(server);
 
 
 const PORT = process.env.PORT || 5000;
@@ -30,18 +37,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
+
 app.use(methodOverride());
+
 
 // social media authentication
 passport.use(fbStrategy);
 passport.use(googleStrategy);
 
 passport.serializeUser((user, cb) => {
-  cb(null, user);
+    cb(null, user);
 });
 
 passport.deserializeUser((user, cb) => {
-  cb(null, user);
+    cb(null, user);
 });
 
 
@@ -54,20 +63,26 @@ app.all('/', (req, res) => response.successResponse(res, statusCode.success, mes
 // app.use('/', router);
 
 
-app.get(`${prefix}/`, (req, res) => {
-  response.successResponse(res, statusCode.success, message.welcome);
+// This is the point where the main API routes is served from...
+app.all(`${prefix}/`, (req, res) => {
+    response.successResponse(res, statusCode.success, message.welcome);
 });
+
+// serve the api endpoints built in routes folder
+routes(prefix, app);
+
+app.use(routes(io));
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 // creating session
 app.use(
-  session({
-    secret: 'authorshaven',
-    cookie: { maxAge: 60000 },
-    resave: false,
-    saveUninitialized: false,
-  }),
+    session({
+        secret: 'authorshaven',
+        cookie: { maxAge: 60000 },
+        resave: false,
+        saveUninitialized: false,
+    }),
 );
 
 app.use(passport.initialize());
@@ -77,9 +92,9 @@ app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -87,36 +102,38 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-  app.use((err, req, res, next) => {
-    debugLog(`Error Stack: ${err.stack}`);
+    app.use((err, req, res, next) => {
+        debugLog(`Error Stack: ${err.stack}`);
 
-    res.status(err.status || 500);
+        res.status(err.status || 500);
 
-    res.json({
-      errors: {
-        message: err.message,
-        error: err,
-      },
+        res.json({
+            errors: {
+                message: err.message,
+                error: err,
+            },
+        });
+        next();
     });
-    next();
-  });
 }
 
 // production error handler
 // no stack-traces leaked to user
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json({
-    errors: {
-      message: err.message,
-      error: {},
-    },
-  });
-  next();
+    res.status(err.status || 500);
+    res.json({
+        errors: {
+            message: err.message,
+            error: {},
+        },
+    });
+    next();
 });
 
-app.listen(PORT, () => {
-  debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
+
+app.listen(PORT, () => { <<
+
+    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing
