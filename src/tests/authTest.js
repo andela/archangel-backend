@@ -258,7 +258,8 @@ describe('Test for the Auth controller functions', () => {
 			email: 'emmaff.k@yahoo.com',
 			password: 'testing321',
 		};
-		let token;
+		let authToken;
+
 		before((done) => {
 			chai
 				.request(app)
@@ -266,7 +267,7 @@ describe('Test for the Auth controller functions', () => {
 				.send(testuser)
 				.end((err, res) => {
 					const { data } = res.body;
-					token = data.token;
+					authToken = data.token;
 					done();
 				});
 		});
@@ -293,7 +294,7 @@ describe('Test for the Auth controller functions', () => {
 			chai
 				.request(app)
 				.post(`${prefix}/auth/logout`)
-				.set('Authorization', `Bearer ${token}`)
+				.set('Authorization', `Bearer ${authToken}`)
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
 					done();
