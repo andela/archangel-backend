@@ -1,3 +1,4 @@
+import { compareSync } from 'bcrypt';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
@@ -12,16 +13,19 @@ export default {
             throw err;
         }
     },
-    findUserByEmail: async (email) => {
-		try {
-			return await users
-				.findOne({
-					where: { email },
-				});
-		} catch (err) {
-			throw err;
-		}
+    // subject to changes
+    findUserById: async(userId) => {
+        try {
+            return await users.findAll({
+                where: {
+                  id : userId
+                },
+            });
+        } catch (err) {
+            throw err;
+        }
     },
+<<<<<<< HEAD
     findUserById: async (id) => {
 		try {
 			return await users
@@ -43,6 +47,22 @@ export default {
 			throw err;
 		}
     },
+=======
+    /**
+    *This function will get a user by email address...
+    *@param {String} email - the user's email
+    *@return {Promise} - response of sequelize
+    */
+    findUserByEmail: (email) => users.findOne({ where: { email } }),
+
+    /**
+    *This function will compare the password supplied by the user with the one in the database...
+    *@param {String} password - the user's password supplied
+    *@param {String} hashedPassword - the user's password in database
+    *@return {boolean} - response of bcrypt hashing
+    */
+    comparePassword: (password, hashedPassword) => compareSync(password, hashedPassword),
+>>>>>>> 897fdb7a07f4bbf540c3768c06942f28d4bd0384
 
     logoutService: async (token) => {
         try {
@@ -50,5 +70,6 @@ export default {
         } catch (err) {
             throw err;
         }
-    },
+    }
+
 };

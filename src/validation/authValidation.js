@@ -12,6 +12,8 @@ const { findUserByEmail } = authServices;
 export default {
     validateSignup: [
         check('email')
+            .not().isEmpty()
+            .withMessage(message.noEmail)
             .isEmail()
             .withMessage(message.invalidEmail)
             .custom((email) => findUserByEmail(email)
@@ -32,6 +34,19 @@ export default {
             .not().isEmpty()
             .withMessage(message.emptyLastname),
     ],
+
+    validateLogin: [
+      check('email')
+          .isEmail()
+          .withMessage(message.invalidEmail),
+
+      check('password')
+          .isLength({ min: 8 })
+          .withMessage(message.shortPassword)
+          .matches(/\d/)
+          .withMessage(message.noDigitInPassword)
+    ],
+
     validateResult: (req, res, next) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {

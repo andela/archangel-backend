@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const travel = sequelize.define('travel', {
+    const travels = sequelize.define('travels', {
         user_id: DataTypes.INTEGER,
         origin: DataTypes.TEXT,
         destination: DataTypes.TEXT,
@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         return_date: DataTypes.DATE,
         travel_purpose: DataTypes.TEXT
     }, {});
-    // travel.associate = (models) => {
-    //     travel.belongsTo(models.User, {
-    //         foreignKey: 'user_id',
-    //         onDelete: 'CASCADE'
-    //     });
-    // };
-    return travel;
+    travels.associate = (models) => {
+        travels.belongsTo(models.users, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE'
+        });
+    };
+    return travels;
 };
