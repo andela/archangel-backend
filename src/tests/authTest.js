@@ -34,7 +34,20 @@ describe('Test for the Auth controller functions', () => {
                 done();
             });
     });
+    it('should return an error message if the email is empty', (done) => {
+		const mutatedUser = Object.assign({}, user);
+		delete mutatedUser.email;
 
+		chai.request(app)
+        .post(`${prefix}/auth/signup`)
+        .send(mutatedUser)
+        .end((err, res) => {
+            expect(res.status).to.equal(400);
+            expect(res.body.error[0]).to
+            .equal('Email cannot be empty.');
+            done();
+        });
+    });
     it('should return an error message if the email is invalid', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		mutatedUser.email = 'invalid@yahoo';
