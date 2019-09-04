@@ -1,20 +1,29 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('notifications', {
+        return queryInterface.createTable('travels', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            travel_id: {
-                type: Sequelize.INTEGER
+            user_id: {
+                type: Sequelize.INTEGER,
             },
-            manager_email: {
+            origin: {
                 type: Sequelize.TEXT
             },
-            read_status: {
-                type: Sequelize.BOOLEAN
+            destination: {
+                type: Sequelize.TEXT
+            },
+            departure_date: {
+                type: Sequelize.DATE
+            },
+            return_date: {
+                type: Sequelize.DATE
+            },
+            travel_purpose: {
+                type: Sequelize.TEXT
             },
             createdAt: {
                 allowNull: false,
@@ -27,6 +36,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('notifications');
+        return queryInterface.dropTable('travels');
     }
 };

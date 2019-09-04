@@ -1,20 +1,24 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('notifications', {
+        return queryInterface.createTable('accommodations', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            travel_id: {
-                type: Sequelize.INTEGER
-            },
-            manager_email: {
+            location: {
                 type: Sequelize.TEXT
             },
-            read_status: {
-                type: Sequelize.BOOLEAN
+            capacity: {
+                type: Sequelize.INTEGER
+            },
+            accommodation_name: {
+                type: Sequelize.TEXT,
+                allowNull: false,
+                validate: {
+                    msg: 'Please provide your accommodation\'s name'
+                }
             },
             createdAt: {
                 allowNull: false,
@@ -27,6 +31,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('notifications');
+        return queryInterface.dropTable('accommodations');
     }
 };

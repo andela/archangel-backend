@@ -11,5 +11,5 @@ charset = utf-8
 
 # Set indentation style and size for javascript files
 [*.js]
-indent_style = space
+indent_style = tab
 indent_size = 2
