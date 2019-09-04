@@ -10,10 +10,10 @@ const { users, blacklists } = models;
 export default {
     signupService: async (userObj) => {
         try {
-            return await users.create(userObj);
-            // .then((result) => {
-            //     sendVerificationEmail(userObj.email)
-            // });
+            const userRes =  await users.create(userObj);
+            
+            return userRes;
+            
             
         } catch (err) {
             throw err;

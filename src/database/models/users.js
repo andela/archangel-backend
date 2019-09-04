@@ -18,18 +18,18 @@ export default (sequelize, DataTypes) => {
 				is_active: DataTypes.BOOLEAN
 		}, {});
 
-		users.associate = (models) => {
-				users.belongsTo(models.department, {
-						foreignKey: 'dept_id'
-				});
+        users.associate = (models) => {
+            users.belongsTo(models.departments, {
+                foreignKey: 'dept_id'
+            });
 
-				users.hasMany(models.travel, {
-						foreignKey: 'user_id'
-				});
-		};
-		users.beforeCreate((incomingUser) => {
-				incomingUser.password = hashSync(incomingUser.password, salt);
-		});
+            users.hasMany(models.travels, {
+                foreignKey: 'user_id'
+            });
+        };
+        users.beforeCreate((incomingUser) => {
+            incomingUser.password = hashSync(incomingUser.password, salt);
+        });
 
 		return users;
 };

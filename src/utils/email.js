@@ -1,9 +1,17 @@
 require('dotenv').config();
 const sendGrid = require('sendgrid').mail;
-const sg = require('sendgrid')('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');
+const sg = require('sendgrid')(process.env.SENDGRID_API);
 
-export const sendVerificationEmail = (to, token) => {
-    const hostUrl = 'http://localhost:5000';
+
+let hostUrl;
+const devHostUrl = 'http://localhost:5000';
+const prodHostUrl = 'https://archangel-backend-staging.herokuapp.com/';
+const sendVerificationEmail = (to) => {
+	if (process.env.NODE_ENV === 'development') {
+    hostUrl = devHostUrl;
+	} else {
+		hostUrl = prodHostUrl;
+	}
     const request = sg.emptyRequest({
       method: "POST",
       path: "/v3/mail/send",
@@ -24,7 +32,7 @@ export const sendVerificationEmail = (to, token) => {
         content: [
       {
         type: 'text/plain',
-        value: `Click on this link to verify your email ${hostUrl}/verification?token=${token}&email=${to}`
+        value: `Click on this link to verify your email ${hostUrl}`
       }
     ]
       }
@@ -40,3 +48,4 @@ export const sendVerificationEmail = (to, token) => {
       });
     });
   };
+export default sendVerificationEmail;
