@@ -64,6 +64,7 @@ describe('Testing one way ticket feature', () => {
 	it('should return an error if the user does not exist', (done) => {
 		const mutatedComment = { ...user };
 		mutatedComment.email = 'unregistered@email.com';
+		const { email } = mutatedComment;
 		chai
 			.request(app)
 			.post(`${prefix}/travel/${validTravelId}/comment`)
@@ -71,9 +72,7 @@ describe('Testing one way ticket feature', () => {
 			.send(mutatedComment)
 			.end((err, res) => {
 				expect(res).to.have.status(404);
-				expect(res.body.error).to.equal(
-					message.unregisteredEmail(mutatedComment.email)
-				);
+				expect(res.body.error).to.equal(message.unregisteredEmail(email));
 				done();
 			});
 	});
