@@ -43,16 +43,10 @@ describe('Test for the Auth controller functions', () => {
 
 
     });
-<<<<<<< HEAD
 
 
             
 
-
-
-
-
-=======
     it('should return an error message if the email is empty', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		delete mutatedUser.email;
@@ -67,7 +61,6 @@ describe('Test for the Auth controller functions', () => {
             done();
         });
     });
->>>>>>> 897fdb7a07f4bbf540c3768c06942f28d4bd0384
     it('should return an error message if the email is invalid', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		mutatedUser.email = 'invalid@yahoo';
@@ -154,7 +147,6 @@ describe('Test for the Auth controller functions', () => {
         });
     });
 
-<<<<<<< HEAD
 
 
 
@@ -165,7 +157,6 @@ describe('Test for the Auth controller functions', () => {
 
 describe('Testing logout feature', () => {
     const testuser = {
-=======
     //This is the tests that will run for the user signin with username and password..
     describe('TEST USER LOGIN ROUTE', () => {
       var signinRoute = `${prefix}/auth/login`;
@@ -286,7 +277,6 @@ describe('Testing logout feature', () => {
 
     describe('Testing logout feature', () => {
       const testuser = {
->>>>>>> 897fdb7a07f4bbf540c3768c06942f28d4bd0384
         first_name: 'Emmatest',
         last_name: 'Koredetest',
         email: 'emmaff.k@yahoo.com',
