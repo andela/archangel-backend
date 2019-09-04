@@ -4,12 +4,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const transporter = nodemailer.createTransport({
-  service: 'elasticemail',
-  host: 'smtp.elasticemail.com',
-  port: 25,
+  service: 'gmail',
   auth: {
-    user: `${process.env.EMAIL_ADD}`,
-    pass: `${process.env.EMAIL_PASS}`
+    user: process.env.EMAIL_ADD,
+    pass: process.env.EMAIL_PASS
   }
 });
 

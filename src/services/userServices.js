@@ -8,15 +8,25 @@ const { users } = models;
  * @param {String} email - user's email
  * @returns {Promise} - sequelize response
 */
-export const queryByEmail = (email) => users.findOne({ where: { email } });
-
+const queryByEmail = async (email) => {
+try{
+    return await users.findOne({ where: { email } });
+}catch(err){
+    throw err;
+}
+}
 /**
  * Helper function to find a user by id
  * @param {String} id - user's id
  * @returns {Promise} - sequelize response
  */
-export const queryById = (id) => users.findOne({ where: { id } });
-
+const queryById = async (id) => {
+    try{
+    return await users.findOne({ where: { id } });
+}catch(err){
+    return err
+}   
+}
 
 /**
  * Helper function to update a user password
@@ -24,4 +34,16 @@ export const queryById = (id) => users.findOne({ where: { id } });
  *  @param {String} id  - user's id
  * @returns {Promise} - sequelize response
  */
-export const updatePassword = (hash, id) => users.update(hash, { where: { id } });
+const updatePassword = async (hash, id) =>{
+    try{
+     return await users.update(hash, { where: { id } });
+    }catch(err){
+        return err
+    }
+    }
+
+export default {
+    queryByEmail,
+    queryById,
+    updatePassword
+}

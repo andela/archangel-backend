@@ -1,11 +1,12 @@
 import { Router } from 'express';
 
 import authControllers from '../../controllers/authControllers';
+import resetPassword from '../../controllers/resetPassword';
 import authValidator from '../../validation/authValidation';
 import tokenMiddlewares from '../../middlewares/tokenMiddleware';
-import { resetPasswordController } from '../../controllers';
+const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
-const { sendPasswordResetEmail, receiveNewPassword } = resetPasswordController;
+
 
 
 const route = Router();

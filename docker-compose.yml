@@ -4,16 +4,17 @@ services:
     db:
       image: 'postgres:latest'
       env_file: .env
+      restart: always
       volumes:
           - dbase_data:/var/lib/postgresql/data/
       networks:
-        - dbase_nw
+        - db_nw
 
     api:
       build: 
         context: .
         dockerfile: Dockerfile.dev
-      command: 'npm run test'
+      command: 'npm run dev'
       depends_on:
         - db
       volumes:
@@ -21,7 +22,7 @@ services:
       env_file: .env
       networks:
         - api_nw
-        - dbase_nw
+        - db_nw
     nginx:
       build:
         context: ./nginx
@@ -44,7 +45,7 @@ volumes:
 
 
 networks:
-  dbase_nw:
+  db_nw:
     driver: bridge
   api_nw:
     driver: bridge

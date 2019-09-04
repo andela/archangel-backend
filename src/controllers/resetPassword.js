@@ -1,67 +1,72 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs"
+import userServices from '../services/userServices';
 import {
     transporter,
     getPasswordResetURL,
     usePasswordHashToMakeToken,
     resetPasswordTemplate
   } from "../modules/email"
-import {
+const {
   queryByEmail,
   queryById,
   updatePassword
-  } from '../services/userServices';
+  } = userServices;
 
-/**
- * Class representing resetPasswordController
- * @class resetPasswordController
- */
-export class resetPasswordController {
   /**
-     * Reset user password on the application
+     * Send user reset password on the application
      * @static
      * @param {object} req - The request object
      * @param {object} res - The response object
      * @return {object} JSON object representing success
-     * @memeberof resetPasswordController
   */
 
 
 
- static async sendPasswordResetEmail (req, res) {
-    
+  const sendPasswordResetEmail = async (req, res) => {
+
     const {email} = req.body;
-
-
+    let result;
     try {
-      const result = await queryByEmail(email)
-
-      if (result) {
-        const user = result;
-        const token = usePasswordHashToMakeToken(user)
-        const url = getPasswordResetURL(user, token)
-        const emailTemplate = resetPasswordTemplate(user, url)
-  
-        const sendEmail = () => {
-        transporter.sendMail(emailTemplate, (err) => {
-        if (err) {
-          res.status(500).json({"Error sending email":err})
-        }
-        res.status(200).json({"success":"Mail successfully sent to your inbox."})
-      })
-    }
-    sendEmail()
-}
+      result = await queryByEmail(email)
     } catch (error) {
+  
       return res.status(500).json({
         status: 500,
         error: error.message
       });
     }
     
+        const user = result;
+        
+        const token = usePasswordHashToMakeToken(user)
+
+        const url = getPasswordResetURL(user, token)
+  
+        const emailTemplate = resetPasswordTemplate(user, url)
+        
+        const sendmail = () =>{ transporter.sendMail(emailTemplate, (err) => {
+        if (err) {
+          
+          return res.status(500).json({"Error sending email":err})
+        }
+        return res.status(200).json({"success":"Mail successfully sent to your inbox."})
+      })
+      sendmail()
+    }
+    
   }
 
-static async receiveNewPassword (req, res) {
+
+  /**
+     * Update user reset password on the application
+     * @static
+     * @param {object} req - The request object
+     * @param {object} res - The response object
+     * @return {object} JSON object representing success
+  */
+
+ const receiveNewPassword = async(req, res) =>{
     const { userId, token } = req.params
     const { password } = req.body
   
@@ -99,5 +104,9 @@ static async receiveNewPassword (req, res) {
         });
       }
   }
-}
+
+  export default {
+    sendPasswordResetEmail,
+    receiveNewPassword
+  }
 

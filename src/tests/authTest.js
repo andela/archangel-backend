@@ -7,6 +7,10 @@ import app from '../index';
 
 const prefix = '/api/v1';
 
+let passwordUserId;
+const passwordResetToken ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU2NzUzNzkwNSwiZXhwIjoxNTY3NTQxNTA1fQ.nPMaVY0-y_FhF9eVroUIe08PXW9kqnmmqUvAcu8uD74'
+
+
 dotenv.config();
 
 chai.use(chaiHttp);
@@ -18,13 +22,16 @@ describe('Test for the Auth controller functions', () => {
         email: 'emma.k@yahoo.com',
         password: 'testing123',
     };
+    
     it('should successfully sign up a user', (done) => {
         chai
             .request(app)
             .post(`${prefix}/auth/signup`)
             .send(user)
             .end((err, res) => {
+               
                 const { data } = res.body;
+               
                 expect(res).to.have.status(201);
                 expect(data).to.include({
                     first_name: 'Emma',
@@ -33,7 +40,17 @@ describe('Test for the Auth controller functions', () => {
                 });
                 done();
             });
+
+
     });
+
+
+            
+
+
+
+
+
     it('should return an error message if the email is invalid', (done) => {
 		const mutatedUser = Object.assign({}, user);
 		mutatedUser.email = 'invalid@yahoo';
@@ -121,6 +138,14 @@ describe('Test for the Auth controller functions', () => {
     });
 });
 
+
+
+
+
+
+
+
+
 describe('Testing logout feature', () => {
     const testuser = {
         first_name: 'Emmatest',
@@ -166,4 +191,55 @@ describe('Testing logout feature', () => {
             done();
         });
     });
+});
+
+
+describe('Send Password Reset', () => {
+    const testuser = {
+        first_name: 'Temi',
+        last_name: 'Bakar',
+        email: 'bakaretemitayo7@gmail.com',
+        password: 'testing321',
+    };
+    let email;
+    before( (done) => {
+        chai
+        .request(app)
+        .post(`${prefix}/auth/signup`)
+        .send(testuser)
+        .end((err, res) => {
+            const { data } = res.body;
+            email = data.email;
+            passwordUserId = data.id
+            done();
+        });
+    })
+    it('it should send token for resetting password',(done) => {
+        let user_email = {'email':email}
+        chai.request(app)
+        .post(`${prefix}/forgot`)
+        .send(user_email)
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            expect(user_email).to.have.property('email');
+            done();
+        });
+        });
+
+
+        it('it should reset password via password reset link', (done) => {
+            const passwordResetData = {passwordUserId,passwordResetToken}
+            chai.request(app)
+              .post(`${prefix}/receive_new_password/${passwordUserId}/${passwordResetToken}`)
+              .send(passwordResetData)
+              .end((err,res) => {
+                res.should.have.status(200);
+                res.body.should.be.a('object');
+                expect(passwordResetData).to.have.property('userId');
+                expect(passwordResetData).to.have.property('token');
+                done();
+                 });
+              });
+
 });
