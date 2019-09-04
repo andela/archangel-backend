@@ -146,7 +146,7 @@ describe('Test for the Auth controller functions', () => {
             done();
         });
     });
-
+});
 
 
 
@@ -272,6 +272,7 @@ describe('Testing logout feature', () => {
         });
       });
     });
+});
     //The test for the auth/login by email and paswword ends here...
 
 
@@ -321,7 +322,7 @@ describe('Testing logout feature', () => {
         });
       });
     });
-});
+
 
 
 describe('Send Password Reset', () => {
