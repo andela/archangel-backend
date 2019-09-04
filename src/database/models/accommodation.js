@@ -1,16 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
-    const accommodations = sequelize.define('accommodations', {
-        travel_id: DataTypes.INTEGER,
+    const accommodation = sequelize.define('accommodation', {
         location: DataTypes.TEXT,
         capacity: DataTypes.INTEGER,
         accommodation_name: DataTypes.TEXT
     }, {});
 
-    accommodations.associate = (models) => {
-        accommodations.hasOne(models.travels, {
+    accommodation.associate = (models) => {
+        accommodation.hasOne(models.travels, {
             foreignKey: 'travel_id',
             onDelete: 'CASCADE'
         });
     };
-    return accommodations;
+    return accommodation;
 };

@@ -23,13 +23,13 @@ export default (sequelize, DataTypes) => {
                 foreignKey: 'dept_id'
             });
 
-            users.hasMany(models.travels, {
-                foreignKey: 'user_id'
-            });
-        };
-        users.beforeCreate((incomingUser) => {
-            incomingUser.password = hashSync(incomingUser.password, salt);
-        });
+				users.hasMany(models.travel_request, {
+						foreignKey: 'user_id'
+				});
+		};
+		users.beforeCreate((incomingUser) => {
+				incomingUser.password = hashSync(incomingUser.password, salt);
+		});
 
 		return users;
 };
