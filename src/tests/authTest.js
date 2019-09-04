@@ -339,7 +339,7 @@ describe('Send Password Reset', () => {
         .post(`${prefix}/auth/signup`)
         .send(testuser)
         .end((err, res) => {
-            console.log("Register User",res)
+            
             const { data } = res.body;
             email = data.email;
             passwordUserId = data.id
@@ -353,7 +353,7 @@ describe('Send Password Reset', () => {
         .post(`${prefix}/forgot`)
         .send(user_email)
         .end((err, res) => {
-            console.log("Sending Token User",res)
+            
             expect(res.status).to.equal(200);
             expect(user_email).to.have.property('email');
             done();
