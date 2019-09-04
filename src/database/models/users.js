@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> c4f07b35a74c0c8782ca68dfac16242702149351
     import { hashSync, genSaltSync } from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {

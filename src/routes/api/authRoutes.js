@@ -22,12 +22,16 @@ route.post('/auth/signup', validateSignup, validateResult, signup);
 <<<<<<< HEAD
 route.post('/forgot',sendPasswordResetEmail);
 
+<<<<<<< HEAD
 route.post('/receive_new_password/:userId/:token',receiveNewPassword);
 
 export default route;
 =======
 // handles the sign in request by email and password..
 route.post('/auth/login', validateLogin, validateResult, login);
+=======
+route.post('/forgot',sendPasswordResetEmail);
+>>>>>>> c4f07b35a74c0c8782ca68dfac16242702149351
 
 route.post('/auth/logout', getToken, verifyToken, logout);
 
@@ -59,4 +63,7 @@ route.post('/auth/login', validateLogin, validateResult, login);
 route.post('/auth/logout', getToken, verifyToken, logout);
 
 export default route;
+<<<<<<< HEAD
 >>>>>>> 897fdb7a07f4bbf540c3768c06942f28d4bd0384
+=======
+>>>>>>> c4f07b35a74c0c8782ca68dfac16242702149351
