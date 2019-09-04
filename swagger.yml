@@ -1,0 +1,48 @@
+swagger: '2.0'
+info:
+  description: A simple international travel request API
+  version: 1.0.0
+  title:  Barefoot Nomad API
+schemes:
+ - https
+# host: barefootNomad.com
+# basePath: /v1
+securityDefinitions:
+  UserSecurity:
+    type: basic
+security:
+  - UserSecurity: []
+paths:
+  /auth/signup:
+    post:
+      description: Users can sign up
+      responses:
+        200:
+          description: User successfully signed up
+          schema:
+            type: object
+            required:
+              - first_name 
+              - last_name
+              - email
+              - password
+            properties:
+              status:
+                type: string
+              data:
+                type: object
+                properties:
+                  user_id: 
+                    type: integer
+                  token:
+                    type: string
+                    
+        400:
+          description: Invalid request
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              error:
+                type: string

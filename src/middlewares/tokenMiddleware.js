@@ -15,8 +15,8 @@ const jwtSecret = process.env.JWT_SECRET;
 export default {
     generateToken: (id, email, role, first_name) => {
         const payload = {
- id, email, role, first_name
-};
+            id, email, role, first_name
+        };
         const option = { expiresIn: '1d' };
             // Adding the string bearer to jwt object and get token string
         return jwt.sign(payload, jwtSecret, option);

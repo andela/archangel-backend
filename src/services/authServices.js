@@ -16,7 +16,7 @@ export default {
     // subject to changes
     findUserById: async(userId) => {
         try {
-            return await users.findAll({
+            return await users.findOne({
                 where: {
                   id : userId
                 },
