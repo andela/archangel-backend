@@ -1,4 +1,4 @@
-import { compareSync } from 'bcrypt';
+import { compareSync } from 'bcryptjs';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
@@ -25,7 +25,6 @@ export default {
             throw err;
         }
     },
-<<<<<<< HEAD
     findUserById: async (id) => {
 		try {
 			return await users
@@ -47,7 +46,6 @@ export default {
 			throw err;
 		}
     },
-=======
     /**
     *This function will get a user by email address...
     *@param {String} email - the user's email
@@ -62,7 +60,6 @@ export default {
     *@return {boolean} - response of bcrypt hashing
     */
     comparePassword: (password, hashedPassword) => compareSync(password, hashedPassword),
->>>>>>> 897fdb7a07f4bbf540c3768c06942f28d4bd0384
 
     logoutService: async (token) => {
         try {

@@ -24,12 +24,7 @@ export default {
             delete data.password;
             successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
         } catch (err) {
-<<<<<<< HEAD
-            
-            errorResponse(res, statusCode.serverError, err);
-=======
             errorResponse(res, err.statusCode || statusCode.serverError, err);
->>>>>>> 897fdb7a07f4bbf540c3768c06942f28d4bd0384
         }
     },
 

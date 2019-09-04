@@ -35,7 +35,6 @@ app.options('*', cors());
 
 app.use(methodOverride());
 
-<<<<<<< HEAD
 // social media authentication
 passport.use(fbStrategy);
 passport.use(googleStrategy);
@@ -51,9 +50,7 @@ passport.deserializeUser((user, cb) => {
 routes(prefix, app);
 // handles the api home route...
 app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
-=======
 
->>>>>>> c4f07b35a74c0c8782ca68dfac16242702149351
 
 // This is the point where the main API routes is served from...
 app.all(`${prefix}/`, (req, res) => {
@@ -120,15 +117,8 @@ app.use((err, req, res, next) => {
     next();
 }); 
 
-<<<<<<< HEAD
 app.listen(PORT, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
-=======
-
- app.listen(PORT, () => {
-	debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
-
->>>>>>> c4f07b35a74c0c8782ca68dfac16242702149351
 });
 
 // for testing
