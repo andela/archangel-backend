@@ -25,7 +25,7 @@ describe('Testing one way ticket feature', () => {
 		travel_purpose: 'This is a one way trip',
 	};
 
-	let token;
+	let authToken;
 
 	it('should successfully create a user', (done) => {
 		chai
@@ -35,7 +35,7 @@ describe('Testing one way ticket feature', () => {
 			.end((err, res) => {
 				expect(res).to.have.status(201);
 				const { data } = res.body;
-				token = data.token;
+				authToken = data.token;
 				done();
 			});
 	});
@@ -44,7 +44,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(travelRequest)
 			.end((err, res) => {
 				expect(res).to.have.status(201);
@@ -52,7 +52,7 @@ describe('Testing one way ticket feature', () => {
 			});
 	});
 
-	it('should return an error if the token is invalid', (done) => {
+	it('should return an error if the authToken is invalid', (done) => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
@@ -69,7 +69,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(mutatedtravelRequest)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
@@ -83,7 +83,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(mutatedtravelRequest)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
@@ -98,7 +98,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(mutatedtravelRequest)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
@@ -113,7 +113,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(mutatedtravelRequest)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
@@ -128,7 +128,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(mutatedtravelRequest)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
@@ -143,7 +143,7 @@ describe('Testing one way ticket feature', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/onewaytrip`)
-			.set('Authorization', `Bearer ${token}`)
+			.set('Authorization', `Bearer ${authToken}`)
 			.send(mutatedtravelRequest)
 			.end((err, res) => {
 				expect(res.status).to.equal(400);
