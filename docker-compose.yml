@@ -14,7 +14,7 @@ services:
       build: 
         context: .
         dockerfile: Dockerfile.dev
-      command: 'npm run dev'
+      command: 'npm run test'
       depends_on:
         - db
       volumes:

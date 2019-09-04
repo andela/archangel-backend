@@ -345,6 +345,7 @@ describe('Send Password Reset', () => {
             done();
         });
     })
+    
     it('it should send token for resetting password',(done) => {
         let user_email = {'email':email}
         chai.request(app)
