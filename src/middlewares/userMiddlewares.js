@@ -10,8 +10,11 @@ const { findUserByEmail } = authServices;
 export default {
     confirmUserEmail: async (req, res, next) => {
         const { email } = req.body;
-        const user = await findUserByEmail(email);
+        if (email === null || email === undefined || email === '') {
+            return errorResponse(res, statusCode.badRequest, message.emptyEmail);
+        }
 
+        const user = await findUserByEmail(email);
         if (!user) {
             return errorResponse(res, statusCode.notFound, message.unregisteredEmail(email));
         }

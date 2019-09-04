@@ -4,7 +4,7 @@ export default (sequelize, DataTypes) => {
         comment: DataTypes.TEXT,
         author_name: DataTypes.TEXT,
         author_email: DataTypes.TEXT,
-    }, { freezeTableName: true });
+    }, {});
 
 	return comment;
 };

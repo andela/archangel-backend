@@ -12,7 +12,7 @@ module.exports = {
 				allowNull: false,
 				onDelete: 'CASCADE',
 				references: {
-					model: 'travel',
+					model: 'travels',
 					key: 'id',
 					as: 'travel_id',
 				},

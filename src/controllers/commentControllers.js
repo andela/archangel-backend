@@ -4,7 +4,7 @@ import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
-const { createComment } = commentServices;
+const { createComment, getComments } = commentServices;
 const { successResponseWithData, errorResponse } = response;
 
 export default {
@@ -26,11 +26,27 @@ export default {
 			successResponseWithData(
 				res,
 				statusCode.created,
-				message.successComment,
+				message.successComment[0],
 				data
 			);
 		} catch (err) {
             errorResponse(res, statusCode.serverError, err);
+		}
+	},
+	getComments: async (req,res) => {
+		try {
+			const { travel_id } = req.params;
+
+			const comments = await getComments(travel_id);
+
+			successResponseWithData(
+				res,
+				statusCode.success,
+				message.successComment[1],
+				comments,
+			)
+		} catch (err) {
+			errorResponse(res, statusCode.serverError, err);
 		}
 	},
 };

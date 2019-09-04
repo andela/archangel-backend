@@ -1,16 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
-    const accommodation = sequelize.define('accommodation', {
+    const accommodations = sequelize.define('accommodations', {
         travel_id: DataTypes.INTEGER,
         location: DataTypes.TEXT,
         capacity: DataTypes.INTEGER,
         accommodation_name: DataTypes.TEXT
-    }, { freezeTableName: true });
+    }, {});
 
-    accommodation.associate = (models) => {
-        accommodation.hasOne(models.travel, {
+    accommodations.associate = (models) => {
+        accommodations.hasOne(models.travels, {
             foreignKey: 'travel_id',
             onDelete: 'CASCADE'
         });
     };
-    return accommodation;
+    return accommodations;
 };

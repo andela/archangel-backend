@@ -20,6 +20,7 @@ const debugLog = debug('web-app');
 // Create global app object
 const app = express();
 
+
 const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
 
@@ -115,7 +116,7 @@ app.use((err, req, res, next) => {
     next();
 });
 
- app.listen(PORT, () => {
+app.listen(PORT, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 

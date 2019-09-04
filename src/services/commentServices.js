@@ -13,4 +13,13 @@ export default {
 			throw err;
 		}
 	},
+	getComments: async (travel_id) => {
+		try {
+			return await comments.findAll({
+				where: { travel_id },
+			})
+		} catch (err) {
+			throw err;
+		}
+	},
 };

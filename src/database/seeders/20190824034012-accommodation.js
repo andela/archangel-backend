@@ -1,20 +1,20 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('accommodation', [{
+        return queryInterface.bulkInsert('accommodations', [{
                 id: 1653453,
                 travel_id: 1940438,
-                location: "Paris, France",
+                location: 'Paris, France',
                 capacity: 3,
-                accommodation_name: "Sheraton Protea",
+                accommodation_name: 'Sheraton Protea',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
             {
                 id: 13325578,
                 travel_id: 14376327,
-                location: "Toronto, Canada",
+                location: 'Toronto, Canada',
                 capacity: 1,
-                accommodation_name: "PAR Towers",
+                accommodation_name: 'PAR Towers',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
@@ -22,6 +22,6 @@ module.exports = {
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('accommodation', null, {});
+        return queryInterface.bulkDelete('accommodations', null, {});
     }
 };

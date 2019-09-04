@@ -12,6 +12,8 @@ const { findUserByEmail } = authServices;
 export default {
     validateSignup: [
         check('email')
+            .not().isEmpty()
+            .withMessage(message.noEmail)
             .isEmail()
             .withMessage(message.invalidEmail)
             .custom((email) => findUserByEmail(email)

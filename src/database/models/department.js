@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-    const department = sequelize.define('department', {
+    const departments = sequelize.define('departments', {
         dept_name: DataTypes.TEXT,
         line_manager: DataTypes.TEXT,
         manager_staff_id: DataTypes.STRING
-    }, { freezeTableName: true });
+    }, {});
 
-    return department;
+    return departments;
 };

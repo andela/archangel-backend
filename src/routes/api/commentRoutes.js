@@ -6,7 +6,7 @@ import userMiddlewares from '../../middlewares/userMiddlewares';
 import tokenMiddleware from '../../middlewares/tokenMiddleware';
 
 const route = Router();
-const { addComment } = commentControllers;
+const { addComment, getComments } = commentControllers;
 const { validateComment, validateResult } = commentValidation;
 const { confirmUserEmail } = userMiddlewares;
 const { getToken, verifyToken } = tokenMiddleware;
@@ -21,5 +21,7 @@ route.post(
 	validateResult,
 	addComment
 );
+
+route.get('/travel/:travel_id/comment', getToken, verifyToken, getComments);
 
 export default route;
