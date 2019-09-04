@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
 						foreignKey: 'dept_id'
 				});
 
-				users.hasMany(models.travel, {
+				users.hasMany(models.travel_request, {
 						foreignKey: 'user_id'
 				});
 		};
