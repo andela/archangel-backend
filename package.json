@@ -29,6 +29,7 @@
     "core-js": "^3.2.1",
     "cors": "^2.8.4",
     "coveralls": "^3.0.3",
+    "crypto-random-string": "^3.0.1",
     "debug": "^4.1.1",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
@@ -51,6 +52,7 @@
     "pg-hstore": "^2.3.3",
     "regenerator-runtime": "^0.13.3",
     "request": "^2.87.0",
+    "sendgrid": "^5.2.3",
     "sequelize": "^5.15.2",
     "sequelize-cli": "^5.5.0",
     "underscore": "^1.9.1"

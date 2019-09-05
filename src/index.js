@@ -50,15 +50,15 @@ passport.deserializeUser((user, cb) => {
 routes(prefix, app);
 // handles the api home route...
 app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
-
-
-// This is the point where the main API routes is served from...
-app.all(`${prefix}/`, (req, res) => {
-  response.successResponse(res, statusCode.success, message.welcome);
-});
-
 // serve the api endpoints built in routes folder
-routes(prefix, app);
+// app.use(routes);
+// app.use('/', router);
+
+
+
+app.get(`${prefix}/`, (req, res) => {
+    response.successResponse(res, statusCode.success, message.welcome);
+});
 
 const isProduction = process.env.NODE_ENV === 'production';
 

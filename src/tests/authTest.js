@@ -154,10 +154,10 @@ describe('Test for the Auth controller functions', () => {
 
 
 
-
 describe('Testing logout feature', () => {
    
     //This is the tests that will run for the user signin with username and password..
+
     describe('TEST USER LOGIN ROUTE', () => {
       var signinRoute = `${prefix}/auth/login`;
 
