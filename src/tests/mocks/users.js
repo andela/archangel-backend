@@ -1,0 +1,18 @@
+export default {
+    id: 1674946,
+    staff_id: 'ABD-111-8209',
+    first_name: 'Peter',
+    last_name: 'Chidi',
+    email: 'petchidi@yahoo.com',
+    password: 'every125',
+    dept_id: 15327458,
+    dob: '2019-08-09',
+    gender: 'Male',
+    address: 'Ok. This is my address',
+    preferred_lang: 'English',
+    preferred_currency: 'USD',
+    role: 'processed',
+    is_active: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+}
