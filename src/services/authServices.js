@@ -1,4 +1,4 @@
-import { compareSync } from 'bcrypt';
+import { compareSync } from 'bcryptjs';
 import cryto from 'crypto-random-string';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -30,6 +30,27 @@ export default {
         } catch (err) {
             throw err;
         }
+    },
+    findUserById: async (id) => {
+		try {
+			return await users
+				.findOne({
+					where: { id },
+				});
+		} catch (err) {
+			throw err;
+		}
+    },
+
+    updateUserById: async (hash,id) => {
+		try {
+			return await users
+				.findOne(hash,{
+					where: { id },
+				});
+		} catch (err) {
+			throw err;
+		}
     },
     /**
     *This function will get a user by email address...
