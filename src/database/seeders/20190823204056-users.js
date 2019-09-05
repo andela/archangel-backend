@@ -23,7 +23,7 @@ module.exports = {
                 staff_id: 'GHD-123-9004',
                 first_name: 'Ngozi',
                 last_name: 'Nancy',
-                email: 'nancngo@gmail.com',
+                email: 'bakaretemitayo7@gmail.com',
                 password: 'nanevery125',
                 dept_id: 1536907,
                 dob: '2015-08-09',

@@ -1,4 +1,4 @@
-import { hashSync, genSaltSync } from 'bcrypt';
+import { hashSync, genSaltSync } from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {
 		const salt = genSaltSync(10);
