@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const transporter = nodemailer.createTransport({
-  service:'Gmail',
+  service:'sendgrid',
+  host:'smtp.sendgrid.net',
   auth: {
     user: process.env.EMAIL_ADD,
     pass: process.env.EMAIL_PASS
