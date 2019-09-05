@@ -9,8 +9,8 @@ const { findUserByEmail } = authServices;
 
 export default {
 	confirmUserEmail: async (req, res, next) => {
-		const { email } = req.body;
-		if (email === null || email === undefined || email === '') {
+		const { email } = req.userData;
+		if (!email || !email.trim()) {
 			return errorResponse(res, statusCode.badRequest, message.emptyEmail);
 		}
 
@@ -22,7 +22,12 @@ export default {
 				message.unregisteredEmail(email)
 			);
 		}
-		req.body.full_name = `${user.first_name} ${user.last_name}`;
+
+		req.body = {
+			...req.body,
+			full_name: `${user.first_name} ${user.last_name}`,
+			email,
+		};
 		return next();
 	},
 };

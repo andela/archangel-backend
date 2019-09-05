@@ -31,7 +31,7 @@ export default {
 	 *@param {String} email - the user's email
 	 *@return {Promise} - response of sequelize
 	 */
-	findUserByEmail: email => users.findOne({ where: { email } }),
+	findUserByEmail: (email) => users.findOne({ where: { email } }),
 
 	/**
 	 *This function will compare the password supplied by the user with the one in the database...
@@ -39,8 +39,7 @@ export default {
 	 *@param {String} hashedPassword - the user's password in database
 	 *@return {boolean} - response of bcrypt hashing
 	 */
-	comparePassword: (password, hashedPassword) =>
-		compareSync(password, hashedPassword),
+	comparePassword: (password, hashedPassword) => compareSync(password, hashedPassword),
 
 	logoutService: async (token) => {
 		try {
