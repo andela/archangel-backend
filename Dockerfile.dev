@@ -1,0 +1,15 @@
+FROM node:alpine
+
+#set working directory
+WORKDIR '/var/www/app'
+
+#copy package.json to working dir to prevent reinstallation
+#of npm packages 
+COPY ./package.json ./
+
+#run package installations
+RUN npm install
+
+#copy the project into the working dir
+COPY . .
+

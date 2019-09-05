@@ -1,8 +1,10 @@
-import { compareSync } from 'bcrypt';
+import { compareSync } from 'bcryptjs';
+import cryto from 'crypto-random-string';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import models from '../database/models';
+import sendVerificationEmail from '../utils/email';
 
 const { users, blacklists } = models;
 
@@ -26,6 +28,15 @@ export default {
 			throw err;
 		}
 	},
+	updateUserById: async (hash, id) => {
+		try {
+			return await users.findOne(hash, {
+				where: { id },
+			});
+		} catch (err) {
+			throw err;
+		}
+	},
 	/**
 	 *This function will get a user by email address...
 	 *@param {String} email - the user's email
@@ -39,7 +50,8 @@ export default {
 	 *@param {String} hashedPassword - the user's password in database
 	 *@return {boolean} - response of bcrypt hashing
 	 */
-	comparePassword: (password, hashedPassword) => compareSync(password, hashedPassword),
+	comparePassword: (password, hashedPassword) =>
+		compareSync(password, hashedPassword),
 
 	logoutService: async (token) => {
 		try {

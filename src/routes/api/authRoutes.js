@@ -2,8 +2,11 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import authControllers from '../../controllers/authControllers';
+import resetPassword from '../../controllers/resetPassword';
 import authValidator from '../../validation/authValidation';
 import tokenMiddlewares from '../../middlewares/tokenMiddleware';
+
+const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 const route = Router();
 const {
@@ -14,11 +17,6 @@ const { getToken, verifyToken } = tokenMiddlewares;
 
 // handles the api home route...
 route.post('/auth/signup', validateSignup, validateResult, signup);
-
-// handles the sign in request by email and password..
-route.post('/auth/login', validateLogin, validateResult, login);
-
-route.post('/auth/logout', getToken, verifyToken, logout);
 
 // handles social media authentication
 route.get('/auth/signup/facebook', passport.authenticate('facebook'));
@@ -51,5 +49,9 @@ route.get('/requests', fbgooglesignup);
 route.post('/auth/login', validateLogin, validateResult, login);
 
 route.post('/auth/logout', getToken, verifyToken, logout);
+
+route.post('/forgot', sendPasswordResetEmail);
+
+route.post('/receive_new_password/:userId/:token', receiveNewPassword);
 
 export default route;

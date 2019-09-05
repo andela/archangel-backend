@@ -1,4 +1,5 @@
 import ApiErrors from '../utils/ApiErrors';
+import sendVerificationEmail from '../utils/email';
 
 import authServices from '../services/authServices';
 import tokenMiddleware from '../middlewares/tokenMiddleware';
@@ -21,15 +22,14 @@ export default {
 			const {
 				first_name, last_name, email, password,
 			} = req.body;
-			const userObj = {
+			const user = await signupService({
 				first_name,
 				last_name,
 				email,
 				password,
 				role: 'user',
-			};
-
-			const user = await signupService(userObj);
+			});
+			await sendVerificationEmail(user.dataValues.email);
 			const data = user.dataValues;
 
 			data.token = generateToken(data.id, email, data.role, first_name);
@@ -37,7 +37,7 @@ export default {
 			successResponseWithData(
 				res,
 				statusCode.created,
-				message.signupSuccess(email),
+				message.signupSuccess(req.email),
 				data
 			);
 		} catch (err) {

@@ -120,4 +120,4 @@ app.listen(PORT, () => {
 });
 
 // for testing
-module.exports = app;
+export default app;

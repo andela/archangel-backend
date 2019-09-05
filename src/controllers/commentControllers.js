@@ -12,22 +12,20 @@ export default {
 		try {
 			const { travel_id } = req.params;
 			const { email, full_name, comment } = req.body;
-
-			const commentObj = {
+			const commentData = await createComment({
 				travel_id: parseInt(travel_id, 10),
 				author_email: email,
 				author_name: full_name,
 				comment,
-			};
-			const commentData = await createComment(commentObj);
+			});
 
-			const data = commentData.dataValues;
+			const returnedData = commentData.dataValues;
 
 			successResponseWithData(
 				res,
 				statusCode.created,
 				message.successComment[0],
-				data
+				returnedData,
 			);
 		} catch (err) {
 			errorResponse(res, statusCode.serverError, err);

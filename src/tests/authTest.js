@@ -7,6 +7,9 @@ import message from '../utils/messageUtils';
 
 const prefix = '/api/v1';
 
+let passwordUserId;
+const passwordResetToken =	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU2NzUzNzkwNSwiZXhwIjoxNTY3NTQxNTA1fQ.nPMaVY0-y_FhF9eVroUIe08PXW9kqnmmqUvAcu8uD74';
+
 dotenv.config();
 
 chai.use(chaiHttp);
@@ -297,6 +300,54 @@ describe('Test for the Auth controller functions', () => {
 				.set('Authorization', `Bearer ${authToken}`)
 				.end((err, res) => {
 					expect(res.status).to.equal(200);
+					done();
+				});
+		});
+	});
+
+	describe('Send Password Reset', () => {
+		const testuser = {
+			first_name: 'Temi',
+			last_name: 'Bakar',
+			email: 'bakaretemitayo7@gmail.com',
+			password: 'testing321',
+		};
+		let email;
+		before((done) => {
+			chai
+				.request(app)
+				.post(`${prefix}/auth/signup`)
+				.send(testuser)
+				.end((err, res) => {
+					const { data } = res.body;
+					email = data.email;
+					passwordUserId = data.id;
+					done();
+				});
+		});
+
+		it('it should send token for resetting password', (done) => {
+			const user_email = { email };
+			chai
+				.request(app)
+				.post(`${prefix}/forgot`)
+				.send(user_email)
+				.end((err, res) => {
+					expect(res.status).to.equal(200);
+					expect(user_email).to.have.property('email');
+					done();
+				});
+		});
+
+		it('it should reset password via password reset link', (done) => {
+			const passwordResetData = { password: 'testpassword' };
+			chai
+				.request(app)
+				.post(`${prefix}/receive_new_password/${passwordUserId}/${passwordResetToken}`)
+				.send(passwordResetData)
+				.end((err, res) => {
+					expect(res.status).to.equal(202);
+					expect(passwordResetData).to.have.property('password');
 					done();
 				});
 		});
