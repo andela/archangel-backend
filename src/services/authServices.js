@@ -1,14 +1,20 @@
 import { compareSync } from 'bcrypt';
+import cryto from 'crypto-random-string';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
+import sendVerificationEmail from '../utils/email';
 
 const { users, blacklists } = models;
 
 export default {
     signupService: async (userObj) => {
         try {
-            return await users.create(userObj);
+            const userRes =  await users.create(userObj);
+            
+            return userRes;
+            
+            
         } catch (err) {
             throw err;
         }
