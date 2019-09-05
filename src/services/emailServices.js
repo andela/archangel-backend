@@ -24,7 +24,7 @@ const queryById = async (id) => {
     try{
     return await users.findOne({ where: { id } });
 }catch(err){
-    return err
+    throw err
 }   
 }
 
@@ -38,7 +38,7 @@ const updatePassword = async (hash, id) =>{
     try{
      return await users.update(hash, { where: { id } });
     }catch(err){
-        return err
+        throw err
     }
     }
 

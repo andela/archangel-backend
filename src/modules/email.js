@@ -1,18 +1,20 @@
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SENDGRID_API);
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const transporter = nodemailer.createTransport({
-  service:'gmail',
-  auth: {
-    user: process.env.EMAIL_ADD,
-    pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
-});
+
+export const transporter = async (msg,res) => {
+try{
+   await sgMail.send(msg);
+   return res.status(200).json({"message":"Mail sent successfully"})
+}catch(err){
+  return res.status(500).json({"Error sending email":err})
+}
+}
+
 
 
 export const usePasswordHashToMakeToken = ({

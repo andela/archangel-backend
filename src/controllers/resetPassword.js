@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs"
-import userServices from '../services/userServices';
+import emailServices from '../services/emailServices';
 import {
     transporter,
     getPasswordResetURL,
@@ -11,7 +11,7 @@ const {
   queryByEmail,
   queryById,
   updatePassword
-  } = userServices;
+  } = emailServices;
 
   /**
      * Send user reset password on the application
@@ -33,17 +33,8 @@ const {
   const token = usePasswordHashToMakeToken(user)
   const url = getPasswordResetURL(user, token)
   const emailTemplate = resetPasswordTemplate(user, url)
+  transporter(emailTemplate,res) 
   
-  const sendEmail = () => {
-    transporter.sendMail(emailTemplate, (err, info) => {
-      if (err) {
-       return res.status(500).json({"Error sending email":err})
-      }
-      
-      return res.status(200).json({"success":"Mail successfully sent to your inbox."})
-    })
-  }
-  sendEmail()
 }
 
 
