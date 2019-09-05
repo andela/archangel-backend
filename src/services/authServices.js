@@ -1,14 +1,20 @@
-import { compareSync } from 'bcrypt';
+import { compareSync } from 'bcryptjs';
+import cryto from 'crypto-random-string';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
+import sendVerificationEmail from '../utils/email';
 
 const { users, blacklists } = models;
 
 export default {
     signupService: async (userObj) => {
         try {
-            return await users.create(userObj);
+            const userRes =  await users.create(userObj);
+            
+            return userRes;
+            
+            
         } catch (err) {
             throw err;
         }
@@ -24,6 +30,27 @@ export default {
         } catch (err) {
             throw err;
         }
+    },
+    findUserById: async (id) => {
+		try {
+			return await users
+				.findOne({
+					where: { id },
+				});
+		} catch (err) {
+			throw err;
+		}
+    },
+
+    updateUserById: async (hash,id) => {
+		try {
+			return await users
+				.findOne(hash,{
+					where: { id },
+				});
+		} catch (err) {
+			throw err;
+		}
     },
     /**
     *This function will get a user by email address...
