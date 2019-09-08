@@ -51,3 +51,15 @@ export const showManagerPendingAppr = async (manager) => {
     throw err;
   }
 };
+
+export const showUsertravelsStatus = async (userId) => {
+  try {
+    return await travel_requests.findAll({
+      where: {
+        user_id: userId
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
