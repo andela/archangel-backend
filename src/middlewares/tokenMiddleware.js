@@ -17,13 +17,13 @@ export default {
         const payload = { id, email, role, first_name };
         const option = { expiresIn: '1d' }
             // Adding the string bearer to jwt object and get token string
-        return jwt.sign(payload, jwtSecret, option);
+        return `Bearer ${jwt.sign(payload, jwtSecret, option)}`;
     },
     getToken : (req,res,next) => {
         const bearerHeader = req.headers["authorization"];
-        if (typeof bearerHeader !== "undefined") {  
-            const berarer = bearerHeader.split(" "); 
-            const bearerToken = berarer[1]; 
+        if (typeof bearerHeader !== "undefined") {
+            const berarer = bearerHeader.split(" ");
+            const bearerToken = berarer[1];
             req.token = bearerToken;
             return next();
         } else {
@@ -37,7 +37,7 @@ export default {
             }else{
                 req.userData = data;
                 return next();
-            }; 
+            };
         });
     }
 };

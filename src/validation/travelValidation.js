@@ -1,9 +1,11 @@
 import { check, validationResult } from 'express-validator';
 
+import dateChecker from './dateValidator';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 import message from '../utils/messageUtils';
 
+const { currentDateValidator, futureDateValidator } = dateChecker;
 const { errorResponse } = response;
 
 const trip = 'return-trip';
@@ -11,6 +13,15 @@ const trip = 'return-trip';
 export default {
 
   validateReturnTrip: [
+    check('user_id')
+        .custom((trip, {req}) => {
+          const { body, userData} = req;
+          if (body.hasOwnProperty('user_id')) {
+            if (body.user_id != userData.id) {
+              throw new Error(message.invalidUserId)
+            }
+          }
+        }),
     check('travel_type')
         .not().isEmpty()
         .withMessage(message.emptyTravelType)
@@ -31,10 +42,12 @@ export default {
         .withMessage(message.lettersAlone),
     check('departure_date')
         .not().isEmpty()
-        .withMessage(message.emptyDepartureDate),
+        .withMessage(message.emptyDepartureDate)
+        .custom((trip, {req}) => currentDateValidator(req.body.departure_date)),
     check('return_date')
         .not().isEmpty()
-        .withMessage(message.emptyReturnDate),
+        .withMessage(message.emptyReturnDate)
+        .custom((trip, {req}) => futureDateValidator(req.body.return_date)),
     check('travel_purpose')
         .not().isEmpty()
         .withMessage(message.emptyTravelPurpose),

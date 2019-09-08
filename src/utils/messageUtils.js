@@ -4,6 +4,8 @@ export default {
         'Welcome to Barefoot Nomad server.',
         'use /api/v1 as the base path url for the APIs of this app.',
     ],
+    dateForFuture: 'Please enter a date greater than the departure date for return date.',
+    dateForToday: 'Please enter the correct date of today.',
     welcome: 'Welcome to Archangel Barefoot Nomad Web App API.',
     signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
 
@@ -21,6 +23,7 @@ export default {
     emptyReturnDate: 'You must state your return date.',
     emptyTravelPurpose: 'You must state your travel purpose.',
     emptyTravelType: 'Sorry, travel type can not be empty.',
+    invalidUserId:'Sorry you can only create the request with the id of the logged in user.',
     invalidTravelType: 'Sorry you can only make return trip request here.',
     lettersAlone: 'Only letters are allowed',
     unauthorized: 'Not authorized.',

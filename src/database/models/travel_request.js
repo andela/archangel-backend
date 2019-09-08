@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     departure_date: {
       type: DataTypes.DATE,
       allowNull: false,
-      validate: {
-          msg: 'Please provide the date of your departure'
-      }
+      // validate: {
+      //     msg: {'Please provide the date of your departure'}
+      // }
     },
     return_date: {
       type: DataTypes.DATE,

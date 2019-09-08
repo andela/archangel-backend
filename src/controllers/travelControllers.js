@@ -9,13 +9,10 @@ const { successResponseWithData, errorResponse } = response;
 export default {
   createReturnTrip: async (req, res) => {
     try {
-      const { travel_type, origin, destination, departure_date, return_date,
-              travel_purpose, accommodation_id, multi_city } = req.body;
-
+console.log('i am hsdsd');
       var user_id = req.userData.id;
 
-      const travelRequestData = { user_id, travel_type, origin, destination, departure_date, return_date,
-              travel_purpose, accommodation_id, multi_city};
+      const travelRequestData = { user_id, ...req.body};
 
       const data = await returnTripService(travelRequestData);
 
@@ -23,6 +20,7 @@ export default {
     }
     catch (err) {
         errorResponse(res, err.statusCode || statusCode.serverError, err);
+        console.log(err);
     }
   }
 }
