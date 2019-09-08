@@ -42,6 +42,12 @@ module.exports = {
             },
             dept_id: {
                 type: Sequelize.INTEGER,
+                references: {
+                    model: {
+                      tableName: 'departments',
+                    },
+                    key: 'id'
+                  }
             },
             dob: {
                 type: Sequelize.DATE,

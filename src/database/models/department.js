@@ -5,5 +5,11 @@ module.exports = (sequelize, DataTypes) => {
         manager_staff_id: DataTypes.STRING
     }, {});
 
+    departments.associate = (models) => {
+        departments.hasMany(models.users, {
+          foreignKey: 'dept_id',
+        });
+      };
+
     return departments;
 };

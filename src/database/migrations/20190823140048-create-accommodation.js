@@ -7,9 +7,6 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            travel_id: {
-                type: Sequelize.INTEGER
-            },
             location: {
                 type: Sequelize.TEXT
             },

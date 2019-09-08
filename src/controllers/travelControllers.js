@@ -24,7 +24,7 @@ export default {
         }
     },
 
-    reqPendingMgrApproval: async(req, res) => {
+    pendingManagerApproval: async(req, res) => {
         const { role, id } = req.userData;
 
         if (role == 'user') {
@@ -36,7 +36,7 @@ export default {
 
             const manager = `${managerData.first_name} ${managerData.last_name}`;
 
-            const data = await showMgrPendingAppr(manager);
+            const data = await showManagerPendingAppr(manager);
 
             successResponseWithData(res, statusCode.success, message.managerApproval, data);
         } catch (err) {

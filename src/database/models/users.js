@@ -1,6 +1,6 @@
 import { hashSync, genSaltSync } from 'bcrypt';
 
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
 		const salt = genSaltSync(10);
 		const users = sequelize.define('users', {
 				staff_id: DataTypes.STRING,
@@ -20,10 +20,10 @@ export default (sequelize, DataTypes) => {
 
         users.associate = (models) => {
             users.belongsTo(models.departments, {
-                foreignKey: 'dept_id'
-            });
+				foreignKey: 'dept_id'
+			});
 
-            users.hasMany(models.travels, {
+            users.hasMany(models.travel_requests, {
                 foreignKey: 'user_id'
             });
         };

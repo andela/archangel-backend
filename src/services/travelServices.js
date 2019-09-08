@@ -14,9 +14,9 @@ export default {
         }
     },
 
-    showMgrPendingAppr: async(manager) => {
+    showManagerPendingAppr: async(manager) => {
         try {
-            return await travels.findAll({
+            return await travel_requests.findAll({
                 where: {
                     approval_status : 'pending'
                 },
