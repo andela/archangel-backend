@@ -39,5 +39,4 @@ export default {
       catch (err) {
           errorResponse(res, err.statusCode || statusCode.serverError, err);
       }
-    }
 };

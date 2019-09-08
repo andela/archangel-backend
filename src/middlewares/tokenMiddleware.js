@@ -14,12 +14,10 @@ const jwtSecret = process.env.JWT_SECRET;
 // This function generates a token
 export default {
     generateToken: (id, email, role, first_name) => {
-        const payload = {
- id, email, role, first_name
-};
+        const payload = { id, email, role, first_name };
         const option = { expiresIn: '1d' };
             // Adding the string bearer to jwt object and get token string
-        return jwt.sign(payload, jwtSecret, option);
+        return `Bearer ${jwt.sign(payload, jwtSecret, option)}`;
     },
     getToken: (req, res, next) => {
         const bearerHeader = req.headers.authorization;
@@ -38,6 +36,6 @@ export default {
             }
                 req.userData = data;
                 return next();
-        });
+          });
     }
-};
+  };
