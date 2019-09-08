@@ -134,6 +134,16 @@ server.listen(PORT, () => {
     debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
+// Creating the client connection of Socket.io
+io.on('connection', (client) => {
+    logger(`A client connected ${client.id}`);
+    client.emit('confirmation', 'We are successfully connected');
+
+    client.on('disconnect', () => {
+        logger(`A user connected ${client.id}`);
+    });
+});
+
 // for testing
 module.exports = server;
 // module.exports = app;

@@ -8,7 +8,7 @@ const notifyRoutes = express.Router();
 
 const { verifyToken } = authUtils;
 
-const trip = (io = null) => {
+const trip = (io) => {
     const notify = new notifyControllers(io);
     const { createNewTravel, getManagerTravel } = notify;
 
