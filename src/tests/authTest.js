@@ -329,7 +329,7 @@ describe('Send Password Reset', () => {
     const testuser = {
         first_name: 'Temi',
         last_name: 'Bakar',
-        email: 'bakaretemitayo7@gmail.com',
+        email: 'bakaretemitayo@gmail.com',
         password: 'testing321',
     };
     let email;
@@ -339,7 +339,6 @@ describe('Send Password Reset', () => {
         .post(`${prefix}/auth/signup`)
         .send(testuser)
         .end((err, res) => {
-            
             const { data } = res.body;
             email = data.email;
             passwordUserId = data.id
