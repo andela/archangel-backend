@@ -10,6 +10,6 @@ const { validateTravelRequest, validateResult, getDestinationCount } = travelVal
 const { getToken, verifyToken } = authUtils;
 
 // handles the api home route...
-route.post('/onewaytrip', getToken, verifyToken, validateTravelRequest, validateResult, getDestinationCount, createOneWayTrip);
+route.post('/onewaytrip', getToken, verifyToken, validateTravelRequest, validateResult,  createOneWayTrip);
 
 export default route;
