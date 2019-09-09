@@ -13,7 +13,6 @@ dotenv.config();
 chai.use(chaiHttp);
 
 let token;
-const fakeToken = 'ndndddsbdhdddhdhdh';
 
 describe('Testing one way ticket feature', () => {
     const user = {

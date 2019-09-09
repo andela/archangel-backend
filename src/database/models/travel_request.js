@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 module.exports = (sequelize, DataTypes) => {
   const travel_request = sequelize.define('travel_requests', {
     user_id: DataTypes.INTEGER,

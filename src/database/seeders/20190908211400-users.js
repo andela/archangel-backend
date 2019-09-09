@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-dynamic-require */
 module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.bulkInsert('users', [{
@@ -38,7 +40,5 @@ module.exports = {
           },
       ], {});
   },
-      down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('users', null, {});
-    }
+      down: (queryInterface, Sequelize) => queryInterface.bulkDelete('users', null, {})
   };

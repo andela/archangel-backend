@@ -1,3 +1,5 @@
+/* eslint-disable import/no-dynamic-require */
+
 module.exports = {
     up: (queryInterface, Sequelize) => {
         return queryInterface.createTable('users', {
@@ -80,7 +82,6 @@ module.exports = {
             }
         });
     },
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('users');
-    }
+    // eslint-disable-next-line no-unused-vars
+    down: (queryInterface, Sequelize) => queryInterface.dropTable('users')
 };

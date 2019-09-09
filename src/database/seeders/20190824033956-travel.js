@@ -1,4 +1,6 @@
+/* eslint-disable import/no-dynamic-require */
 module.exports = {
+    // eslint-disable-next-line no-unused-vars
     up: (queryInterface, Sequelize) => {
         return queryInterface.bulkInsert('travels', [{
                 id: 1898451,
@@ -24,8 +26,6 @@ module.exports = {
             },
         ], {});
     },
-
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('travels', null, {});
-    }
+    // eslint-disable-next-line no-unused-vars
+    down: (queryInterface, Sequelize) => queryInterface.bulkDelete('travels', null, {})
 };
