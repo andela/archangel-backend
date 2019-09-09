@@ -3,7 +3,7 @@ import 'regenerator-runtime/runtime';
 import models from '../database/models';
 import { async } from 'regenerator-runtime/runtime';
 
-const { travels, departments, users } = models;
+const { travels, travel_requests, departments, users } = models;
 
 export default {
     onewayTripService: async (travelObj) => {
@@ -21,16 +21,19 @@ export default {
                     approval_status : 'pending'
                 },
                 include: [
-                    {model: users,
-                        attributes: ['first_name', 'last_name'], include: [
-                        {model: departments,
-                            attributes: ['dept_name', 'line_manager'],
-                            where: {
-                                line_manager: manager
-                            }
-                        }
-                     ]}
-                ]
+                   {model: users,
+                        attributes: ['first_name', 'last_name'], 
+                        include: [
+                            {model: departments,
+                                attributes: ['dept_name', 'line_manager'],
+                                where: {
+                                    line_manager : manager
+                                }
+                            } 
+                        ]
+                    }
+                ],
+                raw: true
             });
         } catch(err) {
             throw err;

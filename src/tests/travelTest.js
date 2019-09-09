@@ -155,3 +155,30 @@ describe('Testing one way ticket feature', () => {
         });
     });
 });
+
+// Avail request for approval
+const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoiaWtlaUB5aWxkLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0X25hbWUiOiJmaWciLCJpYXQiOjE1Njc5OTEyODYsImV4cCI6MTU2ODA3NzY4Nn0.M4k4QLLX7e-JM39wF6lV4VXtKVyvva5f63Z6s4q0eBk';
+
+describe('Testing Avail request for approval', () => {
+    it('should successfully return manager pending requests', (done) => {
+        chai
+            .request(app)
+            .get(`${prefix}/requests/pending/Mr. Benchfort`)
+            .set('Authorization', `Bearer ${adminToken}`)
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+
+    it('should return an error if requester does not have admin privileges', (done) => {
+        chai
+        .request(app)
+        .get(`${prefix}/requests/pending/Mr. Benchfort`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+            expect(res).to.have.status(401);
+            done();
+        });
+    });
+});

@@ -1,14 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
   const travel_request = sequelize.define('travel_requests', {
     user_id: DataTypes.INTEGER,
-    travel_type: DataTypes.ENUM,
+    travel_type: {
+      type: DataTypes.ENUM,
+      values: ['one-way', 'return']
+    },
     origin: DataTypes.TEXT,
     destination: DataTypes.TEXT,
     departure_date: DataTypes.DATE,
     return_date: DataTypes.DATE,
     travel_purpose: DataTypes.TEXT,
     accommodation_id: DataTypes.INTEGER,
-    approval_status: DataTypes.ENUM,
+    approval_status: {
+        type: DataTypes.ENUM,
+        values: ['accepted', 'pending', 'rejected'],
+        defaultValue: 'pending'
+    },
     multi_city: DataTypes.BOOLEAN
   }, {});
   travel_request.associate = (models) => {

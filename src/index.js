@@ -24,7 +24,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const prefix = '/api/v1';
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -46,6 +45,8 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
+
+
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 // handles the api home route...
@@ -57,7 +58,7 @@ app.all(`${prefix}/`, (req, res) => {
 });
 
 // serve the api endpoints built in routes folder
-routes(prefix, app);
+// routes(prefix, app);
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -122,3 +123,4 @@ app.listen(PORT, () => {
 
 // for testing
 module.exports = app;
+

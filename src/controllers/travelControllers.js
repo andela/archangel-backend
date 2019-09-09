@@ -1,12 +1,10 @@
 import travelServices from '../services/travelServices';
-import authServices from '../services/authServices';
 import message from '../utils/messageUtils';
 import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
-const { onewayTripService, showMgrPendingAppr } = travelServices;
+const { onewayTripService, showManagerPendingAppr } = travelServices;
 const { successResponseWithData, errorResponse } = response;
-const { findUserById } = authServices;
 
 export default {
     createOneWayTrip: async(req, res) => {
@@ -25,20 +23,22 @@ export default {
     },
 
     pendingManagerApproval: async(req, res) => {
-        const { role, id } = req.userData;
+        const { role } = req.userData;
+
+        const { manager } = req.params;
 
         if (role == 'user') {
             errorResponse(res, statusCode.unauthorized, message.unauthorized);
         }
 
         try {
-            const managerData = await findUserById(id);
+            const requestsPending = await showManagerPendingAppr(manager);
 
-            const manager = `${managerData.first_name} ${managerData.last_name}`;
+            const filteredRequests = requestsPending.filter(request => request["user.department.line_manager"] !== null);
 
-            const data = await showManagerPendingAppr(manager);
+            const requestNumbers = filteredRequests.length;
 
-            successResponseWithData(res, statusCode.success, message.managerApproval, data);
+            successResponseWithData(res, statusCode.success, message.managerApproval(requestNumbers), filteredRequests);
         } catch (err) {
             errorResponse(res, statusCode.serverError, err);
         }

@@ -7,7 +7,8 @@ export default {
     welcome: 'Welcome to Archangel Barefoot Nomad Web App API.',
     signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
     oneWayTripCreated: 'Your request has been successfully created',
-    managerApproval: 'These request(s) require your approval',
+    managerApproval:(pendingReq)=> `You have ${pendingReq} requests requiring your approval`,
+    managerNotFound: "Manager's detail missing",
     noEmail: 'Email cannot be empty.',
     // sign-up validation messages
     invalidEmail: 'Please, enter a valid email address.',
