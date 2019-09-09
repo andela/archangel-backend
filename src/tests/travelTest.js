@@ -157,9 +157,30 @@ describe('Testing one way ticket feature', () => {
 });
 
 // Avail request for approval
-const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoiaWtlaUB5aWxkLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0X25hbWUiOiJmaWciLCJpYXQiOjE1Njc5OTEyODYsImV4cCI6MTU2ODA3NzY4Nn0.M4k4QLLX7e-JM39wF6lV4VXtKVyvva5f63Z6s4q0eBk';
+let adminToken;
 
 describe('Testing Avail request for approval', () => {
+    const adminUser = {
+        first_name: 'firstname',
+        last_name: 'mylastnamep',
+        email: 'mygmailisj@gmail.com',
+        password: 'protected123pass',
+        role: 'admin'
+    };
+
+    it('should successfully create an admin user', (done) => {
+        chai
+            .request(app)
+            .post(`${prefix}/auth/signup`)
+            .send(adminUser)
+            .end((err, res) => {
+                expect(res).to.have.status(201);
+                const { data } = res.body;
+                adminToken = data.token;
+                done();
+            });
+    });
+
     it('should successfully return manager pending requests', (done) => {
         chai
             .request(app)

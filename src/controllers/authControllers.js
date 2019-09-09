@@ -15,7 +15,10 @@ export default {
     signup: async(req, res) => {
         try {
             const { first_name, last_name, email, password } = req.body;
-            const userObj = { first_name, last_name, email, password, role: 'user' };
+
+            const userObj = { first_name, last_name, email, password };
+
+            userObj.role = req.body.role || 'user';
 
             const user = await signupService(userObj);
             const data = user.dataValues;
