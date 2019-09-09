@@ -14,6 +14,17 @@ export default {
         }
     },
 
+    findTravelById: async (id) => {
+		try {
+			return await travels.findOne({
+				attributes: ['id'],
+				where: { id },
+			});
+		} catch (err) {
+			throw err;
+		}
+	},
+
     showManagerPendingAppr: async(manager) => {
         try {
             return await travel_requests.findAll({

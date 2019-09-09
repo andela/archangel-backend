@@ -8,8 +8,8 @@ const { signupService, findUserById } = authServices;
 dotenv.config()
 
 const fbStrategy = new FacebookStrategy({
-  clientID: process.env.FACEBOOK_CLIENT_ID,
-  clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+  clientID: '521471335085949',
+  clientSecret: 'c2c3ecee71b0c551da16ab1e583bd4f9',
   callbackURL: process.env.FACEBOOK_CALLBACK_URL,
 },
 
@@ -43,8 +43,8 @@ async (accessToken, refreshToken, profile, cb) => {
 });
 
 const googleStrategy = new Strategy({
-  clientID: process.env.GOOGLE_CONSUMER_KEY,
-  clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
+  clientID: '1067398423034-4v8un608vocv9fq87h6gr9gigh6v640d.apps.googleusercontent.com',
+  clientSecret: 'OfhuKVyTG5Ug8N4RSkMfh3HN',
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
 },
 

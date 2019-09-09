@@ -161,9 +161,9 @@ let adminToken;
 
 describe('Testing Avail request for approval', () => {
     const adminUser = {
-        first_name: 'firstname',
-        last_name: 'mylastnamep',
-        email: 'mygmailisj@gmail.com',
+        first_name: 'firstoname',
+        last_name: 'mylastnoamep',
+        email: 'mygmailisj@gomail.com',
         password: 'protected123pass',
         role: 'admin'
     };

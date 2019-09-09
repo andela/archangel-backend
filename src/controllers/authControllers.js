@@ -1,4 +1,6 @@
 import ApiErrors from '../utils/ApiErrors';
+import sendVerificationEmail from '../utils/email';
+
 
 import authServices from '../services/authServices';
 import tokenMiddleware from '../middlewares/tokenMiddleware';
@@ -21,12 +23,13 @@ export default {
             userObj.role = req.body.role || 'user';
 
             const user = await signupService(userObj);
+            const emailVerify = await sendVerificationEmail(user.dataValues.email);
             const data = user.dataValues;
 
             data.token = generateToken(data.id, email, data.role, first_name);
             delete data.password;
-            successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
-        } catch (err) {
+            successResponseWithData(res, statusCode.created, message.signupSuccess(req.email), data);
+          } catch (err) {
             errorResponse(res, err.statusCode || statusCode.serverError, err);
         }
     },
@@ -77,5 +80,5 @@ export default {
      } catch (err) {
        errorResponse(res, statusCode.serverError, err.message);
      }
-   }
+   },
 };
