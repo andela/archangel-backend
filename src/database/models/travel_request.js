@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     travel_purpose: DataTypes.TEXT,
     accommodation_id: DataTypes.INTEGER,
     approval_status: {
-        type: DataTypes.ENUM,
-        values: ['accepted', 'pending', 'rejected'],
-        defaultValue: 'pending'
+      type: DataTypes.ENUM,
+      values: ['accepted', 'pending', 'rejected'],
+      defaultValue: 'pending'
     },
     multi_city: DataTypes.BOOLEAN
   }, {});
@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
 
     travel_request.belongsTo(models.accommodations, {
       foreignKey: 'accommodation_id',
+      onDelete: 'CASCADE'
+    });
+
+    travel_request.hasMany(models.comments, {
+      foreignKey: 'travel_id',
       onDelete: 'CASCADE'
     });
   };

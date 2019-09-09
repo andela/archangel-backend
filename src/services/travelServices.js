@@ -4,13 +4,13 @@ import 'regenerator-runtime/runtime';
 import models from '../database/models';
 
 const {
-  travels, travel_requests, departments, users
+  travel_requests, departments, users
 } = models;
 
 export default {
   onewayTripService: async (travelObj) => {
     try {
-      return await travels.create(travelObj);
+      return await travel_requests.create(travelObj);
     } catch (err) {
       throw err;
     }
@@ -18,7 +18,7 @@ export default {
 
   findTravelById: async (id) => {
     try {
-      return await travels.findOne({
+      return await travel_requests.findOne({
         attributes: ['id'],
         where: { id },
       });

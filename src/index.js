@@ -1,8 +1,6 @@
 import express from 'express';
-import bodyparser from 'body-parser';
 import session from 'express-session';
 import passport from 'passport';
-import errorhandler from 'errorhandler';
 import dotenv from 'dotenv';
 import logger from 'morgan';
 import debug from 'debug';
@@ -57,7 +55,7 @@ app.all('/', (req, res) => response.successResponse(res, statusCode.success, mes
 
 
 app.get(`${prefix}/`, (req, res) => {
-    response.successResponse(res, statusCode.success, message.welcome);
+  response.successResponse(res, statusCode.success, message.welcome);
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -89,36 +87,36 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (!isProduction) {
-    app.use((err, req, res, next) => {
-        debugLog(`Error Stack: ${err.stack}`);
+  app.use((err, req, res, next) => {
+    debugLog(`Error Stack: ${err.stack}`);
 
-        res.status(err.status || 500);
+    res.status(err.status || 500);
 
-        res.json({
-            errors: {
-                message: err.message,
-                error: err,
-            },
-        });
-        next();
+    res.json({
+      errors: {
+        message: err.message,
+        error: err,
+      },
     });
+    next();
+  });
 }
 
 // production error handler
 // no stack-traces leaked to user
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({
-        errors: {
-            message: err.message,
-            error: {},
-        },
-    });
-    next();
-}); 
+  res.status(err.status || 500);
+  res.json({
+    errors: {
+      message: err.message,
+      error: {},
+    },
+  });
+  next();
+});
 
 app.listen(PORT, () => {
-    debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
+  debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
 // for testing
