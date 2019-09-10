@@ -7,11 +7,18 @@ import message from '../utils/messageUtils';
 import app from '../index';
 
 const prefix = '/api/v1';
+<<<<<<< HEAD
+=======
+const returnTripRoute = `${prefix}/travel/returntrip`;
+const { user } = userData;
+const { returnTripTestData } = travelData;
+>>>>>>> ft(return-trip-request): implement the function for a user to be able to create a return trip
 
 dotenv.config();
 
 chai.use(chaiHttp);
 
+<<<<<<< HEAD
 let token;
 const fakeToken = 'ndndddsbdhdddhdhdh';
 
@@ -42,6 +49,71 @@ describe('Testing one way ticket feature', () => {
                 token = data.token;
                 done();
             });
+=======
+    it('should authenticate a user with a valid email and password', (done) => {
+      chai
+      .request(app)
+      .post(`${prefix}/auth/login`)
+      .send(user)
+      .end((err, res) => {
+        const { body, status } = res;
+        expect(body.data).to.not.eql(null);
+        expect(status).to.be.eql(200);
+        token = body.data.token;
+        done(err);
+      });
+    });
+
+    it('Should throw an error if the request body user_id is different from the logged in user', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.user_id = 10;
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(401);
+            expect(body.error).to
+            .include(message.invalidUserId);
+            done(err);
+          });
+    });
+
+    it('Should throw an error if the request body travel_type is empty or not return-trip', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.travel_type = '';
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .include(message.emptyTravelType);
+            done(err);
+          });
+    });
+
+    it('Should throw an error if the request body origin is empty', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.origin = '';
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .include(message.emptyOrigin);
+            done(err);
+          });
+>>>>>>> ft(return-trip-request): implement the function for a user to be able to create a return trip
     });
 
     it('should successfully create a one way trip', (done) => {
@@ -65,6 +137,7 @@ describe('Testing one way ticket feature', () => {
             done();
         });
     });
+<<<<<<< HEAD
     it('should return an error if origin is empty', (done) => {
 		const mutatedtravelRequest = Object.assign({}, travelRequest);
 		mutatedtravelRequest.origin = '';
@@ -79,6 +152,41 @@ describe('Testing one way ticket feature', () => {
             .equal(message.emptyOrigin);
             done();
         });
+=======
+
+    it('Should throw an error if the request body departure_date is not the ISO standard', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.departure_date = '2010-1-02';
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .include(message.isNotISODate);
+            done(err);
+          });
+    });
+
+    it('Should throw an error if the request body departure_date is a past date', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.departure_date = '2010-01-02';
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .equal(message.dateForToday);
+            done(err);
+          });
+>>>>>>> ft(return-trip-request): implement the function for a user to be able to create a return trip
     });
     it('should return an error message if origin contains integers', (done) => {
         const mutatedtravelRequest = Object.assign({}, travelRequest);
@@ -94,6 +202,7 @@ describe('Testing one way ticket feature', () => {
             done();
         });
     });
+<<<<<<< HEAD
     it('should return an error message if the destination is empty', (done) => {
 		const mutatedtravelRequest = Object.assign({}, travelRequest);
 		mutatedtravelRequest.destination = '';
@@ -108,6 +217,41 @@ describe('Testing one way ticket feature', () => {
             .equal(message.emptyDestination);
             done();
         });
+=======
+
+    it('Should throw an error if the request body return_date is not the ISO standard', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.return_date = '2010-1-02';
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .include(message.isNotISODate);
+            done(err);
+          });
+    });
+
+    it('Should throw an error if the request body return_date is equal to or less than departure_date', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.return_date = returnTripTestData.departure_date;
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .equal(message.dateForFuture);
+            done(err);
+          });
+>>>>>>> ft(return-trip-request): implement the function for a user to be able to create a return trip
     });
     it('should return an error message if the destination contains integers', (done) => {
 		const mutatedtravelRequest = Object.assign({}, travelRequest);
@@ -124,6 +268,7 @@ describe('Testing one way ticket feature', () => {
             done();
         });
     });
+<<<<<<< HEAD
     it('should return an error message if the departure date is empty', (done) => {
 		const mutatedtravelRequest = Object.assign({}, travelRequest);
 		mutatedtravelRequest.departure_date = '';
@@ -154,4 +299,43 @@ describe('Testing one way ticket feature', () => {
             done();
         });
     });
+=======
+
+    it('Should throw an error if the request body accommodation_id is empty', (done) =>{
+      let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
+      mutatedReturnTripTestData.accommodation_id = null;
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+            .include(message.emptyAccommodation);
+            done(err);
+
+          });
+    });
+
+    it('Should create a new return trip request', (done) =>{
+      chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(returnTripTestData)
+          .end((err, res) => {
+            const { body, status} = res;
+            expect(status).to.equal(201);
+            expect(body.message).to
+            .equal(message.returnTripCreated);
+            done(err);
+          });
+    });
+
+
+
+  });
+>>>>>>> ft(return-trip-request): implement the function for a user to be able to create a return trip
 });

@@ -1,6 +1,6 @@
 
 export default {
-  userTestModel: {
+  user: {
     first_name: 'Emma',
     last_name: 'Korede',
     email: 'emma.k@yahoo.com',

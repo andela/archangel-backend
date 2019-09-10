@@ -5,11 +5,10 @@ module.exports = (sequelize, DataTypes) => {
         accommodation_name: DataTypes.TEXT
     }, {});
 
-    accommodation.associate = (models) => {
-        accommodation.hasOne(models.travels, {
-            foreignKey: 'travel_id',
-            onDelete: 'CASCADE'
-        });
-    };
+    accommodation.associate = function (models) {
+      accommodation.hasMany(models.travel_request, {
+        foreignKey: 'accommodation_id',
+      })
+    }
     return accommodation;
 };

@@ -4,8 +4,10 @@ import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 
 import app from '../index';
+import userData from './mockData/userData';
 
 const prefix = '/api/v1';
+const {user} = userData;
 
 let passwordUserId;
 const passwordResetToken ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU2NzUzNzkwNSwiZXhwIjoxNTY3NTQxNTA1fQ.nPMaVY0-y_FhF9eVroUIe08PXW9kqnmmqUvAcu8uD74'
@@ -22,16 +24,16 @@ describe('Test for the Auth controller functions', () => {
         email: 'emma.k@yahoo.com',
         password: 'testing123',
     };
-    
+
     it('should successfully sign up a user', (done) => {
         chai
             .request(app)
             .post(`${prefix}/auth/signup`)
             .send(user)
             .end((err, res) => {
-               
+
                 const { data } = res.body;
-               
+
                 expect(res).to.have.status(201);
                 expect(data).to.include({
                     first_name: 'Emma',
@@ -43,9 +45,6 @@ describe('Test for the Auth controller functions', () => {
 
 
     });
-
-
-            
 
     it('should return an error message if the email is empty', (done) => {
 		const mutatedUser = Object.assign({}, user);
@@ -148,14 +147,8 @@ describe('Test for the Auth controller functions', () => {
     });
 });
 
-
-
-
-
-
-
 describe('Testing logout feature', () => {
-   
+
     //This is the tests that will run for the user signin with username and password..
 
     describe('TEST USER LOGIN ROUTE', () => {
@@ -306,7 +299,7 @@ describe('Testing logout feature', () => {
       it('should return an error if the token is invalid', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
-        .set("Authorization", "Bearer hjgvju")
+        .set("Authorization", "hjgvju")
         .end((err, res) => {
           expect(res.status).to.equal(401);
           done();
@@ -315,7 +308,7 @@ describe('Testing logout feature', () => {
       it('should successfully logout a user', (done) => {
         chai.request(app)
         .post(`${prefix}/auth/logout`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `${token}`)
         .end((err, res) => {
           expect(res.status).to.equal(200);
           done();
@@ -352,7 +345,7 @@ describe('Send Password Reset', () => {
         .post(`${prefix}/forgot`)
         .send(user_email)
         .end((err, res) => {
-            
+
             expect(res.status).to.equal(200);
             expect(user_email).to.have.property('email');
             done();

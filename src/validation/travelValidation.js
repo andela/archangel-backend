@@ -5,7 +5,7 @@ import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 import message from '../utils/messageUtils';
 
-const { currentDateValidator, futureDateValidator } = dateChecker;
+const { departureDateValidator, futureDateValidator } = dateChecker;
 const { errorResponse } = response;
 
 export default {
@@ -23,20 +23,11 @@ export default {
     ],
 
   validateReturnTrip: [
-    check('user_id')
-        .custom((trip, {req}) => {
-          const { body, userData} = req;
-          if (body.hasOwnProperty('user_id')) {
-            if (body.user_id != userData.id) {
-              throw new Error(message.invalidUserId)
-            }
-          }
-        }),
     check('travel_type')
         .not().isEmpty()
         .withMessage(message.emptyTravelType)
-        .custom((trip, {req}) => {
-          if (req.body.travel_type != trip) {
+        .not().custom( value => {
+          if (value !== 'return') {
             throw new Error(message.invalidTravelType)
           }
         }),
@@ -53,11 +44,15 @@ export default {
     check('departure_date')
         .not().isEmpty()
         .withMessage(message.emptyDepartureDate)
-        .custom((trip, {req}) => currentDateValidator(req.body.departure_date)),
+        .isISO8601()
+        .withMessage(message.isNotISODate)
+        .bail(),
     check('return_date')
         .not().isEmpty()
         .withMessage(message.emptyReturnDate)
-        .custom((trip, {req}) => futureDateValidator(req.body.return_date)),
+        .isISO8601()
+        .withMessage(message.isNotISODate)
+        .bail(),
     check('travel_purpose')
         .not().isEmpty()
         .withMessage(message.emptyTravelPurpose),

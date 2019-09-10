@@ -5,7 +5,7 @@ export default {
 		'use /api/v1 as the base path url for the APIs of this app.',
 	],
 	dateForFuture: 'Please enter a date greater than the departure date for return date.',
-	dateForToday: 'Please enter the correct date of today.',
+	dateForToday: 'Please enter the current or later date for departure date.',
 	welcome: 'Welcome to Archangel Barefoot Nomad Web App API.',
 
 	// sign-up validation messages
@@ -21,6 +21,7 @@ export default {
 	emptyTravelPurpose: 'You must state your travel purpose',
 	emptyTravelType: 'Sorry, travel type can not be empty.',
 	isNotInteger: 'You must enter a valid integer type.',
+	isNotISODate: 'Your date must be of ISO8601 standard "2019-01-10".',
 	invalidEmail: 'Please, enter a valid email address.',
 	invalidToken: 'Invalid Token, please login.',
 	invalidTravelType: 'Sorry you can only make return trip request here.',

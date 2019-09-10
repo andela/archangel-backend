@@ -5,20 +5,25 @@ import statusCode from '../utils/statusCode';
 import dateUtils from '../utils/dateUtils';
 
 const { isDateValid, getTodayDate } = dateUtils;
+const { errorResponse } = response;
 
 export default{
 
-  currentDateValidator: (current_date) => {
+  departureDateValidator: (req, res, next) => {
       var todayDate = getTodayDate();
-      if (!(isDateValid(current_date) && (todayDate == current_date))) {
-          throw new Error(message.dateForToday);
-        }
+      const { departure_date} = req.body;
+      if (new Date(todayDate) > new Date(departure_date) ) {
+          return errorResponse(res, statusCode.badRequest, message.dateForToday);
+      }
+      return next();
   },
 
-  futureDateValidator: (future_date) => {
-      var todayDate = getTodayDate();
-      if (!(isDateValid(future_date) && (future_date <= todayDate))) {
-        throw new Error(message.dateForFuture);
+  futureDateValidator: (req, res, next) => {
+    const {departure_date, return_date} = req.body;
+    if (new Date(return_date) <= new Date(departure_date)) {
+        return errorResponse(res, statusCode.badRequest, message.dateForFuture);
       }
-  },
+      return next();
+  }
+
 }
