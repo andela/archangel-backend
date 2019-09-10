@@ -1,10 +1,11 @@
-import travelServices from '../services/travelServices';
-import message from '../utils/messageUtils';
-import response from '../utils/response';
-import statusCode from '../utils/statusCode';
+import {
+  onewayTripService,
+  showManagerPendingAppr,
+} from '../services/travelServices';
+import { successResponseWithData, errorResponse } from '../utils/response';
 
-const { onewayTripService, showManagerPendingAppr } = travelServices;
-const { successResponseWithData, errorResponse } = response;
+import message from '../utils/messageUtils';
+import statusCode from '../utils/statusCode';
 
 export default {
   createOneWayTrip: async (req, res) => {

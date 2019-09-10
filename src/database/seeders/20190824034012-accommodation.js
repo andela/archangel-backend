@@ -9,7 +9,7 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      id: 13325578,
+      id: 1332557,
       location: 'Toronto, Canada',
       capacity: 1,
       accommodation_name: 'PAR Towers',

@@ -4,14 +4,14 @@ import passport from 'passport';
 import authControllers from '../../controllers/authControllers';
 import resetPassword from '../../controllers/resetPassword';
 import authValidator from '../../validation/authValidation';
-import tokenMiddlewares from '../../middlewares/tokenMiddleware';
+import { getToken, verifyToken } from '../../middlewares/tokenMiddleware';
+
 const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 
 const route = Router();
 const { signup, fbgooglesignup, login, logout} = authControllers;
 const { validateLogin, validateSignup, validateResult } = authValidator;
-const { getToken, verifyToken } = tokenMiddlewares;
 
 // handles the api home route...
 route.post('/auth/signup', validateSignup, validateResult, signup);
