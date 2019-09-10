@@ -6,4 +6,5 @@ export default {
     email: 'chidiebere_chukwuma@yahoo.com',
     password: 'every125',
     dept_id: 15327458,
+    role: 'line_manager'
 };

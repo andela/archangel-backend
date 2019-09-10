@@ -1,22 +1,36 @@
-import express from 'express';
+import { Router } from 'express';
+import { NotificationController } from '../../controllers';
+import profileController from '../../controllers/profile';
+import tokenMiddleware from '../../middlewares/tokenMiddleware';
 
-import notifyControllers from '../../controllers/notifyControllers';
-import authUtils from '../../middlewares/tokenMiddleware';
+
+const router = Router();
+const { getProfile } = profileController;
+const { getToken, verifyToken } = tokenMiddleware;
+
+// api/v1/notification is already prepended to the request
+router.get('/notify', NotificationController.getAllNotification);
+router.patch('/notify', NotificationController.readAllNotification);
 
 
-const notifyRoutes = express.Router();
+export const foo = (io = null) => {
+    router.use('/auth', auth);
+    router.get('/profile/:user_id', getProfile);
+    router.use('/onewaytrip', getToken, verifyToken, travelRoute(io));
 
-const { verifyToken } = authUtils;
-
-const trip = (io) => {
-    const notify = new notifyControllers(io);
-    const { createNewTravel, getManagerTravel } = notify;
-
-    // Getting the email
-    notifyRoutes.post('/create_travels', verifyToken, createNewTravel);
-    notifyRoutes.get('/get_travels/:id', getManagerTravel);
-
-    return notifyRoutes;
+    router.use((err, req, res, next) => {
+        if (err.name === 'Validation Error') {
+            return res.status(422).json({
+                errors: Object.keys(err.errors).reduce((errors, key) => {
+                    errors[key] = err.errors[key].message;
+                    return errors;
+                }, {})
+            });
+        }
+        return next(err);
+    });
+    return router;
 };
+
 
 export default trip;

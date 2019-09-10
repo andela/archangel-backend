@@ -27,14 +27,14 @@ class ProfileController {
             div.appendChild(para);
           };
           const socket = io();
-          socket.on('tripCreated${user_Id}', (data) => { 
+          socket.on('travelCreated${user_id}', (data) => { 
             appendMessage(data);
           })
         </script>
       </head>
       <body>
         <div id="message-container">
-          <h3>Notify User Trips</h3>
+          <h3>Notify User Travels</h3>
           
         </div>
         
