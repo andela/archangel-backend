@@ -1,15 +1,15 @@
 /* eslint-disable import/named */
 /* eslint-disable require-jsdoc */
 
-class ProfileController {
+class ClientController {
     /**
      * @param {Object} req
      * @param {Object} res
      * @returns {Object} the new user
      * @description register a new client
      */
-    static async getProfile(req, res) {
-        const { user_Id } = req.params;
+    static async getClient(req, res) {
+        const { user_id } = req.params;
 
         const message = `<!DOCTYPE html>
       <html lang="en">
@@ -29,7 +29,11 @@ class ProfileController {
           const socket = io();
           socket.on('travelCreated${user_id}', (data) => { 
             appendMessage(data);
-          })
+					});
+					socket.on('here', (data) => { 
+						console.log(data);	
+            appendMessage(data);
+          });
         </script>
       </head>
       <body>
@@ -47,4 +51,9 @@ class ProfileController {
     }
 }
 
-export default ProfileController;
+<<
+<< << < HEAD: src / controllers / profile.js
+export default ProfileController; ===
+=== =
+export default ClientController; >>>
+>>> > edited the entry point and routes to test with postman: src / controllers / client.js

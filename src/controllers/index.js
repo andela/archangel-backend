@@ -1,5 +1,6 @@
 import { authControllers } from './authControllers';
 
 export {
-    authControllers
+    authControllers,
+    notifyContollers
 };

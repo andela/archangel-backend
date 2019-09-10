@@ -1,16 +1,21 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-import authControllers from '../controllers/authControllers';
-import resetPassword from '../controllers/resetPassword';
-import authValidator from '../validation/authValidation';
-import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
+import authControllers from '../../controllers/authControllers';
+import resetPassword from '../../controllers/resetPassword';
+import authValidator from '../../validation/authValidation';
+import tokenMiddlewares from '../../middlewares/tokenMiddleware';
 
 const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 
 const route = Router();
-const { signup, fbgooglesignup, login, logout } = authControllers;
+const {
+    signup,
+    fbgooglesignup,
+    login,
+    logout
+} = authControllers;
 const { validateLogin, validateSignup, validateResult } = authValidator;
 
 // handles the api home route...

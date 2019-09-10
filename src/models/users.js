@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
         preferred_lang: DataTypes.TEXT,
         preferred_currency: DataTypes.TEXT,
         role: {
-            type: DataTypes.ENUM,
+            type: DataTypes.TEXT,
             values: [
                 'super_admin',
                 'travel_admin',
@@ -44,10 +44,7 @@ export default (sequelize, DataTypes) => {
     });
 
     <<
-    << << < HEAD
+    <<
+    << < HEAD
     return users;
-}; ===
-=== =
-return users;
-}; >>>
->>> > refactoring codes
+};

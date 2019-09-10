@@ -1,36 +1,33 @@
 import { Router } from 'express';
-import { NotificationController } from '../../controllers';
-import profileController from '../../controllers/profile';
-import tokenMiddleware from '../../middlewares/tokenMiddleware';
+// import { notifyControllers } from '../../controllers';
+import ClientController from '../../controllers/client';
+// import tokenMiddleware from '../../middlewares/tokenMiddleware';
 
 
 const router = Router();
-const { getProfile } = profileController;
-const { getToken, verifyToken } = tokenMiddleware;
+const { getClient } = ClientController;
+// const { getToken, verifyToken } = tokenMiddleware;
 
 // api/v1/notification is already prepended to the request
-router.get('/notify', NotificationController.getAllNotification);
-router.patch('/notify', NotificationController.readAllNotification);
+// router.get('/notify', notificationController.getAllNotification);
+// router.patch('/notify', notificationController.readAllNotification);
 
 
-export const foo = (io = null) => {
-    router.use('/auth', auth);
-    router.get('/profile/:user_id', getProfile);
-    router.use('/onewaytrip', getToken, verifyToken, travelRoute(io));
+// router.use('/auth', auth);
+router.get('/profile/:user_id', getClient);
+// router.use('/onewaytrip', getToken, verifyToken);
 
-    router.use((err, req, res, next) => {
-        if (err.name === 'Validation Error') {
-            return res.status(422).json({
-                errors: Object.keys(err.errors).reduce((errors, key) => {
-                    errors[key] = err.errors[key].message;
-                    return errors;
-                }, {})
-            });
-        }
-        return next(err);
-    });
-    return router;
-};
+router.use((err, req, res, next) => {
+    if (err.name === 'Validation Error') {
+        return res.status(422).json({
+            errors: Object.keys(err.errors).reduce((errors, key) => {
+                errors[key] = err.errors[key].message;
+                return errors;
+            }, {})
+        });
+    }
+    return next(err);
+});
 
 
-export default trip;
+export default router;

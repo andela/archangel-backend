@@ -8,12 +8,12 @@ import cors from 'cors';
 import methodOverride from 'method-override';
 import http from 'http';
 import socketIo from 'socket.io';
-
 import { fbStrategy, googleStrategy } from './config/passport';
 import message from './utils/messageUtils';
 import response from './utils/response';
 import statusCode from './utils/statusCode';
-import routes from './routes';
+import routes from './routes/api';
+import socketEmission from './services/websocket';
 
 
 dotenv.config();
@@ -22,7 +22,9 @@ const debugLog = debug('web-app');
 // Create global app object
 const app = express();
 const server = http.createServer(app);
+
 const io = socketIo(server);
+const emission = new socketEmission(io);
 
 
 const PORT = process.env.PORT || 5000;
