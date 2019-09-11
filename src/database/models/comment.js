@@ -5,6 +5,10 @@ export default (sequelize, DataTypes) => {
     author_name: DataTypes.TEXT,
     author_email: DataTypes.TEXT,
   }, {});
-
+  comment.associate = (models) => {
+    comment.belongsTo(models.travel_requests, {
+      foreignKey: 'travel_id'
+    });
+  };
 	return comment;
 };
