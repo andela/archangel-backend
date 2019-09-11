@@ -36,12 +36,8 @@ export default {
             }
                 req.userData = data;
                 return next();
-<<<<<<< HEAD
           });
-=======
-            };
-        });
-    },
+      },
     verifyRequesterId: (req, res, next) => {
       const { body, userData} = req;
       let isUserId = 'user_id' in body;
@@ -51,6 +47,5 @@ export default {
         }
       }
         return next();
->>>>>>> ft(return-trip-request): implement the function for a user to be able to create a return trip
     }
   };

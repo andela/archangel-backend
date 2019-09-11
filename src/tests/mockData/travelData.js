@@ -19,5 +19,12 @@ export default {
     travel_purpose: 'Business idea..',
     accommodation_id: 1,
     multi_city: false,
+  },
+
+  travelRequest: {
+    origin: 'Lagos',
+    destination: 'Kigali',
+    departure_date: '2019-12-12',
+    travel_purpose: 'This is a one way trip'
   }
 }

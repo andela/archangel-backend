@@ -1,6 +1,6 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('accommodation', [{
+        return queryInterface.bulkInsert('accommodations', [{
                 //id: 1653453,
                 location: "Paris, France",
                 capacity: 3,
@@ -20,6 +20,6 @@ module.exports = {
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('accommodation', null, {});
+        return queryInterface.bulkDelete('accommodations', null, {});
     }
 };

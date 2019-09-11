@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     }),
 
-    travel_request.belongsTo(models.accommodation, {
+    travel_request.belongsTo(models.accommodations, {
       foreignKey: 'accommodation_id',
       onDelete: 'CASCADE'
     })
