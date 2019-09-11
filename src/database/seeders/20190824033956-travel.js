@@ -1,6 +1,6 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('travel', [{
+        return queryInterface.bulkInsert('travels', [{
                 //id: 1898451,
                 user_id: 1,
                 origin: 'New York, USA',
@@ -26,6 +26,6 @@ module.exports = {
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('travel', null, {});
+        return queryInterface.bulkDelete('travels', null, {});
     }
 };

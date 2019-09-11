@@ -28,6 +28,7 @@ export default {
 				returnedData,
 			);
 		} catch (err) {
+			console.log(err);
 			errorResponse(res, statusCode.serverError, err);
 		}
 	},

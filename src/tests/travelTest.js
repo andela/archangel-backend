@@ -8,7 +8,7 @@ import message from '../utils/messageUtils';
 import userData  from './mockData/userData';
 import travelData from './mockData/travelData';
 
-const { user } = userData;
+const { newUser, user } = userData;
 const { returnTripTestData, travelRequest } = travelData;
 const prefix = '/api/v1';
 const returnTripRoute = `${prefix}/travel/returntrip`;
@@ -29,7 +29,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           chai
               .request(app)
               .post(`${prefix}/auth/signup`)
-              .send(user)
+              .send(newUser)
               .end((err, res) => {
                   expect(res).to.have.status(201);
                   const { data } = res.body;
@@ -42,7 +42,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           chai
               .request(app)
               .post(oneWayTripRoute)
-              .set('Authorization', `${token}`)
+              .set('Authorization', token)
               .send(travelRequest)
               .end((err, res) => {
                   expect(res).to.have.status(201);
@@ -66,7 +66,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
   		chai.request(app)
           .post(oneWayTripRoute)
-          .set('Authorization', `${token}`)
+          .set('Authorization', token)
           .send(mutatedtravelRequest)
           .end((err, res) => {
               expect(res.status).to.equal(400);
@@ -81,7 +81,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
             mutatedtravelRequest.origin = '4Lag12';
             chai.request(app)
             .post(oneWayTripRoute)
-            .set('Authorization', `${token}`)
+            .set('Authorization', token)
             .send(mutatedtravelRequest)
             .end((err, res) => {
               expect(res.status).to.equal(400);
@@ -97,7 +97,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
               chai.request(app)
               .post(oneWayTripRoute)
-              .set('Authorization', `${token}`)
+              .set('Authorization', token)
               .send(mutatedtravelRequest)
               .end((err, res) => {
                   expect(res.status).to.equal(400);
@@ -113,7 +113,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
                 chai.request(app)
                 .post(oneWayTripRoute)
-                .set('Authorization', `${token}`)
+                .set('Authorization', token)
                 .send(mutatedtravelRequest)
                 .end((err, res) => {
                     expect(res.status).to.equal(400);
@@ -129,7 +129,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
                 chai.request(app)
                 .post(oneWayTripRoute)
-                .set('Authorization', `${token}`)
+                .set('Authorization', token)
                 .send(mutatedtravelRequest)
                 .end((err, res) => {
                     expect(res.status).to.equal(400);
@@ -144,7 +144,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
                 chai.request(app)
                 .post(oneWayTripRoute)
-                .set('Authorization', `${token}`)
+                .set('Authorization', token)
                 .send(mutatedtravelRequest)
                 .end((err, res) => {
                     expect(res.status).to.equal(400);

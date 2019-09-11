@@ -36,5 +36,4 @@ export default {
         errorResponse(res, err.statusCode || statusCode.serverError, err);
       }
     }
-  }
 };

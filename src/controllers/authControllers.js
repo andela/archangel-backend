@@ -20,7 +20,7 @@ export default {
             const userObj = { first_name, last_name, email, password, role: 'user'};
 
             const user = await signupService(userObj);
-            const emailVerify = await sendVerificationEmail(user.dataValues.email);
+            //const emailVerify = await sendVerificationEmail(user.dataValues.email);
             const data = user.dataValues;
 
             data.token = generateToken(data.id, email, data.role, first_name);
@@ -45,9 +45,9 @@ export default {
             successResponseWithData(res, statusCode.created, message.signupSuccess(email), data);
         } catch(err) {
             errorResponse(res, statusCode.serverError, err);
-        }  
-    },  
-    
+        }
+    },
+
     login: async (req, res) => {
      try {
        const { email, password } = req.body;

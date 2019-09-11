@@ -18,7 +18,7 @@ describe('Testing Commenting on Travel Request', () => {
 	const comment = {
 		comment: 'This is a comment sample.',
 	};
-	const validTravelId = '1898451';
+	const validTravelId = '1';
 
 	let authToken;
 
@@ -38,7 +38,7 @@ describe('Testing Commenting on Travel Request', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/travel/${validTravelId}/comment`)
-			.set('Authorization', `Bearer ${authToken}`)
+			.set('Authorization', `${authToken}`)
 			.send(comment)
 			.end((err, res) => {
 				expect(res).to.have.status(201);
@@ -62,7 +62,7 @@ describe('Testing Commenting on Travel Request', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/travel/12/comment`)
-			.set('Authorization', `Bearer ${authToken}`)
+			.set('Authorization', `${authToken}`)
 			.send(comment)
 			.end((err, res) => {
 				expect(res).to.have.status(400);
@@ -74,7 +74,7 @@ describe('Testing Commenting on Travel Request', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/travel/${validTravelId}ff/comment`)
-			.set('Authorization', `Bearer ${authToken}`)
+			.set('Authorization', `${authToken}`)
 			.send(comment)
 			.end((err, res) => {
 				expect(res).to.have.status(400);
@@ -88,7 +88,7 @@ describe('Testing Commenting on Travel Request', () => {
 		chai
 			.request(app)
 			.post(`${prefix}/travel/${validTravelId}/comment`)
-			.set('Authorization', `Bearer ${authToken}`)
+			.set('Authorization', `${authToken}`)
 			.send(mutatedComment)
 			.end((err, res) => {
 				expect(res).to.have.status(400);
@@ -101,7 +101,7 @@ describe('Testing Commenting on Travel Request', () => {
 		chai
 			.request(app)
 			.get(`${prefix}/travel/${validTravelId}/comment`)
-			.set('Authorization', `Bearer ${authToken}`)
+			.set('Authorization', `${authToken}`)
 			.end((err, res) => {
 				expect(res).to.have.status(200);
 				expect(res.body.data.length).to.equal(1);
