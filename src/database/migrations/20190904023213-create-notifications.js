@@ -6,6 +6,10 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.INTEGER
         },
+        user_id: {
+            allowNull: false,
+            type: Sequelize.INTEGER
+        },
         travel_id: {
             allowNull: false,
             type: Sequelize.INTEGER
@@ -18,10 +22,6 @@ module.exports = {
             allowNull: false,
             type: Sequelize.STRING
         },
-        receiver: {
-            allowNull: false,
-            type: Sequelize.INTEGER
-        },
         content: {
             allowNull: false,
             type: Sequelize.STRING
@@ -29,10 +29,6 @@ module.exports = {
         is_read: {
             allowNull: false,
             type: Sequelize.BOOLEAN
-        },
-        type: {
-            allowNull: false,
-            type: Sequelize.STRING
         },
         createdAt: {
             allowNull: false,

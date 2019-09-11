@@ -48,6 +48,12 @@ module.exports = {
         gender: {
             type: Sequelize.TEXT,
         },
+        gmail: {
+            type: Sequelize.STRING,
+        },
+        facebook: {
+            type: Sequelize.STRING,
+        },
         address: {
             type: Sequelize.TEXT,
         },

@@ -14,7 +14,7 @@ const { getClient } = ClientController;
 
 
 // router.use('/auth', auth);
-router.get('/profile/:user_id', getClient);
+router.get('/notify/:user_id', getClient);
 // router.use('/onewaytrip', getToken, verifyToken);
 
 router.use((err, req, res, next) => {
