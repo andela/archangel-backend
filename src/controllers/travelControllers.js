@@ -10,7 +10,7 @@ export default {
   createOneWayTrip: async (req, res) => {
     try {
       const {
-        origin, destination, departure_date, travel_purpose, accommodation_id
+        origin, destination, departure_date, accommodation_id, travel_purpose
       } = req.body;
       const userId = req.userData.id;
 
@@ -21,7 +21,7 @@ export default {
         destination,
         departure_date,
         travel_purpose,
-        accommodation_id
+        accommodation_id,
       };
 
       const data = await onewayTripService(travelObj);
