@@ -1,78 +1,59 @@
+/* eslint-disable no-useless-catch */
 import { compareSync } from 'bcryptjs';
-import cryto from 'crypto-random-string';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
-import sendVerificationEmail from '../utils/email';
 
 const { users, blacklists } = models;
 
-export default {
-    signupService: async (userObj) => {
-        try {
-            const userRes =  await users.create(userObj);
-            
-            return userRes;
-            
-            
-        } catch (err) {
-            throw err;
-        }
-    },
-    // subject to changes
-    findUserById: async(userId) => {
-        try {
-            return await users.findAll({
-                where: {
-                  id : userId
-                },
-            });
-        } catch (err) {
-            throw err;
-        }
-    },
-    findUserById: async (id) => {
-		try {
-			return await users
-				.findOne({
-					where: { id },
-				});
-		} catch (err) {
-			throw err;
-		}
-    },
+export const signupService = async (userObj) => {
+  try {
+    const userRes = await users.create(userObj);
 
-    updateUserById: async (hash,id) => {
-		try {
-			return await users
-				.findOne(hash,{
-					where: { id },
-				});
-		} catch (err) {
-			throw err;
-		}
-    },
-    /**
-    *This function will get a user by email address...
-    *@param {String} email - the user's email
-    *@return {Promise} - response of sequelize
-    */
-    findUserByEmail: (email) => users.findOne({ where: { email } }),
+    return userRes;
+  } catch (err) {
+    throw err;
+  }
+};
+// subject to changes
+export const findUserById = async (id) => {
+  try {
+    return await users.findOne({
+      where: { id },
+    });
+  } catch (err) {
+    throw err;
+  }
+};
 
-    /**
-    *This function will compare the password supplied by the user with the one in the database...
-    *@param {String} password - the user's password supplied
-    *@param {String} hashedPassword - the user's password in database
-    *@return {boolean} - response of bcrypt hashing
-    */
-    comparePassword: (password, hashedPassword) => compareSync(password, hashedPassword),
+export const updateUserById = async (hash, id) => {
+  try {
+    return await users.findOne(hash, {
+      where: { id },
+    });
+  } catch (err) {
+    throw err;
+  }
+};
+/**
+ *This function will get a user by email address...
+ *@param {String} email - the user's email
+ *@return {Promise} - response of sequelize
+ */
+export const findUserByEmail = (email) => users.findOne({ where: { email } });
 
-    logoutService: async (token) => {
-        try {
-            return await blacklists.create({ expired_tokens: token })
-        } catch (err) {
-            throw err;
-        }
-    }
+/**
+ *This function will compare the password supplied by the user with the one in the database...
+ *@param {String} password - the user's password supplied
+ *@param {String} hashedPassword - the user's password in database
+ *@return {boolean} - response of bcrypt hashing
+ */
+export const comparePassword = (password, hashedPassword) => compareSync(password, hashedPassword);
 
+export const logoutService = async (token) => {
+  try {
+    return await blacklists.create({ expired_tokens: token });
+  } catch (err) {
+    throw err;
+  }
 };
