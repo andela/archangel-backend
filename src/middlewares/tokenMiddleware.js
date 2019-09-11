@@ -39,13 +39,13 @@ export default {
           });
       },
     verifyRequesterId: (req, res, next) => {
-      const { body, userData} = req;
-      let isUserId = 'user_id' in body;
-      if (isUserId) {
-        if (body.user_id != userData.id) {
-          return errorResponse(res, statusCode.unauthorized, message.invalidUserId);
+        const { body, userData} = req;
+        let isUserId = 'user_id' in body;
+        if (isUserId) {
+            if (body.user_id != userData.id) {
+                return errorResponse(res, statusCode.unauthorized, message.invalidUserId);
+            }
         }
-      }
         return next();
     }
   };

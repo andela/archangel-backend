@@ -9,22 +9,22 @@ var newFutureDate = new Date(futureDate);
 var returnDate = `${newFutureDate.getFullYear()}-${ISOMonth[newFutureDate.getMonth()]}-${newFutureDate.getDate()}`;
 
 export default {
-  returnTripTestData : {
-    user_id: 3,
-    travel_type: 'return',
-    origin: 'Lagos',
-    destination: 'Calabar',
-    departure_date: todayDate,
-    return_date: returnDate,
-    travel_purpose: 'Business idea..',
-    accommodation_id: 1,
-    multi_city: false,
-  },
+    returnTripTestData : {
+        user_id: 3,
+        travel_type: 'return',
+        origin: 'Lagos',
+        destination: 'Calabar',
+        departure_date: todayDate,
+        return_date: returnDate,
+        travel_purpose: 'Business idea..',
+        accommodation_id: 1,
+        multi_city: false,
+    },
 
-  travelRequest: {
-    origin: 'Lagos',
-    destination: 'Kigali',
-    departure_date: '2019-12-12',
-    travel_purpose: 'This is a one way trip'
-  }
+    travelRequest: {
+        origin: 'Lagos',
+        destination: 'Kigali',
+        departure_date: '2019-12-12',
+        travel_purpose: 'This is a one way trip'
+    }
 }

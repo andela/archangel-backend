@@ -49,24 +49,24 @@ export default {
     },
 
     login: async (req, res) => {
-     try {
-       const { email, password } = req.body;
-       const validUser = await findUserByEmail(email);
-       if (validUser == null || validUser == undefined) {
-         throw new ApiErrors(message.userEmailNotFound(email), statusCode.notFound);
-       };
-       const { password : hashedPassword, ...data } = validUser.dataValues;
-       const validPassword = await comparePassword(password, hashedPassword);
-       if (!validPassword) {
-         throw new ApiErrors(message.incorrectPassword, statusCode.badRequest);
-       }
-       else {
-         const token = generateToken(data.id, email, data.role, data.first_name);
-         return successResponseWithData(res, statusCode.success, message.loginSuccess, { ...data, token });
-       };
-     } catch (err) {
-            errorResponse(res, err.statusCode || statusCode.serverError, err);
-     }
+        try {
+            const { email, password } = req.body;
+            const validUser = await findUserByEmail(email);
+            if (validUser == null || validUser == undefined) {
+                throw new ApiErrors(message.userEmailNotFound(email), statusCode.notFound);
+            };
+            const { password : hashedPassword, ...data } = validUser.dataValues;
+            const validPassword = await comparePassword(password, hashedPassword);
+            if (!validPassword) {
+                throw new ApiErrors(message.incorrectPassword, statusCode.badRequest);
+            }
+            else {
+                const token = generateToken(data.id, email, data.role, data.first_name);
+                return successResponseWithData(res, statusCode.success, message.loginSuccess, { ...data, token });
+            };
+        } catch (err) {
+        errorResponse(res, err.statusCode || statusCode.serverError, err);
+        }
    },
 
    logout: async (req,res) => {

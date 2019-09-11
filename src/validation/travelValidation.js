@@ -9,70 +9,70 @@ const { departureDateValidator, futureDateValidator } = dateChecker;
 const { errorResponse } = response;
 
 export default {
-  validateTravelRequest: [
-      check('origin').not().isEmpty()
-      .withMessage(message.emptyOrigin)
-      .isAlpha()
-      .withMessage(message.lettersAlone),
-      check('destination').not().isEmpty()
-      .withMessage(message.emptyDestination)
-      .isAlpha()
-      .withMessage(message.lettersAlone),
-      check('departure_date').not().isEmpty().withMessage(message.emptyDepartureDate),
-      check('travel_purpose').not().isEmpty().withMessage(message.emptyTravelPurpose),
-    ],
-
-  validateReturnTrip: [
-    check('travel_type')
-        .not().isEmpty()
-        .withMessage(message.emptyTravelType)
-        .not().custom( value => {
-          if (value !== 'return') {
-            throw new Error(message.invalidTravelType)
-          }
-        }),
-    check('origin')
-        .not().isEmpty()
+    validateTravelRequest: [
+        check('origin').not().isEmpty()
         .withMessage(message.emptyOrigin)
         .isAlpha()
         .withMessage(message.lettersAlone),
-    check('destination')
-        .not().isEmpty()
+        check('destination').not().isEmpty()
         .withMessage(message.emptyDestination)
         .isAlpha()
         .withMessage(message.lettersAlone),
-    check('departure_date')
-        .not().isEmpty()
-        .withMessage(message.emptyDepartureDate)
-        .isISO8601()
-        .withMessage(message.isNotISODate)
-        .bail(),
-    check('return_date')
-        .not().isEmpty()
-        .withMessage(message.emptyReturnDate)
-        .isISO8601()
-        .withMessage(message.isNotISODate)
-        .bail(),
-    check('travel_purpose')
-        .not().isEmpty()
-        .withMessage(message.emptyTravelPurpose),
-    check('accommodation_id')
-        .not().isEmpty()
-        .withMessage(message.emptyAccommodation)
-        .isInt()
-        .withMessage(message.isNotInteger)
-  ],
+        check('departure_date').not().isEmpty().withMessage(message.emptyDepartureDate),
+        check('travel_purpose').not().isEmpty().withMessage(message.emptyTravelPurpose),
+    ],
 
-  validateResult: (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-            const error = [];
-            errors.array().forEach((err) => {
-                error.push(err.msg);
-            });
-            return errorResponse(res, statusCode.badRequest, error);
-		}
-		return next();
-	},
+    validateReturnTrip: [
+        check('travel_type')
+            .not().isEmpty()
+            .withMessage(message.emptyTravelType)
+            .not().custom( value => {
+              if (value !== 'return') {
+                throw new Error(message.invalidTravelType)
+              }
+            }),
+        check('origin')
+            .not().isEmpty()
+            .withMessage(message.emptyOrigin)
+            .isAlpha()
+            .withMessage(message.lettersAlone),
+        check('destination')
+            .not().isEmpty()
+            .withMessage(message.emptyDestination)
+            .isAlpha()
+            .withMessage(message.lettersAlone),
+        check('departure_date')
+            .not().isEmpty()
+            .withMessage(message.emptyDepartureDate)
+            .isISO8601()
+            .withMessage(message.isNotISODate)
+            .bail(),
+        check('return_date')
+            .not().isEmpty()
+            .withMessage(message.emptyReturnDate)
+            .isISO8601()
+            .withMessage(message.isNotISODate)
+            .bail(),
+        check('travel_purpose')
+            .not().isEmpty()
+            .withMessage(message.emptyTravelPurpose),
+        check('accommodation_id')
+            .not().isEmpty()
+            .withMessage(message.emptyAccommodation)
+            .isInt()
+            .withMessage(message.isNotInteger)
+    ],
+
+    validateResult: (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+                const error = [];
+                errors.array().forEach((err) => {
+                    error.push(err.msg);
+                });
+                return errorResponse(res, statusCode.badRequest, error);
+      	}
+      	return next();
+    },
 
 };
