@@ -2,7 +2,7 @@ module.exports = {
   up: function up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('travel_requests', [{
       id: 1898451,
-      user_id: 1898451,
+      user_id: 1215739,
       travel_type: 'one-way',
       origin: 'New York, USA',
       destination: 'Paris, France',
@@ -16,7 +16,7 @@ module.exports = {
     },
     {
       id: 1891029,
-      user_id: 1891029,
+      user_id: 1215739,
       travel_type: 'return',
       origin: 'Washington DC, USA',
       destination: 'Toronto, Canada',

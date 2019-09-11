@@ -39,6 +39,11 @@ export default {
   unregisteredEmail: (email) => `User with this email (${email}) not found in our database.`,
   emptyEmail: 'Email cannot be empty.',
   invalidTravelId: 'The travel ID must be an integer value.',
-  nonExistentTravel: 'The travel request does not exist.',
+  travelNotFound: 'The travel request does not exist.',
+  unauthorizedAccessToTravel:
+    'Access denied. Accessible only by travel requester or his/her line manager.',
   emptyComment: 'comment cannot be empty.',
+  unauthorizedCommentDelete: "comment can only be deleted by it's author",
+  commentNotFound: 'The comment does not exist.',
+  deleteComment: 'Comment successfully deleted.',
 };

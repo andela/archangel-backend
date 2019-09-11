@@ -1,50 +1,63 @@
-import commentServices from '../services/commentServices';
+import {
+  createComment,
+  getAllComments,
+  destroyComment,
+} from '../services/commentServices';
+import {
+  successResponseWithData,
+  successResponse,
+  errorResponse,
+} from '../utils/response';
 
 import message from '../utils/messageUtils';
-import response from '../utils/response';
 import statusCode from '../utils/statusCode';
 
-const { createComment, getComments } = commentServices;
-const { successResponseWithData, errorResponse } = response;
+export const addComment = async (req, res) => {
+  try {
+    const { travel_id } = req.params;
+    const { email, full_name, comment } = req.body;
+    const commentData = await createComment({
+      travel_id: parseInt(travel_id, 10),
+      author_email: email,
+      author_name: full_name,
+      comment,
+    });
+    const returnedData = commentData.dataValues;
 
-export default {
-	addComment: async (req, res) => {
-		try {
-			const { travel_id } = req.params;
-			const { email, full_name, comment } = req.body;
-			const commentData = await createComment({
-				travel_id: parseInt(travel_id, 10),
-				author_email: email,
-				author_name: full_name,
-				comment,
-			});
+    successResponseWithData(
+      res,
+      statusCode.created,
+      message.successComment[0],
+      returnedData
+    );
+  } catch (err) {
+    errorResponse(res, statusCode.serverError, err);
+  }
+};
 
-			const returnedData = commentData.dataValues;
+export const getComments = async (req, res) => {
+  try {
+    const { travel_id } = req.params;
+    const comments = await getAllComments(travel_id);
 
-			successResponseWithData(
-				res,
-				statusCode.created,
-				message.successComment[0],
-				returnedData,
-			);
-		} catch (err) {
-			errorResponse(res, statusCode.serverError, err);
-		}
-	},
-	getComments: async (req, res) => {
-		try {
-			const { travel_id } = req.params;
+    successResponseWithData(
+      res,
+      statusCode.success,
+      message.successComment[1],
+      comments
+    );
+  } catch (err) {
+    errorResponse(res, statusCode.serverError, err);
+  }
+};
 
-			const comments = await getComments(travel_id);
+export const deleteComment = async (req, res) => {
+  try {
+    const { comment_id } = req.params;
 
-			successResponseWithData(
-				res,
-				statusCode.success,
-				message.successComment[1],
-				comments
-			);
-		} catch (err) {
-			errorResponse(res, statusCode.serverError, err);
-		}
-	},
+    await destroyComment(comment_id);
+    successResponse(res, statusCode.success, message.deleteComment);
+  } catch (err) {
+    errorResponse(res, statusCode.serverError, err);
+  }
 };

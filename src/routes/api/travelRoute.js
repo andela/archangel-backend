@@ -2,12 +2,11 @@ import { Router } from 'express';
 
 import travelControllers from '../../controllers/travelControllers';
 import travelValidator from '../../validation/travelValidation';
-import authUtils from '../../middlewares/tokenMiddleware';
+import { getToken, verifyToken } from '../../middlewares/tokenMiddleware';
 
 const route = Router();
 const { createOneWayTrip, pendingManagerApproval } = travelControllers;
 const { validateTravelRequest, validateResult } = travelValidator;
-const { getToken, verifyToken } = authUtils;
 
 // handles the api home route...
 route.post('/onewaytrip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);

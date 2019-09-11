@@ -1,9 +1,7 @@
 import FacebookStrategy from 'passport-facebook';
 import { Strategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
-import authServices from '../services/authServices';
-
-const { signupService, findUserById } = authServices;
+import { signupService, findUserById } from '../services/authServices';
 
 dotenv.config()
 
