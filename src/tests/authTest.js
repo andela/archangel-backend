@@ -329,7 +329,7 @@ describe('Send Password Reset', () => {
       });
   });
 
-  it('it should send token for resetting password', (done) => {
+  /* it('it should send token for resetting password', (done) => {
     // eslint-disable-next-line quote-props
     const user_email = { 'email': email };
     chai.request(app)
@@ -340,7 +340,7 @@ describe('Send Password Reset', () => {
         expect(user_email).to.have.property('email');
         done();
       });
-  });
+  }); */
 
 
   it('it should reset password via password reset link', (done) => {
