@@ -7,7 +7,9 @@ import message from '../utils/messageUtils';
 import app from '../index';
 
 const prefix = '/api/v1';
-
+const signupRoute = `${prefix}/auth/signup`;
+const signinRoute = `${prefix}/auth/login`;
+const onewayRoute = `${prefix}/onewaytrip`;
 dotenv.config();
 
 chai.use(chaiHttp);
@@ -33,7 +35,7 @@ describe('Testing one way ticket feature', () => {
   it('should successfully create a user', (done) => {
     chai
       .request(app)
-      .post(`${prefix}/auth/signup`)
+      .post(signupRoute)
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(201);
@@ -46,8 +48,8 @@ describe('Testing one way ticket feature', () => {
   it('should successfully create a one way trip', (done) => {
     chai
       .request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(travelRequest)
       .end((err, res) => {
         expect(res).to.have.status(201);
@@ -57,7 +59,7 @@ describe('Testing one way ticket feature', () => {
 
   it('should return an error if the token is invalid', (done) => {
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(onewayRoute)
       .send(travelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(401);
@@ -70,8 +72,8 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.origin = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(mutatedtravelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -84,8 +86,8 @@ describe('Testing one way ticket feature', () => {
     const mutatedtravelRequest = Object.assign({}, travelRequest);
     mutatedtravelRequest.origin = '4Lag12';
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(mutatedtravelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -99,8 +101,8 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.destination = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(mutatedtravelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -114,8 +116,8 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.destination = '4Kigs23';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(mutatedtravelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -129,8 +131,8 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.departure_date = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(mutatedtravelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -144,8 +146,8 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.travel_purpose = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
-      .set('Authorization', `Bearer ${token}`)
+      .post(onewayRoute)
+      .set('Authorization', token)
       .send(mutatedtravelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -171,7 +173,7 @@ describe('Testing Avail request for approval', () => {
   it('should successfully create an admin user', (done) => {
     chai
       .request(app)
-      .post(`${prefix}/auth/signup`)
+      .post(signupRoute)
       .send(adminUser)
       .end((err, res) => {
         expect(res).to.have.status(201);
@@ -185,7 +187,7 @@ describe('Testing Avail request for approval', () => {
     chai
       .request(app)
       .get(`${prefix}/requests/pending/Mr. Benchfort`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', adminToken)
       .end((err, res) => {
         expect(res).to.have.status(200);
         done();
@@ -196,7 +198,7 @@ describe('Testing Avail request for approval', () => {
     chai
       .request(app)
       .get(`${prefix}/requests/pending/Mr. Benchfort`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', token)
       .end((err, res) => {
         expect(res).to.have.status(401);
         done();
@@ -211,7 +213,7 @@ describe('Testing for users request status', ()=> {
     chai
     .request(app)
       .get(`${prefix}/user/status`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', token)
       .end((err, res) => {
         expect(res).to.have.status(200);
         done();
@@ -221,7 +223,7 @@ describe('Testing for users request status', ()=> {
     chai
     .request(app)
       .get(`${prefix}/user/status`)
-      .set('Authorization', `Bearer ${adminToken}`)
+      .set('Authorization', adminToken)
       .end((err, res) => {
         expect(res).to.have.status(401);
         done();

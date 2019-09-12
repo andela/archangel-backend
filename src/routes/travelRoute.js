@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import travelControllers from '../../controllers/travelControllers';
-import travelValidator from '../../validation/travelValidation';
-import { getToken, verifyToken } from '../../middlewares/tokenMiddleware';
+import travelControllers from '../controllers/travelControllers';
+import travelValidator from '../validation/travelValidation';
+import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
 const { createOneWayTrip, pendingManagerApproval, getUserTravelStatus } = travelControllers;

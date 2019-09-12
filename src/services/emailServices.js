@@ -1,4 +1,4 @@
-import models from '../database/models';
+import models from '../models';
 
 const { users } = models;
 
@@ -25,7 +25,7 @@ const queryById = async (id) => {
     return await users.findOne({ where: { id } });
 }catch(err){
     throw err
-}   
+}
 }
 
 /**
