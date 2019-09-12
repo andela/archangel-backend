@@ -3,12 +3,11 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 import message from '../utils/messageUtils';
-
+import { travelRequest } from './mockData';
 import app from '../index';
 
 const prefix = '/api/v1';
 const signupRoute = `${prefix}/auth/signup`;
-const signinRoute = `${prefix}/auth/login`;
 const onewayRoute = `${prefix}/onewaytrip`;
 dotenv.config();
 
@@ -22,14 +21,6 @@ describe('Testing one way ticket feature', () => {
     last_name: 'mylastname',
     email: 'mygmailis@gmail.com',
     password: 'protected123pass',
-  };
-
-  const travelRequest = {
-    origin: 'Lagos',
-    destination: 'Kigali',
-    departure_date: '2019-12-12',
-    travel_purpose: 'This is a one way trip',
-    accommodation_id: 1653453
   };
 
   it('should successfully create a user', (done) => {

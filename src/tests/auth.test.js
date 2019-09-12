@@ -10,7 +10,7 @@ const prefix = '/api/v1';
 const signupRoute = `${prefix}/auth/signup`;
 const signinRoute = `${prefix}/auth/login`;
 const logoutRoute = `${prefix}/auth/logout`;
-const passwordResetToken = process.env.PASSWORD_RESET ;
+const passwordResetToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU2NzUzNzkwNSwiZXhwIjoxNTY3NTQxNTA1fQ.nPMaVY0-y_FhF9eVroUIe08PXW9kqnmmqUvAcu8uD74';
 let passwordUserId;
 
 
