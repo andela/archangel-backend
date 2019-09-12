@@ -203,3 +203,28 @@ describe('Testing Avail request for approval', () => {
       });
   });
 });
+
+// Get users request status
+
+describe('Testing for users request status', ()=> {
+  it('should successfully return user request status', (done)=> {
+    chai
+    .request(app)
+      .get(`${prefix}/user/status`)
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+  it('should return error when role is admin', (done) => {
+    chai
+    .request(app)
+      .get(`${prefix}/user/status`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .end((err, res) => {
+        expect(res).to.have.status(401);
+        done();
+      });
+  });
+});
