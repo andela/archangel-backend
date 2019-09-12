@@ -46,4 +46,8 @@ export default {
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
   commentNotFound: 'The comment does not exist.',
   deleteComment: 'Comment successfully deleted.',
+
+  //profile messages
+  profilefetched: 'Profile rendered sucessfully',
+  profileUpdated: 'Profile updated successfully'
 };

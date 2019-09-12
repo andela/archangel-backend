@@ -10,7 +10,7 @@ const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 
 const route = Router();
-const { signup, fbgooglesignup, login, logout} = authControllers;
+const { signup, fbgooglesignup, login, logout, getUserProfile, updateProfile } = authControllers;
 const { validateLogin, validateSignup, validateResult } = authValidator;
 
 // handles the api home route...
@@ -48,5 +48,9 @@ route.post('/auth/logout', getToken, verifyToken, logout);
 route.post('/forgot',sendPasswordResetEmail);
 
 route.post('/receive_new_password/:userId/:token',receiveNewPassword);
+
+route.get('/profile', getUserProfile);
+
+route.put('/profile', getToken, verifyToken, updateProfile);
 
 export default route;

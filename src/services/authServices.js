@@ -3,6 +3,7 @@ import { compareSync } from 'bcryptjs';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../database/models';
+import { deleteProps } from '../utils/deleteObject';
 
 const { users, blacklists } = models;
 
@@ -57,3 +58,32 @@ export const logoutService = async (token) => {
     throw err;
   }
 };
+
+export const getUserProfileService = async(id) => {
+  try {
+    const user = await users.findOne({
+      where: { id },
+    });
+    delete user.dataValues.password;
+    return user;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const updateProfileService = async(id, updateUser) => {
+  try {
+    const userUpdate = await users.findOne({ 
+      where: { id },
+    });
+    deleteProps(userUpdate, ['password', 'dept_id', 'role', 'is_active']);
+
+    if (userUpdate) {
+      await user.update(updateUser, { where: { id }})
+      return  updateUser;
+    }
+    return null;
+  } catch(err) {
+    throw err;
+  }
+}
