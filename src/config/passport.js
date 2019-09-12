@@ -3,7 +3,7 @@ import { Strategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
 import { signupService, findUserById } from '../services/authServices';
 
-dotenv.config()
+dotenv.config();
 
 const fbStrategy = new FacebookStrategy({
   clientID: '521471335085949',
@@ -13,7 +13,7 @@ const fbStrategy = new FacebookStrategy({
 
 async (accessToken, refreshToken, profile, cb) => {
   try {
-    const email = profile.emails? profile.emails[0].value : null;
+    const email = profile.emails ? profile.emails[0].value : null;
     const { id } = profile;
     const userExists = await findUserById(id);
 
