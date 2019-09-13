@@ -1,3 +1,4 @@
+import socketEmission from '../services/websocket';
 import {
     onewayTripService,
     showManagerPendingAppr,
@@ -6,14 +7,21 @@ import {
 } from '../services/travelServices';
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
+import sendVerificationEmail from '../utils/email';
 
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 
+const { emission } = socketEmission;
+
 export const createOneWayTrip = async(req, res) => {
     try {
         const user = await findUserByEmail(req.userData.email);
-        const { id, dept_id } = user.dataValues;
+        const { id, email, dept_id } = user.dataValues;
+
+        if (!dept_id) {
+            errorResponse(res, statusCode.badRequest, message.lineManager);
+        }
 
         const data = await onewayTripService({
             user_id: id,
@@ -22,9 +30,14 @@ export const createOneWayTrip = async(req, res) => {
             dept_id,
         });
 
+        const emailVerify = await sendVerificationEmail(email,
+            'Travel Confirmation', message.notifyUser);
+        emission('here', 'we made it');
+
         successResponseWithData(
             res,
             statusCode.created,
+            message.oneWayTripCreated,
             message.oneWayTripCreated,
             data
         );
