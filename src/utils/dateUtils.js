@@ -18,7 +18,7 @@ export default {
     const futureDate = todayDate.setDate(todayDate.getDate() + numberOfDaysAhead);
     const newFutureDate = new Date(futureDate);
     const returnDate = `${newFutureDate.getFullYear()}
-                        -${ISOMonth[newFutureDate.getMonth()]}-${newFutureDate.getDate()}`;
+                      -${ISOMonth[newFutureDate.getMonth()]}-${newFutureDate.getDate()}`;
     return returnDate;
   }
 };
