@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-	const comment = sequelize.define('comments', {
+  const comment = sequelize.define('comments', {
     travel_id: DataTypes.INTEGER,
     comment: DataTypes.TEXT,
     author_name: DataTypes.TEXT,
@@ -10,5 +10,5 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'travel_id'
     });
   };
-	return comment;
+  return comment;
 };

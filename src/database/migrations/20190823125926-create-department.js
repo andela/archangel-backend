@@ -5,28 +5,28 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       dept_name: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       line_manager: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
-      manager_staff_id: {
-        type: Sequelize.STRING
+      manager_user_id: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: function down(queryInterface, Sequelize) {
     return queryInterface.dropTable('departments');
-  }
+  },
 };

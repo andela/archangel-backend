@@ -10,6 +10,7 @@ module.exports = {
       return_date: new Date(),
       travel_purpose: 'This is the reason for my travel',
       accommodation_id: 1653453,
+      dept_id: 1536907,
       multi_city: false,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -24,6 +25,7 @@ module.exports = {
       return_date: new Date(),
       travel_purpose: 'This is the most important reason for my travel',
       accommodation_id: 1653453,
+      dept_id: 1536907,
       multi_city: true,
       createdAt: new Date(),
       updatedAt: new Date()
