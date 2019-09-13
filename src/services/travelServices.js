@@ -16,8 +16,7 @@ export const onewayTripService = async (travelObj) => {
 export const findTravelById = async (id) => {
   try {
     return await travel_requests.findOne({
-      attributes: ['id', 'user_id'],
-      where: { id },
+      where: { id }
     });
   } catch (err) {
     throw err;
@@ -56,10 +55,21 @@ export const showUsertravelsStatus = async (userId) => {
   try {
     return await travel_requests.findAll({
       where: {
-        user_id: userId
-      }
+        user_id: userId,
+      },
     });
   } catch (error) {
     throw error;
+  }
+};
+
+export const approveTravel = async (id) => {
+  try {
+    return await travel_requests.update(
+      { approval_status: 'accepted' },
+      { returning: true, where: { id } }
+    );
+  } catch (err) {
+    throw err;
   }
 };

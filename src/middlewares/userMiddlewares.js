@@ -1,6 +1,7 @@
 import { findUserByEmail } from '../services/authServices';
 import { findTravelById } from '../services/travelServices';
 import { getAComment } from '../services/commentServices';
+import { getADepartment } from '../services/departmentServices';
 import { errorResponse } from '../utils/response';
 
 import message from '../utils/messageUtils';
@@ -37,7 +38,10 @@ export const verifyTravelOwner = async (req, res, next) => {
       return errorResponse(res, statusCode.notFound, message.travelNotFound);
     }
     const travel = travelObj.dataValues;
-    if (parseInt(travel.user_id, 10) !== req.userData.id) {
+    const dept = await getADepartment(travel.dept_id);
+
+    if (parseInt(travel.user_id, 10) !== req.userData.id
+        && dept.dataValues.manager_user_id !== req.userData.id) {
       return errorResponse(
         res,
         statusCode.unauthorized,
@@ -70,4 +74,11 @@ export const verifyCommentOwner = async (req, res, next) => {
   } catch (err) {
     errorResponse(res, statusCode.serverError, err);
   }
+};
+
+export const verifyRole = (role) => (req, res, next) => {
+  if (role !== req.userData.role) {
+    return errorResponse(res, statusCode.unauthorized, message.wrongRole(role));
+  }
+  return next();
 };

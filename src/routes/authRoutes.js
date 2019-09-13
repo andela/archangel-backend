@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-import authControllers from '../../controllers/authControllers';
-import resetPassword from '../../controllers/resetPassword';
-import authValidator from '../../validation/authValidation';
-import { getToken, verifyToken } from '../../middlewares/tokenMiddleware';
+import authControllers from '../controllers/authControllers';
+import resetPassword from '../controllers/resetPassword';
+import authValidator from '../validation/authValidation';
+import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 

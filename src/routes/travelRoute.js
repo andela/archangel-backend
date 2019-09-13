@@ -1,17 +1,36 @@
 import { Router } from 'express';
 
-import travelControllers from '../../controllers/travelControllers';
-import travelValidator from '../../validation/travelValidation';
-import { getToken, verifyToken } from '../../middlewares/tokenMiddleware';
+import {
+  createOneWayTrip,
+  pendingManagerApproval,
+  getUserTravelStatus,
+  approveTravelRequest,
+} from '../controllers/travelControllers';
+import {
+  validateTravelRequest,
+  validateResult,
+} from '../validation/travelValidation';
+import { verifyDeptManagerAndRequestStatus } from '../middlewares/travelsMiddleware';
+import { verifyRole } from '../middlewares/userMiddlewares';
+import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
-const { createOneWayTrip, pendingManagerApproval } = travelControllers;
-const { validateTravelRequest, validateResult } = travelValidator;
 
 // handles the api home route...
-route.post('/onewaytrip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
+route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
 
 // handles manager pending req approvals route
 route.get('/requests/pending/:manager', getToken, verifyToken, pendingManagerApproval);
+
+route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
+
+route.patch(
+  '/travel/approve_request/:travel_id',
+  getToken,
+  verifyToken,
+  verifyRole('manager'),
+  verifyDeptManagerAndRequestStatus,
+  approveTravelRequest,
+);
 
 export default route;

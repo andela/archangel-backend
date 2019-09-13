@@ -66,6 +66,10 @@ module.exports = {
           key: 'id'
         }
       },
+      dept_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       approval_status: {
         type: Sequelize.ENUM,
         allowNull: true,

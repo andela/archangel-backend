@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     return_date: DataTypes.DATE,
     travel_purpose: DataTypes.TEXT,
     accommodation_id: DataTypes.INTEGER,
+    dept_id: DataTypes.INTEGER,
     approval_status: {
       type: DataTypes.ENUM,
       values: ['accepted', 'pending', 'rejected'],
@@ -31,11 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     travel_request.hasMany(models.comments, {
-      foreignKey: 'travel_id',
-      onDelete: 'CASCADE'
-    });
-
-    travel_request.hasMany(models.notifications, {
       foreignKey: 'travel_id',
       onDelete: 'CASCADE'
     });
