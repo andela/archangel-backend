@@ -148,7 +148,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
   //return trip route tests starts here.....................
   describe('Test for return trip travel request route', () => {
-    it('Should throw an error if the request header does not have authorization token', (done) =>{
+    it('Should throw an error if the request header does not have authorization token', (done) => {
       chai
         .request(app)
         .post(returnTripRoute)
@@ -173,7 +173,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body travel_type is empty or not return-trip', (done) =>{
+    it('Should throw an error if the request body travel_type is empty or not return-trip', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.travel_type = '';
       chai
@@ -182,7 +182,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .include(message.emptyTravelType);
@@ -190,7 +190,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body origin is empty', (done) =>{
+    it('Should throw an error if the request body origin is empty', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.origin = '';
       chai
@@ -199,7 +199,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .include(message.emptyOrigin);
@@ -207,7 +207,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body departure_date is not the ISO standard', (done) =>{
+    it('Should throw an error if the request body departure_date is not the ISO standard', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.departure_date = '2010-1-02';
       chai
@@ -216,7 +216,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .include(message.isNotISODate);
@@ -224,7 +224,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body departure_date is a past date', (done) =>{
+    it('Should throw an error if the request body departure_date is a past date', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.departure_date = '2010-01-02';
       chai
@@ -233,7 +233,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .equal(message.dateForToday);
@@ -241,7 +241,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body return_date is not the ISO standard', (done) =>{
+    it('Should throw an error if the request body return_date is not the ISO standard', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.return_date = '2010-1-02';
       chai
@@ -250,7 +250,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .include(message.isNotISODate);
@@ -258,7 +258,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body return_date is equal to or less than departure_date', (done) =>{
+    it('Should throw an error if the request body return_date is equal to or less than departure_date', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.return_date = returnTripTestData.departure_date;
       chai
@@ -267,7 +267,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .equal(message.dateForFuture);
@@ -275,7 +275,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should throw an error if the request body accommodation_id is empty', (done) =>{
+    it('Should throw an error if the request body accommodation_id is empty', (done) => {
       let mutatedReturnTripTestData = Object.assign({}, returnTripTestData);
       mutatedReturnTripTestData.accommodation_id = null;
       chai
@@ -284,7 +284,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .set('Authorization', token)
         .send(mutatedReturnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
           .include(message.emptyAccommodation);
@@ -292,22 +292,22 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    it('Should create a new return trip request', (done) =>{
+    it('Should create a new return trip request', (done) => {
       chai
         .request(app)
         .post(returnTripRoute)
         .set('Authorization', token)
         .send(returnTripTestData)
         .end((err, res) => {
-          const { body, status} = res;
+          const { body, status } = res;
           expect(status).to.equal(201);
           expect(body.message).to
-          .equal(message.returnTripCreated);
+            .equal(message.returnTripCreated);
           done(err);
         });
     });
   });
-  //return trip tests route ends here.................
+  // return trip tests route ends here.................
 
   // Avail request for approval
   let adminToken;
@@ -359,10 +359,10 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
   // Get users request status
 
-  describe('Testing for users request status', ()=> {
-    it('should successfully return user request status', (done)=> {
+  describe('Testing for users request status', () => {
+    it('should successfully return user request status', (done) => {
       chai
-      .request(app)
+        .request(app)
         .get(`${prefix}/user/status`)
         .set('Authorization', token)
         .end((err, res) => {
@@ -372,7 +372,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
     });
     it('should return error when role is admin', (done) => {
       chai
-      .request(app)
+        .request(app)
         .get(`${prefix}/user/status`)
         .set('Authorization', adminToken)
         .end((err, res) => {
