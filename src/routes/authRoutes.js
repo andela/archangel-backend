@@ -10,7 +10,9 @@ const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 
 const route = Router();
-const { signup, fbgooglesignup, login, logout, getUserProfile, updateProfile } = authControllers;
+const {
+ signup, fbgooglesignup, login, logout, getUserProfile, updateProfile 
+} = authControllers;
 const { validateLogin, validateSignup, validateResult } = authValidator;
 
 // handles the api home route...
@@ -36,7 +38,7 @@ route.get('/auth/signup/google/callback',
     successRedirect: '/requests',
   }));
 
-  // route path subject to change
+// route path subject to change
 route.get('/requests', fbgooglesignup);
 
 // handles the sign in request by email and password..
@@ -45,9 +47,9 @@ route.post('/auth/login', validateLogin, validateResult, login);
 route.post('/auth/logout', getToken, verifyToken, logout);
 
 
-route.post('/forgot',sendPasswordResetEmail);
+route.post('/forgot', sendPasswordResetEmail);
 
-route.post('/receive_new_password/:userId/:token',receiveNewPassword);
+route.post('/receive_new_password/:userId/:token', receiveNewPassword);
 
 route.get('/profile', getToken, verifyToken, getUserProfile);
 

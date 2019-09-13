@@ -50,5 +50,9 @@ export default {
 
   // profile messages
   profilefetched: 'Profile rendered sucessfully',
-  profileUpdated: 'Profile updated successfully'
+  profileUpdated: 'Profile updated successfully',
+  requestNotPending: 'This Travel Request is not Pending.',
+  diffDepartment: 'You are not in the same department as the Travel Requester.',
+  wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
+  successfullyApproval: (requester) => `You have successfully approved a travel request from ${requester}.`,
 };

@@ -37,7 +37,7 @@ export default {
         password,
       };
 
-      userObj.role = req.body.role || 'user';
+      userObj.role = req.body.role || 'requester';
 
       const user = await signupService(userObj);
       // eslint-disable-next-line no-unused-vars
