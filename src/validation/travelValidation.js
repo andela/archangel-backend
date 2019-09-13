@@ -27,6 +27,55 @@ export const validateTravelRequest = [
     .withMessage(message.emptyTravelPurpose),
 ];
 
+export const validateReturnTrip = [
+    check('travel_type')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyTravelType)
+      .not()
+      .custom( value => {
+        if (value !== 'return') {
+          throw new Error(message.invalidTravelType)
+        }
+      }),
+    check('origin')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyOrigin)
+      .isAlpha()
+      .withMessage(message.lettersAlone),
+    check('destination')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyDestination)
+      .isAlpha()
+      .withMessage(message.lettersAlone),
+    check('departure_date')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyDepartureDate)
+      .isISO8601()
+      .withMessage(message.isNotISODate)
+      .bail(),
+    check('return_date')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyReturnDate)
+      .isISO8601()
+      .withMessage(message.isNotISODate)
+      .bail(),
+    check('travel_purpose')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyTravelPurpose),
+    check('accommodation_id')
+      .not()
+      .isEmpty()
+      .withMessage(message.emptyAccommodation)
+      .isInt()
+      .withMessage(message.isNotInteger)
+  ];
+
 export const validateResult = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
