@@ -1,29 +1,20 @@
 import { Router } from 'express';
 
 import {
-  createOneWayTrip,
-  pendingManagerApproval,
-  getUserTravelStatus,
-  approveTravelRequest,
+    createOneWayTrip,
+    pendingManagerApproval,
+    getUserTravelStatus,
+    approveTravelRequest,
 } from '../controllers/travelControllers';
 import {
-  validateTravelRequest,
-  validateResult,
+    validateTravelRequest,
+    validateResult,
 } from '../validation/travelValidation';
 import { verifyDeptManagerAndRequestStatus } from '../middlewares/travelsMiddleware';
 import { verifyRole } from '../middlewares/userMiddlewares';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
-
-
-const { 
-  createOneWayTrip,
-  pendingManagerApproval, 
-  getUserTravelStatus, 
-  mostTravelledDest
-  } = travelControllers;
-const { validateTravelRequest, validateResult } = travelValidator;
 
 
 // handles the api home route...
@@ -36,16 +27,12 @@ route.get('/requests/pending/:manager', getToken, verifyToken, pendingManagerApp
 route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
 
 route.patch(
-  '/travel/approve_request/:travel_id',
-  getToken,
-  verifyToken,
-  verifyRole('manager'),
-  verifyDeptManagerAndRequestStatus,
-  approveTravelRequest,
+    '/travel/approve_request/:travel_id',
+    getToken,
+    verifyToken,
+    verifyRole('manager'),
+    verifyDeptManagerAndRequestStatus,
+    approveTravelRequest,
 );
-
-// Most travelled to destinations
-route.get('/most', getToken, verifyToken, mostTravelledDest);
-
 
 export default route;
