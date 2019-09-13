@@ -1,6 +1,7 @@
 import {
   onewayTripService,
-  showManagerPendingAppr,
+  showManagerPendingAppr, 
+  showUsertravelsStatus
 } from '../services/travelServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
 
@@ -54,5 +55,20 @@ export default {
     } catch (err) {
       errorResponse(res, statusCode.serverError, err);
     }
-  }
+  },
+
+  getUserTravelStatus: async(req, res) => {
+		const { role, id } = req.userData;
+
+		if (role === 'admin') {
+     return errorResponse(res, statusCode.unauthorized, message.unauthorized);
+		} else {
+      try {
+        const data = await showUsertravelsStatus(id);
+        return successResponseWithData(res, statusCode.success, message.userApproval, data);
+      } catch (error) {
+        errorResponse(res, statusCode.serverError, error);
+      }
+    }
+	}
 };

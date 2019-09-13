@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import models from '../database/models';
+import models from '../models';
 
 const { travel_requests, departments, users } = models;
 
@@ -49,5 +49,17 @@ export const showManagerPendingAppr = async (manager) => {
     });
   } catch (err) {
     throw err;
+  }
+};
+
+export const showUsertravelsStatus = async (userId) => {
+  try {
+    return await travel_requests.findAll({
+      where: {
+        user_id: userId
+      }
+    });
+  } catch (error) {
+    throw error;
   }
 };

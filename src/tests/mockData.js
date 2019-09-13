@@ -25,3 +25,29 @@ export const testComment = {
 };
 
 export const validCommentId = '554455';
+
+export const travelRequest = {
+  origin: 'Lagos',
+  destination: 'Kigali',
+  departure_date: '2019-12-12',
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453
+};
+
+// updateProfile Data
+
+export const userDetail = {
+  first_name: 'myname',
+  last_name: 'mylastname',
+  email: 'mygmailis@gmail.com',
+  password: 'protected123pass',
+};
+export const updateProfile = {
+  first_name: 'myname',
+  last_name: 'mylastname',
+  address: '14 downtown road',
+  preferred_lang: 'English',
+  preferred_currency: 'Dollars',
+  gender: 'Female'
+};
+

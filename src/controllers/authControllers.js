@@ -7,8 +7,7 @@ import {
   findUserByEmail,
   logoutService,
   signupService,
-  getUserProfileService,
-  updateProfileService
+  getUserProfileService
 } from '../services/authServices';
 import {
   successResponseWithData,
@@ -19,7 +18,10 @@ import { generateToken } from '../middlewares/tokenMiddleware';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 import { usePasswordHashToMakeToken } from '../modules/email';
-import { deleteProps } from '../utils/deleteObject';
+
+import models from '../models';
+
+const { users } = models;
 
 export default {
   signup: async (req, res) => {
@@ -123,10 +125,10 @@ export default {
 
   getUserProfile: async (req, res) => {
     try {
-      const { id }  = req.userData
+      const { id } = req.userData;
       const userProfile = await getUserProfileService(id);
       successResponseWithData(res, statusCode.success, message.profilefetched, userProfile);
-    }catch(err) {
+    } catch (err) {
       errorResponse(res, statusCode.serverError, err.message);
     }
   },
@@ -135,14 +137,14 @@ export default {
     let result;
     try {
       const { id } = req.userData;
-      const { first_name, last_name, dob, gender, address, preferred_lang, preferred_currency } = req.body;
-      result = await users.findOne({ where: { id },
-      });
-      deleteProps(result.dataValues, ['password','dept_id', 'role', 'is_active']);
+      const {
+        first_name, last_name, dob, gender, address, preferred_lang, preferred_currency
+      } = req.body;
+      result = await users.findOne({ where: { id }, });
 
       const options = {
         returning: true,
-        where: { id: id }
+        where: { id }
       };
       const newProfile = await users.update({
         first_name: first_name || result.dataValues.first_name,
@@ -154,8 +156,8 @@ export default {
         preferred_currency: preferred_currency || result.dataValues.preferred_currency
       }, options);
       successResponseWithData(res, statusCode.success, message.profileUpdated, newProfile);
-    } catch(err) {
-      errorResponse(res, statusCode.serverError, err.message)
+    } catch (err) {
+      errorResponse(res, statusCode.serverError, err.message);
     }
   }
 };
