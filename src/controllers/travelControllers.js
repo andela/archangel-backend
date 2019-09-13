@@ -1,11 +1,10 @@
 import {
   onewayTripService,
   showManagerPendingAppr,
+  showUsertravelsStatus,
   searchTravel
 } from "../services/travelServices";
 import { successResponseWithData, errorResponse } from "../utils/response";
-
-// import travelServices,{searchTravel} from '../services/travelServices';
 import message from "../utils/messageUtils";
 import statusCode from "../utils/statusCode";
 import { paginate } from "../utils/pagination";
@@ -72,6 +71,27 @@ export default {
       );
     } catch (err) {
       errorResponse(res, statusCode.serverError, err);
+    }
+  },
+
+  getUserTravelStatus: async (req, res) => {
+    const { role, id } = req.userData;
+
+    if (role === "admin") {
+      return errorResponse(res, statusCode.unauthorized, message.unauthorized);
+    } else {
+      try {
+        const data = await showUsertravelsStatus(id);
+        return successResponseWithData(
+          res,
+          statusCode.success,
+          message.userApproval,
+          data
+        );
+      } catch (error) {
+    
+        errorResponse(res, statusCode.serverError, error);
+      }
     }
   }
 };

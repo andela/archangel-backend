@@ -10,6 +10,7 @@ export default {
   managerApproval: (pendingReq) => `You have ${pendingReq} requests requiring your approval`,
   managerNotFound: "Manager's detail missing",
   noEmail: 'Email cannot be empty.',
+  userApproval: 'Here are your request status',
   // sign-up validation messages
   invalidEmail: 'Please, enter a valid email address.',
   usedEmail: (email) => `User with this email (${email}) already exist.`,
