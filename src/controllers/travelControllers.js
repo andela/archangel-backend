@@ -111,7 +111,7 @@ const approveTravelRequest = async (req, res) => {
   }
 };
 
-const userCanEditOpenRequests = async (req, res) => {
+const userCanEditOpenRequest = async (req, res) => {
   const { id } = req.body;
 
   const userId = req.userData.id;
@@ -145,6 +145,6 @@ export {
   pendingManagerApproval,
   getUserTravelStatus,
   approveTravelRequest,
-  userCanEditOpenRequests,
+  userCanEditOpenRequest,
   mostTravelledDest
 };

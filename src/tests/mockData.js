@@ -52,12 +52,13 @@ const travelRequest = {
   accommodation_id: 1653453
 };
 
-const modifiedTravelRequest = {
+const approvedRequest = {
   origin: 'Lagos',
-  destination: 'Rwanda',
+  destination: 'Bauchi',
   departure_date: '2019-12-12',
   travel_purpose: 'This is a one way trip',
-  accommodation_id: 1653453
+  accommodation_id: 1653453,
+  approval_status: 'accepted'
 };
 
 export {
@@ -67,9 +68,9 @@ export {
   testManager1,
   testManager2,
   testTravelRequest,
-  modifiedTravelRequest,
   testComment,
   validTravelId,
   validCommentId,
-  travelRequest
+  travelRequest,
+  approvedRequest
 };

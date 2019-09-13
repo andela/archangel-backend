@@ -6,7 +6,7 @@ import {
   getUserTravelStatus,
   approveTravelRequest,
   mostTravelledDest,
-  userCanEditOpenRequests
+  userCanEditOpenRequest
 } from '../controllers/travelControllers';
 
 import {
@@ -24,7 +24,7 @@ const route = Router();
 route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
 
 // handles manager pending req approvals route
-route.get('/requests/pending/:manager', getToken, verifyToken, pendingManagerApproval);
+route.get('/travel/pending/:manager', getToken, verifyToken, pendingManagerApproval);
 
 // user request status
 route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
@@ -41,6 +41,6 @@ route.patch(
 route.get('/most', getToken, verifyToken, mostTravelledDest);
 
 // handles editing of user's pending request
-route.put('/travels/pending', getToken, verifyToken, userCanEditOpenRequests);
+route.put('/travel/pending', getToken, verifyToken, validateTravelRequest, validateResult, userCanEditOpenRequest);
 
 export default route;

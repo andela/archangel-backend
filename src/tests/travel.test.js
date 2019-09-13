@@ -10,7 +10,7 @@ import {
   testManager1,
   testManager2,
   validTravelId,
-  modifiedTravelRequest
+  approvedRequest
 } from './mockData';
 
 import app from '../index';
@@ -48,6 +48,8 @@ describe('Testing one way ticket feature', () => {
       .set('Authorization', token)
       .send(testTravelRequest)
       .end((err, res) => {
+        const { data } = res.body;
+        testTravelRequest.id = data.id;
         expect(res).to.have.status(201);
         done();
       });
@@ -184,7 +186,7 @@ describe('Testing Avail request for approval', () => {
   it('should successfully return manager pending requests', (done) => {
     chai
       .request(app)
-      .get(`${prefix}/requests/pending/Mr. Benchfort`)
+      .get(`${prefix}/travel/pending/Mr. Benchfort`)
       .set('Authorization', adminToken)
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -195,7 +197,7 @@ describe('Testing Avail request for approval', () => {
   it('should return an error if requester does not have admin privileges', (done) => {
     chai
       .request(app)
-      .get(`${prefix}/requests/pending/Mr. Benchfort`)
+      .get(`${prefix}/travel/pending/Mr. Benchfort`)
       .set('Authorization', token)
       .end((err, res) => {
         expect(res).to.have.status(401);
@@ -319,20 +321,46 @@ describe('Testing users can edit pending requests', () => {
       .request(app)
       .put(pendingRequestRoute)
       .set('Authorization', token)
-      .send(modifiedTravelRequest)
+      .send(testTravelRequest)
       .end((err, res) => {
         expect(res).to.have.status(200);
         done();
       });
   });
 
-  it('should not edit request if token is not valid', (done) => {
+  it('should return an error if token is not valid', (done) => {
     chai
       .request(app)
       .put(pendingRequestRoute)
-      .send(modifiedTravelRequest)
+      .send(testTravelRequest)
       .end((err, res) => {
         expect(res).to.have.status(401);
+        done();
+      });
+  });
+
+  it('should successfully create an approved one way trip', (done) => {
+    chai
+      .request(app)
+      .post(onewayRoute)
+      .set('Authorization', token)
+      .send(approvedRequest)
+      .end((err, res) => {
+        const { data } = res.body;
+        approvedRequest.id = data.id;
+        expect(res).to.have.status(201);
+        done();
+      });
+  });
+
+  it('should return an error if request has been approved', (done) => {
+    chai
+      .request(app)
+      .put(pendingRequestRoute)
+      .set('Authorization', token)
+      .send(approvedRequest)
+      .end((err, res) => {
+        expect(res).to.have.status(400);
         done();
       });
   });
