@@ -3,6 +3,7 @@ import {
   showManagerPendingAppr,
   showUsertravelsStatus,
   approveTravel,
+  mostTraveled
 } from '../services/travelServices';
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
@@ -91,5 +92,24 @@ export const approveTravelRequest = async (req, res) => {
     );
   } catch (err) {
     errorResponse(res, statusCode.serverError, err);
+		if (role === 'admin') {
+     return errorResponse(res, statusCode.unauthorized, message.unauthorized);
+		} else {
+      try {
+        const data = await showUsertravelsStatus(id);
+        return successResponseWithData(res, statusCode.success, message.userApproval, data);
+      } catch (error) {
+        errorResponse(res, statusCode.serverError, error);
+      }
+    }
   }
+};
+
+export const mostTravelledDest = async (req, res) => {
+    try {
+      const travelled = await mostTraveled();
+      successResponseWithData(res, statusCode.success, message.oneWayTripCreated, travelled);
+    } catch (error) {
+      errorResponse(res, statusCode.serverError, error);
+    }
 };
