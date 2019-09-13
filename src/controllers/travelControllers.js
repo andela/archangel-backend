@@ -1,11 +1,14 @@
 import {
   onewayTripService,
   showManagerPendingAppr,
+  searchTravel
 } from '../services/travelServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
 
+// import travelServices,{searchTravel} from '../services/travelServices';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
+import { paginate } from '../utils/pagination';
 
 export default {
   createOneWayTrip: async (req, res) => {
@@ -56,3 +59,25 @@ export default {
     }
   }
 };
+
+
+/* search travels
+ * @param {Object} req - server request
+ * @param {Object} res - server response
+ * @param {Object} next - server response
+ * @returns {Object} - custom response
+ */
+export const searchTravels = async (req, res) => {
+    try {
+      const { body, query } = req;
+      const { page, perPage } = query;
+      const { rows, count } = await searchTravel(body, query);
+      console.log("My search body",body)
+      const meta = paginate(page, perPage, count, rows);
+      return res.status(200).json({'success':{ requests: rows, meta }});
+      
+    } catch (error) {
+      console.log("My search error",error)
+      return res.status(404).json({'error':error});
+    }
+  };

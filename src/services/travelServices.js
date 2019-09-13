@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-catch */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import { Op, Association } from 'sequelize';
+import { computeLimitAndOffset } from '../utils/pagination';
 import models from '../database/models';
 
 const { travel_requests, departments, users } = models;
@@ -50,4 +52,45 @@ export const showManagerPendingAppr = async (manager) => {
   } catch (err) {
     throw err;
   }
+} 
+
+
+
+
+/** helper function that get request with a search keyword
+   * @param {object} body query
+   * @param {object} query query
+   * @returns {Promise} Promise resolved or rejected
+   */
+export const searchTravel = (body, query) => {
+  const { page, perPage } = query;
+  const { limit, offset } = computeLimitAndOffset(page, perPage);
+  const searchValue = Object.keys(body).map((key) => {
+    switch (key) {
+      case 'origin':
+        return {
+        	origin: body[key]
+        };
+      case 'destination':
+        return {
+          destination: body[key]
+        };
+      default:
+        return {
+          [key]: {
+            [Op.iLike]: `%${body[key]}`
+          }
+        };
+    }
+  });
+  return travel_requests.findAndCountAll({
+
+    where: {
+      [Op.or]: searchValue
+    },
+    limit,
+    offset
+  });
 };
+
+

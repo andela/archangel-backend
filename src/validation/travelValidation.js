@@ -31,3 +31,26 @@ export default {
   },
 
 };
+
+
+export const validateTravelSearch = [
+        check('origin').not().isInt()
+        .withMessage(message.lettersAlone),
+        check('destination').not().isInt()
+        .withMessage(message.lettersAlone)
+    ]
+
+export const validateTravelResult  = (req, res, next) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+            const error = [];
+            errors.array().forEach((err) => {
+                error.push(err.msg);
+            });
+            return errorResponse(res, statusCode.badRequest, error);
+		}
+		return next();
+	}
+
+
+
