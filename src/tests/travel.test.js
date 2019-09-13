@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import message from '../utils/messageUtils';
 import {
+  testUser1,
   testUser2,
   testTravelRequest,
   testManager1,
@@ -26,7 +27,7 @@ dotenv.config();
 
 chai.use(chaiHttp);
 
-let token;
+let token, token2;
 
 describe('Testing one way ticket feature', () => {
   before((done) => {
@@ -316,6 +317,32 @@ describe('Testing for most travelled destinations', () => {
 
 // Users can edit pending requests
 describe('Testing users can edit pending requests', () => {
+  before((done) => {
+    chai
+      .request(app)
+      .post(onewayRoute)
+      .set('Authorization', token)
+      .send(approvedRequest)
+      .end((err, res) => {
+        const { data } = res.body;
+        approvedRequest.id = data.id;
+        expect(res).to.have.status(201);
+        done();
+      });
+  });
+
+  before((done) => {
+    chai
+      .request(app)
+      .post(loginRoute)
+      .send(testUser1)
+      .end((err, res) => {
+        const { data } = res.body;
+        token2 = data.token;
+        done();
+      });
+  });
+
   it('should successfully edit pending requests', (done) => {
     chai
       .request(app)
@@ -339,16 +366,14 @@ describe('Testing users can edit pending requests', () => {
       });
   });
 
-  it('should successfully create an approved one way trip', (done) => {
+  it('should return an error if modifier is not the requester', (done) => {
     chai
       .request(app)
-      .post(onewayRoute)
-      .set('Authorization', token)
-      .send(approvedRequest)
+      .put(pendingRequestRoute)
+      .set('Authorization', token2)
+      .send(testTravelRequest)
       .end((err, res) => {
-        const { data } = res.body;
-        approvedRequest.id = data.id;
-        expect(res).to.have.status(201);
+        expect(res).to.have.status(500);
         done();
       });
   });

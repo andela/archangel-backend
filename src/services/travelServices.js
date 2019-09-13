@@ -52,11 +52,11 @@ const showManagerPendingAppr = async (manager) => {
   }
 };
 
-const checkApprovalStatus = async (id) => {
+const checkApprovalStatus = async (id, userId) => {
   try {
     return await travel_requests.findAll({
       attributes: ['approval_status'],
-      where: { id },
+      where: { id, user_id: userId },
       raw: true
     });
   } catch (err) {

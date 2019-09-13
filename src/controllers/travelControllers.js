@@ -117,7 +117,7 @@ const userCanEditOpenRequest = async (req, res) => {
   const userId = req.userData.id;
 
   try {
-    const result = await checkApprovalStatus(id);
+    const result = await checkApprovalStatus(id, userId);
 
     if (result[0].approval_status !== 'pending') {
       errorResponse(res, statusCode.badRequest, message.requestNotOpen);
