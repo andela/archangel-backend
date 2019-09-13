@@ -294,3 +294,19 @@ describe('Testing the travel approval route', () => {
       });
   });
 });
+
+// Most travelled to destinations
+
+describe('Testing for most travelled destinations', () => {
+  it('should successfully return most travelled destination', (done) => {
+    chai
+      .request(app)
+      .get(`${prefix}/most`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        done();
+       });
+  });
+});
+

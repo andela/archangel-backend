@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-catch */
 import 'core-js/stable';
+import sequelize from 'sequelize';
 import 'regenerator-runtime/runtime';
 import models from '../models';
 
@@ -57,6 +58,33 @@ export const showUsertravelsStatus = async (userId) => {
       where: {
         user_id: userId,
       },
+
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const approveTravel = async (id) => {
+  try {
+    return await travel_requests.update(
+      { approval_status: 'accepted' },
+      { returning: true, where: { id } }
+    );
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const mostTraveled = async () => {
+  try {
+    return await travel_requests.findAll({
+      attributes: ['destination', [sequelize.fn('count', sequelize.col('destination')), 'count']],
+      group: ['destination'],
+      raw: true,
+      order: sequelize.literal('count DESC'),
+      limit: 3
+
     });
   } catch (error) {
     throw error;
