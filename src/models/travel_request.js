@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'travel_id',
       onDelete: 'CASCADE'
     });
+
+    travel_request.hasMany(models.notifications, {
+      foreignKey: 'travel_id',
+      onDelete: 'CASCADE'
+    });
   };
   return travel_request;
 };

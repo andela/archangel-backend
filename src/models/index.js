@@ -5,10 +5,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-let env = process.env.NODE_ENV || 'development';
-let config = require('../database/config')[env];
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config')[env];
 
-let db = {};
+const db = {};
 
 let sequelize;
 
