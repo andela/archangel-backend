@@ -19,7 +19,7 @@ export const generateToken = (id, email, role, first_name) => {
   };
   const option = { expiresIn: '1d' };
   // Adding the string bearer to jwt object and get token string
-  return jwt.sign(payload, jwtSecret, option);
+  return `Bearer ${jwt.sign(payload, jwtSecret, option)}`;
 };
 
 export const getToken = (req, res, next) => {

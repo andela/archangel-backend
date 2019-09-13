@@ -25,3 +25,11 @@ export const testComment = {
 };
 
 export const validCommentId = '554455';
+
+export const travelRequest = {
+  origin: 'Lagos',
+  destination: 'Kigali',
+  departure_date: '2019-12-12',
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453
+};
