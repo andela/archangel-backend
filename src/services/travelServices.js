@@ -5,7 +5,7 @@ import models from '../database/models';
 
 const { travel_requests, departments, users } = models;
 
-export const onewayTripService = async (travelObj) => {
+const onewayTripService = async (travelObj) => {
   try {
     return await travel_requests.create(travelObj);
   } catch (err) {
@@ -13,7 +13,7 @@ export const onewayTripService = async (travelObj) => {
   }
 };
 
-export const findTravelById = async (id) => {
+const findTravelById = async (id) => {
   try {
     return await travel_requests.findOne({
       attributes: ['id', 'user_id'],
@@ -24,7 +24,7 @@ export const findTravelById = async (id) => {
   }
 };
 
-export const showManagerPendingAppr = async (manager) => {
+const showManagerPendingAppr = async (manager) => {
   try {
     return await travel_requests.findAll({
       where: {
@@ -50,4 +50,55 @@ export const showManagerPendingAppr = async (manager) => {
   } catch (err) {
     throw err;
   }
+};
+
+const checkApprovalStatus = async (id) => {
+  try {
+    return await travel_requests.findAll({
+      attributes: ['approval_status'],
+      where: { id },
+      raw: true
+    });
+  } catch (err) {
+    throw err;
+  }
+};
+
+
+const editOpenRequests = async ({
+  id,
+  travel_type = 'one-way',
+  origin,
+  destination,
+  departure_date = null,
+  return_date,
+  travel_purpose,
+  accommodation_id,
+  approval_status = 'pending',
+  multi_city = false
+}, userId) => {
+  try {
+    return await travel_requests.update({
+      user_id: userId,
+      travel_type,
+      origin,
+      destination,
+      departure_date,
+      return_date,
+      travel_purpose,
+      accommodation_id,
+      approval_status,
+      multi_city
+    }, {
+      where: { id },
+      returning: true,
+      plain: true
+    });
+  } catch (err) {
+    throw err;
+  }
+};
+
+export {
+  onewayTripService, findTravelById, showManagerPendingAppr, editOpenRequests, checkApprovalStatus
 };

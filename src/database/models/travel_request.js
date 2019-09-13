@@ -1,6 +1,12 @@
 /* eslint-disable import/no-dynamic-require */
 module.exports = (sequelize, DataTypes) => {
   const travel_request = sequelize.define('travel_requests', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     user_id: DataTypes.INTEGER,
     travel_type: {
       type: DataTypes.ENUM,

@@ -46,7 +46,7 @@ describe('Testing one way ticket feature', () => {
   it('should successfully create a one way trip', (done) => {
     chai
       .request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(travelRequest)
       .end((err, res) => {
@@ -57,7 +57,7 @@ describe('Testing one way ticket feature', () => {
 
   it('should return an error if the token is invalid', (done) => {
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .send(travelRequest)
       .end((err, res) => {
         expect(res.status).to.equal(401);
@@ -70,7 +70,7 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.origin = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(mutatedtravelRequest)
       .end((err, res) => {
@@ -84,7 +84,7 @@ describe('Testing one way ticket feature', () => {
     const mutatedtravelRequest = Object.assign({}, travelRequest);
     mutatedtravelRequest.origin = '4Lag12';
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(mutatedtravelRequest)
       .end((err, res) => {
@@ -99,7 +99,7 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.destination = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(mutatedtravelRequest)
       .end((err, res) => {
@@ -114,7 +114,7 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.destination = '4Kigs23';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(mutatedtravelRequest)
       .end((err, res) => {
@@ -129,7 +129,7 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.departure_date = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(mutatedtravelRequest)
       .end((err, res) => {
@@ -144,7 +144,7 @@ describe('Testing one way ticket feature', () => {
     mutatedtravelRequest.travel_purpose = '';
 
     chai.request(app)
-      .post(`${prefix}/onewaytrip`)
+      .post(`${prefix}/travels/onewaytrip`)
       .set('Authorization', `Bearer ${token}`)
       .send(mutatedtravelRequest)
       .end((err, res) => {
@@ -184,7 +184,7 @@ describe('Testing Avail request for approval', () => {
   it('should successfully return manager pending requests', (done) => {
     chai
       .request(app)
-      .get(`${prefix}/requests/pending/Mr. Benchfort`)
+      .get(`${prefix}/travels/pending/Mr. Benchfort`)
       .set('Authorization', `Bearer ${adminToken}`)
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -195,7 +195,7 @@ describe('Testing Avail request for approval', () => {
   it('should return an error if requester does not have admin privileges', (done) => {
     chai
       .request(app)
-      .get(`${prefix}/requests/pending/Mr. Benchfort`)
+      .get(`${prefix}/travels/pending/Mr. Benchfort`)
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res).to.have.status(401);

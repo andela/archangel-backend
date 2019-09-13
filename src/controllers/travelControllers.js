@@ -1,7 +1,10 @@
 import {
   onewayTripService,
   showManagerPendingAppr,
+  editOpenRequests,
+  checkApprovalStatus
 } from '../services/travelServices';
+
 import { successResponseWithData, errorResponse } from '../utils/response';
 
 import message from '../utils/messageUtils';
@@ -51,6 +54,26 @@ export default {
 
       // eslint-disable-next-line max-len
       successResponseWithData(res, statusCode.success, message.managerApproval(requestNumbers), filteredRequests);
+    } catch (err) {
+      errorResponse(res, statusCode.serverError, err);
+    }
+  },
+
+  userCanEditOpenRequests: async (req, res) => {
+    const { id } = req.body;
+
+    const userId = req.userData.id;
+
+    try {
+      const result = await checkApprovalStatus(id);
+
+      if (result[0].approval_status !== 'pending') {
+        errorResponse(res, statusCode.badRequest, message.requestNotOpen);
+      }
+
+      const updatedRequest = await editOpenRequests(req.body, userId);
+
+      successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest);
     } catch (err) {
       errorResponse(res, statusCode.serverError, err);
     }

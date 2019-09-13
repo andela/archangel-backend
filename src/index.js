@@ -9,7 +9,7 @@ import methodOverride from 'method-override';
 
 import { fbStrategy, googleStrategy } from './config/passport';
 import message from './utils/messageUtils';
-import response from './utils/response';
+import { successResponse } from './utils/response';
 import statusCode from './utils/statusCode';
 import routes from './routes/api';
 
@@ -48,14 +48,14 @@ passport.deserializeUser((user, cb) => {
 // serve the api endpoints built in routes folder
 routes(prefix, app);
 // handles the api home route...
-app.all('/', (req, res) => response.successResponse(res, statusCode.success, message.defaultWelcome));
+app.all('/', (req, res) => successResponse(res, statusCode.success, message.defaultWelcome));
 // serve the api endpoints built in routes folder
 // app.use(routes);
 // app.use('/', router);
 
 
 app.get(`${prefix}/`, (req, res) => {
-  response.successResponse(res, statusCode.success, message.welcome);
+  successResponse(res, statusCode.success, message.welcome);
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
