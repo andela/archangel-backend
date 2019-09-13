@@ -23,6 +23,8 @@ export default {
   emptyDepartureDate: 'You must state your departure date',
   emptyReturnDate: 'You must state your return date',
   emptyTravelPurpose: 'You must state your travel purpose',
+  notifyUser: 'Your travel request has been successfully created and it is awaiting approval',
+  lineManager: 'Line manager must be present to continue',
   lettersAlone: 'Only letters are allowed',
   unauthorized: 'Not authorized.',
   invalidToken: 'Invalid Token, please login.',
@@ -41,8 +43,7 @@ export default {
   emptyEmail: 'Email cannot be empty.',
   invalidTravelId: 'The travel ID must be an integer value.',
   travelNotFound: 'The travel request does not exist.',
-  unauthorizedAccessToTravel:
-    'Access denied. Accessible only by travel requester or his/her line manager.',
+  unauthorizedAccessToTravel: 'Access denied. Accessible only by travel requester or his/her line manager.',
   emptyComment: 'comment cannot be empty.',
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
   commentNotFound: 'The comment does not exist.',
