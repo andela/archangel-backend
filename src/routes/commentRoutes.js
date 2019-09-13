@@ -4,17 +4,17 @@ import {
   addComment,
   getComments,
   deleteComment,
-} from '../../controllers/commentControllers';
+} from '../controllers/commentControllers';
 import {
   confirmUserEmail,
   verifyTravelOwner,
   verifyCommentOwner,
-} from '../../middlewares/userMiddlewares';
+} from '../middlewares/userMiddlewares';
 import {
   validateComment,
   validateResult,
-} from '../../validation/commentValidation';
-import { getToken, verifyToken } from '../../middlewares/tokenMiddleware';
+} from '../validation/commentValidation';
+import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
 

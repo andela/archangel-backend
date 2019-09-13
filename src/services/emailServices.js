@@ -1,4 +1,4 @@
-import models from '../database/models';
+import models from '../models';
 
 const { users } = models;
 
@@ -9,11 +9,11 @@ const { users } = models;
  * @returns {Promise} - sequelize response
 */
 const queryByEmail = async (email) => {
-try{
-    return await users.findOne({ where: { email } });
-}catch(err){
-    throw err;
-}
+  try{
+      return await users.findOne({ where: { email } });
+  }catch(err){
+      throw err;
+  }
 }
 /**
  * Helper function to find a user by id
@@ -21,11 +21,11 @@ try{
  * @returns {Promise} - sequelize response
  */
 const queryById = async (id) => {
-    try{
+  try{
     return await users.findOne({ where: { id } });
-}catch(err){
+  }catch(err){
     throw err
-}   
+  }
 }
 
 /**
@@ -35,15 +35,15 @@ const queryById = async (id) => {
  * @returns {Promise} - sequelize response
  */
 const updatePassword = async (hash, id) =>{
-    try{
-     return await users.update(hash, { where: { id } });
-    }catch(err){
-        throw err
-    }
-    }
+  try{
+    return await users.update(hash, { where: { id } });
+  }catch(err){
+    throw err
+  }
+}
 
 export default {
-    queryByEmail,
-    queryById,
-    updatePassword
+  queryByEmail,
+  queryById,
+  updatePassword
 }

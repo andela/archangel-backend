@@ -11,7 +11,7 @@ import { fbStrategy, googleStrategy } from './config/passport';
 import message from './utils/messageUtils';
 import response from './utils/response';
 import statusCode from './utils/statusCode';
-import routes from './routes/api';
+import routes from './routes';
 
 dotenv.config();
 const debugLog = debug('web-app');
