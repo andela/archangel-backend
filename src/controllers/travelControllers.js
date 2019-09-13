@@ -1,6 +1,5 @@
 import {
-  onewayTripService,
-  returnTripService,
+  createTripService,
   showManagerPendingAppr,
   showUsertravelsStatus
 } from '../services/travelServices';
@@ -21,7 +20,7 @@ export default {
         ...req.body
       };
 
-      const createdOnewayTripData = await onewayTripService(travelObj);
+      const createdOnewayTripData = await createTripService(travelObj);
 
       successResponseWithData(res, statusCode.created, message.oneWayTripCreated, createdOnewayTripData);
     } catch (err) {
@@ -31,11 +30,11 @@ export default {
 
   createReturnTrip: async (req, res) => {
     try {
-      var user_id = req.userData.id;
+      let user_id = req.userData.id;
 
       const travelRequestData = { user_id, ...req.body };
 
-      const createdReturnTripData = await returnTripService(travelRequestData);
+      const createdReturnTripData = await createTripService(travelRequestData);
 
       successResponseWithData(res, statusCode.created, message.returnTripCreated, createdReturnTripData);
     } catch (err) {

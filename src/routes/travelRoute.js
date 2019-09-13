@@ -10,10 +10,10 @@ const { createOneWayTrip, createReturnTrip, pendingManagerApproval, getUserTrave
 const { validateReturnTrip, validateTravelRequest, validateResult } = travelValidator;
 
 // handles the api home route...
-route.post('/onewaytrip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
+route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
 
-//This is the route that will handle the request to create a valid return trip for a user....
-route.post('/travel/returntrip', getToken, verifyToken, validateReturnTrip, validateResult,
+// This is the route that will handle the request to create a valid return trip for a user....
+route.post('/travel/return_trip', getToken, verifyToken, validateReturnTrip, validateResult,
             departureDateValidator, futureDateValidator, createReturnTrip);
 
 // handles manager pending req approvals route

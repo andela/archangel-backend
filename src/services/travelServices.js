@@ -5,21 +5,12 @@ import models from '../models';
 
 const { travel_requests, departments, users } = models;
 
-export const onewayTripService = async (travelObj) => {
-  try {
-    return await travel_requests.create(travelObj);
-  } catch (err) {
-    throw err;
-  }
-};
-
-
 /**
 *This function will create a new return trip in the database...
 *@param {Object} travelRequest - the data of the travel request the user is making..
 *@return {Object} - response of sequelize after creating the request.
 */
-export const returnTripService = async (travelRequest) => {
+export const createTripService = async (travelRequest) => {
   try {
     return await travel_requests.create(travelRequest)
   } catch (err) {
