@@ -1,28 +1,28 @@
-import { check, validationResult } from "express-validator";
+import { check, validationResult } from 'express-validator';
 
-import { errorResponse } from "../utils/response";
-import statusCode from "../utils/statusCode";
-import message from "../utils/messageUtils";
+import { errorResponse } from '../utils/response';
+import statusCode from '../utils/statusCode';
+import message from '../utils/messageUtils';
 
 export default {
   validateTravelRequest: [
-    check("origin")
+    check('origin')
       .not()
       .isEmpty()
       .withMessage(message.emptyOrigin)
       .isAlpha()
       .withMessage(message.lettersAlone),
-    check("destination")
+    check('destination')
       .not()
       .isEmpty()
       .withMessage(message.emptyDestination)
       .isAlpha()
       .withMessage(message.lettersAlone),
-    check("departure_date")
+    check('departure_date')
       .not()
       .isEmpty()
       .withMessage(message.emptyDepartureDate),
-    check("travel_purpose")
+    check('travel_purpose')
       .not()
       .isEmpty()
       .withMessage(message.emptyTravelPurpose)
@@ -41,11 +41,11 @@ export default {
 };
 
 export const validateTravelSearch = [
-  check("origin")
+  check('origin')
     .not()
     .isInt()
     .withMessage(message.lettersAlone),
-  check("destination")
+  check('destination')
     .not()
     .isInt()
     .withMessage(message.lettersAlone)

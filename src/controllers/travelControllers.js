@@ -3,11 +3,11 @@ import {
   showManagerPendingAppr,
   showUsertravelsStatus,
   searchTravel
-} from "../services/travelServices";
-import { successResponseWithData, errorResponse } from "../utils/response";
-import message from "../utils/messageUtils";
-import statusCode from "../utils/statusCode";
-import { paginate } from "../utils/pagination";
+} from '../services/travelServices';
+import { successResponseWithData, errorResponse } from '../utils/response';
+import message from '../utils/messageUtils';
+import statusCode from '../utils/statusCode';
+import { paginate } from '../utils/pagination';
 
 export default {
   createOneWayTrip: async (req, res) => {
@@ -23,7 +23,7 @@ export default {
 
       const travelObj = {
         user_id: userId,
-        travel_type: "one-way",
+        travel_type: 'one-way',
         origin,
         destination,
         departure_date,
@@ -49,7 +49,7 @@ export default {
 
     const { manager } = req.params;
 
-    if (role === "user") {
+    if (role === 'user') {
       errorResponse(res, statusCode.unauthorized, message.unauthorized);
     }
 
@@ -57,7 +57,7 @@ export default {
       const requestsPending = await showManagerPendingAppr(manager);
 
       const filteredRequests = requestsPending.filter(
-        request => request["user.department.line_manager"] !== null
+        request => request['user.department.line_manager'] !== null
       );
 
       const requestNumbers = filteredRequests.length;
@@ -77,7 +77,7 @@ export default {
   getUserTravelStatus: async (req, res) => {
     const { role, id } = req.userData;
 
-    if (role === "admin") {
+    if (role === 'admin') {
       return errorResponse(res, statusCode.unauthorized, message.unauthorized);
     } else {
       try {
@@ -107,11 +107,9 @@ export const searchTravels = async (req, res) => {
     const { body, query } = req;
     const { page, perPage } = query;
     const { rows, count } = await searchTravel(body, query);
-    console.log("My search body", body);
     const meta = paginate(page, perPage, count, rows);
     return res.status(200).json({ success: { requests: rows, meta } });
   } catch (error) {
-    console.log("My search error", error);
     return res.status(404).json({ error: error });
   }
 };

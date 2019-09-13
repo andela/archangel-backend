@@ -136,8 +136,8 @@ describe('Testing one way ticket feature', () => {
 
   it('should return search result based on origin and destination', (done) => {
     const searchTravelRequest = {
-      "origin":"NewYork, USA",
-      "destination":"Paris, France"
+      'origin': 'NewYork, USA',
+      'destination': 'Paris, France'
       }
     
     chai.request(app)
