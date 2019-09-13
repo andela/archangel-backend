@@ -23,9 +23,10 @@ export default {
     check('travel_type')
       .not().isEmpty()
       .withMessage(message.emptyTravelType)
-      .not().custom( value => {
+      .not()
+      .custom(value => {
         if (value !== 'return') {
-          throw new Error(message.invalidTravelType)
+          throw new Error(message.invalidTravelType);
         }
       }),
     check('origin')

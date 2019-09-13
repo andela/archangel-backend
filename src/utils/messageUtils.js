@@ -27,7 +27,7 @@ export default {
   invalidToken: 'Invalid Token, please login.',
   invalidTravelType: 'Sorry you can only make return trip request here.',
   invalidTravelId: 'The travel ID must be an integer value.',
-  invalidUserId:'Sorry you can only create the request with the id of the logged in user.',
+  invalidUserId: 'Sorry you can only create the request with the id of the logged in user.',
   lettersAlone: 'Only letters are allowed',
   loginSuccess: 'You have been logged in sucessfully.',
   logoutSuccess: 'Logged out successfully.',
