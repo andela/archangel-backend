@@ -32,11 +32,16 @@ export const confirmUserEmail = async (req, res, next) => {
 
 export const verifyTravelOwner = async (req, res, next) => {
   try {
-    const travelObj = await findTravelById(req.params.travel_id);
+    const { travel_id } = req.params;
+    if (travel_id && travel_id.match(/\D/)) {
+      return errorResponse(res, statusCode.badRequest, message.invalidTravelId);
+    }
 
+    const travelObj = await findTravelById(req.params.travel_id);
     if (travelObj === null) {
       return errorResponse(res, statusCode.notFound, message.travelNotFound);
     }
+
     const travel = travelObj.dataValues;
     const dept = await getADepartment(travel.dept_id);
 

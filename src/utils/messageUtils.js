@@ -20,8 +20,10 @@ export default {
   shortPassword: 'The length of the password must be 8 and above.',
   noDigitInPassword: 'Password must contain at least one digit.',
   commentNotFound: 'The comment does not exist.',
-  dateForFuture: 'Please enter a date greater than the departure date for return date.',
-  dateForToday: 'Please your departure date must be equal to or greater than today\'s date.',
+  dateForFuture:
+    'Please enter a date greater than the departure date for return date.',
+  dateForToday:
+    "Please your departure date must be equal to or greater than today's date.",
   deleteComment: 'Comment successfully deleted.',
   diffDepartment: 'You are not in the same department as the Travel Requester.',
   emptyAccommodation: 'You must select an accommodation.',
@@ -37,11 +39,12 @@ export default {
   emptyTravelType: 'Sorry, travel type can not be empty.',
   incorrectPassword: 'Sorry, the password entered is not correct.',
   isNotInteger: 'You must enter a valid integer type.',
-  isNotISODate: 'Your date must be of ISO8601 standard \'2019-01-10\'.',
+  isNotISODate: "Your date must be of ISO8601 standard '2019-01-10'.",
   invalidToken: 'Invalid Token, please login.',
   invalidTravelType: 'Sorry you can only make return trip request here.',
   invalidTravelId: 'The travel ID must be an integer value.',
-  invalidUserId: 'Sorry you can only create the request with the id of the logged in user.',
+  invalidUserId:
+    'Sorry you can only create the request with the id of the logged in user.',
   lettersAlone: 'Only letters are allowed',
   loginSuccess: 'You have been logged in sucessfully.',
   logoutSuccess: 'Logged out successfully.',
@@ -56,11 +59,17 @@ export default {
   travelNotFound: 'The travel request does not exist.',
   unauthorized: 'Not authorized.',
   unauthorizedAccessToTravel:
-  'Access denied. Accessible only by travel requester or his/her line manager.',
+    'Access denied. Accessible only by travel requester or his/her line manager.',
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
   successfullyApproval: (requester) => `You have successfully approved a travel request from ${requester}.`,
   userEmailNotFound: (email) => `Sorry, there is no user with email ${email} in the database.`,
   userIdNotFound: (id) => `Sorry, there is no user with id: ${id} in the database.`,
   unregisteredEmail: (email) => `User with this email (${email}) not found in our database.`,
   wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
+
+  newFeedback: (accomm) => `You have successfully dropped a feedback on our accomodation facility with name, ${accomm}.`,
+  getFeedback: (accomm) => `You have successfully retrieved feedback on our accommodation facility with name, ${accomm}.`,
+  accommodationNotFound: 'The accommodation facility does not exist.',
+  invalidAccommodationId: 'The Accommodation ID must be an integer value.',
+  emptyFeedback: 'Feedback field cannot be empty.',
 };
