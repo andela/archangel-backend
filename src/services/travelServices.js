@@ -74,7 +74,8 @@ export const searchTravel = (body, query) => {
       case 'destination':
         return {
           destination: body[key]
-        };
+		};
+		
       default:
         return {
           [key]: {
