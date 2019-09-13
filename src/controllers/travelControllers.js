@@ -10,7 +10,6 @@ import { successResponseWithData, errorResponse } from '../utils/response';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 
-
 export const createOneWayTrip = async (req, res) => {
   try {
     const user = await findUserByEmail(req.userData.email);

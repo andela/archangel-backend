@@ -160,7 +160,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
   // return trip route tests starts here.....................
   describe('Test for return trip travel request route', () => {
-    it('Should throw an error if the request header does not have authorization token', (done) =>{
+    it('Should throw an error if the request header does not have authorization token', (done) => {
       chai
         .request(app)
         .post(returnTripRoute)
@@ -197,7 +197,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .include(message.emptyTravelType);
+            .include(message.emptyTravelType);
           done(err);
         });
     });
@@ -214,7 +214,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .include(message.emptyOrigin);
+            .include(message.emptyOrigin);
           done(err);
         });
     });
@@ -231,7 +231,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .include(message.isNotISODate);
+            .include(message.isNotISODate);
           done(err);
         });
     });
@@ -248,7 +248,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .equal(message.dateForToday);
+            .equal(message.dateForToday);
           done(err);
         });
     });
@@ -265,7 +265,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .include(message.isNotISODate);
+            .include(message.isNotISODate);
           done(err);
         });
     });
@@ -282,7 +282,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .equal(message.dateForFuture);
+            .equal(message.dateForFuture);
           done(err);
         });
     });
@@ -299,7 +299,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(400);
           expect(body.error).to
-          .include(message.emptyAccommodation);
+            .include(message.emptyAccommodation);
           done(err);
         });
     });
@@ -314,7 +314,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           const { body, status } = res;
           expect(status).to.equal(201);
           expect(body.message).to
-          .equal(message.returnTripCreated);
+            .equal(message.returnTripCreated);
           done(err);
         });
     });
@@ -374,7 +374,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
   describe('Testing for users request status', ()=> {
     it('should successfully return user request status', (done)=> {
       chai
-      .request(app)
+        .request(app)
         .get(`${prefix}/user/status`)
         .set('Authorization', token)
         .end((err, res) => {
@@ -384,7 +384,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
     });
     it('should return error when role is admin', (done) => {
       chai
-      .request(app)
+        .request(app)
         .get(`${prefix}/user/status`)
         .set('Authorization', adminToken)
         .end((err, res) => {
