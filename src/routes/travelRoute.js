@@ -1,8 +1,9 @@
 import { Router } from 'express';
 
-import travelControllers from '../controllers/travelControllers';
-import travelValidator from '../validation/travelValidation';
+import travelControllers, {searchTravels} from '../controllers/travelControllers';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
+import travelValidator,{validateTravelSearch, validateTravelResult} from '../validation/travelValidation';
+
 
 const route = Router();
 const { createOneWayTrip, pendingManagerApproval, getUserTravelStatus } = travelControllers;
@@ -13,6 +14,7 @@ route.post('/onewaytrip', getToken, verifyToken, validateTravelRequest, validate
 
 // handles manager pending req approvals route
 route.get('/requests/pending/:manager', getToken, verifyToken, pendingManagerApproval);
+route.get('/search/travels',validateTravelSearch, validateTravelResult,searchTravels);
 
 route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
 

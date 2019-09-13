@@ -132,6 +132,26 @@ describe('Testing one way ticket feature', () => {
         done();
       });
   });
+
+
+  it('should return search result based on origin and destination', (done) => {
+    const searchTravelRequest = {
+      'origin': 'NewYork, USA',
+      'destination': 'Paris, France'
+      }
+    
+    chai.request(app)
+      .get(`${prefix}/search/travels`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(searchTravelRequest)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(searchTravelRequest).to.have.property('origin');
+        expect(searchTravelRequest).to.have.property('destination');
+        done();
+      });
+  });
+
   it('should return an error message if travel_purpose', (done) => {
     const mutatedtravelRequest = Object.assign({}, travelRequest);
     mutatedtravelRequest.travel_purpose = '';
