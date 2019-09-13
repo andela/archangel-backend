@@ -1,5 +1,5 @@
 // Test user for sign-up functionality
-export const newUser = {
+const newUser = {
   first_name: 'Emma',
   last_name: 'Korede',
   email: 'emma.k@yahoo.com',
@@ -7,21 +7,69 @@ export const newUser = {
 };
 
 // Test Users for Login functionality and other tests that requires a logged in user
-export const testUser1 = {
+const testUser1 = {
   email: 'nancngo@gmail.com',
   password: 'testing123',
 };
 
-export const testUser2 = {
+const testUser2 = {
   email: 'petchidi@yahoo.com',
   password: 'testing123',
 };
 
-export const validTravelId = '1891029';
+const testManager1 = {
+  email: 'rose.querty@yahoo.com',
+  password: 'testing123',
+};
+
+const testManager2 = {
+  email: 'm.benchfort@yahoo.com',
+  password: 'testing123',
+};
+
+// Test Travel Request
+const testTravelRequest = {
+  origin: 'Lagos',
+  destination: 'Kigali',
+  departure_date: '2019-12-12',
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453,
+};
+const validTravelId = '1891029';
 
 // Test comment
-export const testComment = {
+const testComment = {
   comment: 'sample comment on travel request for testing',
 };
 
-export const validCommentId = '554455';
+const validCommentId = '554455';
+
+const travelRequest = {
+  origin: 'Lagos',
+  destination: 'Kigali',
+  departure_date: '2019-12-12',
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453
+};
+
+const modifiedTravelRequest = {
+  origin: 'Lagos',
+  destination: 'Rwanda',
+  departure_date: '2019-12-12',
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453
+};
+
+export {
+  newUser,
+  testUser1,
+  testUser2,
+  testManager1,
+  testManager2,
+  testTravelRequest,
+  modifiedTravelRequest,
+  testComment,
+  validTravelId,
+  validCommentId,
+  travelRequest
+};

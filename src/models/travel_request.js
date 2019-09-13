@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     return_date: DataTypes.DATE,
     travel_purpose: DataTypes.TEXT,
     accommodation_id: DataTypes.INTEGER,
+    dept_id: DataTypes.INTEGER,
     approval_status: {
       type: DataTypes.ENUM,
       values: ['accepted', 'pending', 'rejected'],

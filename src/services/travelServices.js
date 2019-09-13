@@ -1,7 +1,8 @@
 /* eslint-disable no-useless-catch */
 import 'core-js/stable';
+import sequelize from 'sequelize';
 import 'regenerator-runtime/runtime';
-import models from '../database/models';
+import models from '../models';
 
 const { travel_requests, departments, users } = models;
 
@@ -16,8 +17,7 @@ const onewayTripService = async (travelObj) => {
 const findTravelById = async (id) => {
   try {
     return await travel_requests.findOne({
-      attributes: ['id', 'user_id'],
-      where: { id },
+      where: { id }
     });
   } catch (err) {
     throw err;
@@ -91,14 +91,58 @@ const editOpenRequests = async ({
       multi_city
     }, {
       where: { id },
-      returning: true,
-      plain: true
+      returning: true
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const showUsertravelsStatus = async (userId) => {
+  try {
+    return await travel_requests.findAll({
+      where: {
+        user_id: userId,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const approveTravel = async (id) => {
+  try {
+    return await travel_requests.update(
+      { approval_status: 'accepted' },
+      { returning: true, where: { id } }
+    );
   } catch (err) {
     throw err;
   }
 };
 
+
+const mostTraveled = async () => {
+  try {
+    return await travel_requests.findAll({
+      attributes: ['destination', [sequelize.fn('count', sequelize.col('destination')), 'count']],
+      group: ['destination'],
+      raw: true,
+      order: sequelize.literal('count DESC'),
+      limit: 3
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
-  onewayTripService, findTravelById, showManagerPendingAppr, editOpenRequests, checkApprovalStatus
+  onewayTripService,
+  findTravelById,
+  showManagerPendingAppr,
+  editOpenRequests,
+  checkApprovalStatus,
+  showUsertravelsStatus,
+  approveTravel,
+  mostTraveled,
 };

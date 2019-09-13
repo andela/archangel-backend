@@ -2,7 +2,7 @@
 import { compareSync } from 'bcryptjs';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import models from '../database/models';
+import models from '../models';
 
 const { users, blacklists } = models;
 

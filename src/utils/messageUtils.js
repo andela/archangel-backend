@@ -13,6 +13,7 @@ export default {
   requestNotOpen: 'Your request is no longer open for editing.',
   requestUpdated: 'Your request has been successfully updated',
   noEmail: 'Email cannot be empty.',
+  userApproval: 'Here are your request status',
   // sign-up validation messages
   invalidEmail: 'Please, enter a valid email address.',
   usedEmail: (email) => `User with this email (${email}) already exist.`,
@@ -49,4 +50,9 @@ export default {
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
   commentNotFound: 'The comment does not exist.',
   deleteComment: 'Comment successfully deleted.',
+
+  requestNotPending: 'This Travel Request is not Pending.',
+  diffDepartment: 'You are not in the same department as the Travel Requester.',
+  wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
+  successfullyApproval: (requester) => `You have successfully approved a travel request from ${requester}.`,
 };

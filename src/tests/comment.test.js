@@ -13,6 +13,7 @@ import {
 import app from '../index';
 
 const prefix = '/api/v1';
+const signinRoute = `${prefix}/auth/login`;
 
 dotenv.config();
 chai.use(chaiHttp);
@@ -23,7 +24,7 @@ describe('Testing Commenting on Travel Request', () => {
   before((done) => {
     chai
       .request(app)
-      .post(`${prefix}/auth/login`)
+      .post(signinRoute)
       .send(testUser1)
       .end((err, res) => {
         const { data } = res.body;
@@ -34,7 +35,7 @@ describe('Testing Commenting on Travel Request', () => {
   before((done) => {
     chai
       .request(app)
-      .post(`${prefix}/auth/login`)
+      .post(signinRoute)
       .send(testUser2)
       .end((err, res) => {
         const { data } = res.body;
@@ -48,7 +49,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .post(`${prefix}/travel/${validTravelId}/comment`)
-        .set('Authorization', `Bearer ${user1AuthToken}`)
+        .set('Authorization', user1AuthToken)
         .send(testComment)
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -72,7 +73,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .post(`${prefix}/travel/${validTravelId}/comment`)
-        .set('Authorization', `Bearer ${user2AuthToken}`)
+        .set('Authorization', user2AuthToken)
         .send(testComment)
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -84,7 +85,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .post(`${prefix}/travel/12/comment`)
-        .set('Authorization', `Bearer ${user1AuthToken}`)
+        .set('Authorization', user1AuthToken)
         .send(testComment)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -96,7 +97,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .post(`${prefix}/travel/458484ff/comment`)
-        .set('Authorization', `Bearer ${user1AuthToken}`)
+        .set('Authorization', user1AuthToken)
         .send(testComment)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -110,7 +111,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .post(`${prefix}/travel/${validTravelId}/comment`)
-        .set('Authorization', `Bearer ${user1AuthToken}`)
+        .set('Authorization', user1AuthToken)
         .send(mutatedComment)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -125,7 +126,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .get(`${prefix}/travel/${validTravelId}/comment`)
-        .set('Authorization', `Bearer ${user1AuthToken}`)
+        .set('Authorization', user1AuthToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.data.length).to.equal(3);
@@ -137,7 +138,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .get(`${prefix}/travel/${validTravelId}/comment`)
-        .set('Authorization', `Bearer ${user2AuthToken}`)
+        .set('Authorization', user2AuthToken)
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.error).to.equal(message.unauthorizedAccessToTravel);
@@ -148,7 +149,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .get(`${prefix}/travel/9009980/comment`)
-        .set('Authorization', `Bearer ${user2AuthToken}`)
+        .set('Authorization', user2AuthToken)
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.error).to.equal(message.travelNotFound);
@@ -162,7 +163,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .delete(`${prefix}/travel/comment/${validCommentId}`)
-        .set('Authorization', `Bearer ${user2AuthToken}`)
+        .set('Authorization', user2AuthToken)
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.error).to.equal(message.unauthorizedCommentDelete);
@@ -173,7 +174,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .delete(`${prefix}/travel/comment/${validCommentId}`)
-        .set('Authorization', `Bearer ${user1AuthToken}`)
+        .set('Authorization', user1AuthToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.message).to.equal(message.deleteComment);
@@ -184,7 +185,7 @@ describe('Testing Commenting on Travel Request', () => {
       chai
         .request(app)
         .delete(`${prefix}/travel/comment/9909909`)
-        .set('Authorization', `Bearer ${user2AuthToken}`)
+        .set('Authorization', user2AuthToken)
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.error).to.equal(message.commentNotFound);
