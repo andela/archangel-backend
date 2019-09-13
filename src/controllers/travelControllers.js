@@ -1,6 +1,7 @@
 import {
   onewayTripService,
-  showManagerPendingAppr, 
+  returnTripService,
+  showManagerPendingAppr,
   showUsertravelsStatus
 } from '../services/travelServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
@@ -11,26 +12,34 @@ import statusCode from '../utils/statusCode';
 export default {
   createOneWayTrip: async (req, res) => {
     try {
-      const {
-        origin, destination, departure_date, accommodation_id, travel_purpose
-      } = req.body;
-      const userId = req.userData.id;
+      const travel_type = 'one-way';
+      const user_id = req.userData.id;
 
       const travelObj = {
-        user_id: userId,
-        travel_type: 'one-way',
-        origin,
-        destination,
-        departure_date,
-        travel_purpose,
-        accommodation_id,
+        user_id,
+        travel_type,
+        ...req.body
       };
 
-      const data = await onewayTripService(travelObj);
+      const createdOnewayTripData = await onewayTripService(travelObj);
 
-      successResponseWithData(res, statusCode.created, message.oneWayTripCreated, data);
+      successResponseWithData(res, statusCode.created, message.oneWayTripCreated, createdOnewayTripData);
     } catch (err) {
       errorResponse(res, statusCode.serverError, err);
+    }
+  },
+
+  createReturnTrip: async (req, res) => {
+    try {
+      var user_id = req.userData.id;
+
+      const travelRequestData = { user_id, ...req.body };
+
+      const createdReturnTripData = await returnTripService(travelRequestData);
+
+      successResponseWithData(res, statusCode.created, message.returnTripCreated, createdReturnTripData);
+    } catch (err) {
+      errorResponse(res, err.statusCode || statusCode.serverError, err);
     }
   },
 

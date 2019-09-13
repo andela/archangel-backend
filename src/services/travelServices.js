@@ -13,6 +13,20 @@ export const onewayTripService = async (travelObj) => {
   }
 };
 
+
+/**
+*This function will create a new return trip in the database...
+*@param {Object} travelRequest - the data of the travel request the user is making..
+*@return {Object} - response of sequelize after creating the request.
+*/
+export const returnTripService = async (travelRequest) => {
+  try {
+    return await travel_requests.create(travelRequest)
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const findTravelById = async (id) => {
   try {
     return await travel_requests.findOne({
