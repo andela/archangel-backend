@@ -103,7 +103,7 @@ export const approveTravelRequest = async (req, res) => {
       }
     }
   }
-}
+};
 
 export const mostTravelledDest = async (req, res) => {
     try {

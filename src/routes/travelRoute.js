@@ -5,6 +5,7 @@ import {
   pendingManagerApproval,
   getUserTravelStatus,
   approveTravelRequest,
+  mostTravelledDest
 } from '../controllers/travelControllers';
 import {
   validateTravelRequest,
@@ -15,14 +16,6 @@ import { verifyRole } from '../middlewares/userMiddlewares';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
-
-const { 
-  createOneWayTrip,
-  pendingManagerApproval, 
-  getUserTravelStatus, 
-  mostTravelledDest
-  } = travelControllers;
-const { validateTravelRequest, validateResult } = travelValidator;
 
 // handles the api home route...
 route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
