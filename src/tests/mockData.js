@@ -17,6 +17,24 @@ export const testUser2 = {
   password: 'testing123',
 };
 
+export const testManager1 = {
+  email: 'rose.querty@yahoo.com',
+  password: 'testing123',
+};
+
+export const testManager2 = {
+  email: 'm.benchfort@yahoo.com',
+  password: 'testing123',
+};
+
+// Test Travel Request
+export const testTravelRequest = {
+  origin: 'Lagos',
+  destination: 'Kigali',
+  departure_date: '2019-12-12',
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453,
+};
 export const validTravelId = '1891029';
 
 // Test comment

@@ -1,18 +1,18 @@
 module.exports = {
   up: function up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('departments', [{
-      id: 15327458,
+      id: 1532745,
       dept_name: 'Business Admin',
-      line_manager: 'Mr. Benchfort',
-      manager_staff_id: 'GHJ-378-2838',
+      line_manager: 'Marshal Benchfort',
+      manager_user_id: 3433434,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
       id: 1536907,
       dept_name: 'Software Engr',
-      line_manager: 'Ms. Querty',
-      manager_staff_id: 'RDS-256-5787',
+      line_manager: 'Rose Querty',
+      manager_user_id: 6749460,
       createdAt: new Date(),
       updatedAt: new Date(),
     },

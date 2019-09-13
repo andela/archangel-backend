@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import nodemailer from 'nodemailer';
-=======
 require('dotenv').config();
 const sendGrid = require('sendgrid').mail;
 const sg = require('sendgrid')(process.env.SENDGRID_API);
@@ -52,4 +49,3 @@ const sendVerificationEmail = (to) => {
     });
   };
 export default sendVerificationEmail;
->>>>>>> 5bf985eeac915aa0c8eecce4a5c3dbb91c4d0675

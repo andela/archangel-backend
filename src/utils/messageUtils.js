@@ -47,4 +47,9 @@ export default {
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
   commentNotFound: 'The comment does not exist.',
   deleteComment: 'Comment successfully deleted.',
+
+  requestNotPending: 'This Travel Request is not Pending.',
+  diffDepartment: 'You are not in the same department as the Travel Requester.',
+  wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
+  successfullyApproval: (requester) => `You have successfully approved a travel request from ${requester}.`,
 };
