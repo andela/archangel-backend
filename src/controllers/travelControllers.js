@@ -1,5 +1,5 @@
 import {
-  onewayTripService,
+  createTripService,
   showManagerPendingAppr,
   showUsertravelsStatus,
   approveTravel,
@@ -7,7 +7,6 @@ import {
 } from '../services/travelServices';
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
-
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 
@@ -16,7 +15,7 @@ export const createOneWayTrip = async (req, res) => {
     const user = await findUserByEmail(req.userData.email);
     const { id, dept_id } = user.dataValues;
 
-    const data = await onewayTripService({
+    const data = await createTripService({
       user_id: id,
       travel_type: 'one-way',
       ...req.body,
@@ -31,6 +30,30 @@ export const createOneWayTrip = async (req, res) => {
     );
   } catch (err) {
     errorResponse(res, statusCode.serverError, err);
+  }
+};
+
+export const createReturnTrip = async (req, res) => {
+  try {
+    const user = await findUserByEmail(req.userData.email);
+    const { id, dept_id } = user.dataValues;
+
+    const travelRequestData = {
+      user_id: id,
+      dept_id,
+      ...req.body
+    };
+
+    const createdReturnTripData = await createTripService(travelRequestData);
+
+    successResponseWithData(
+      res,
+      statusCode.created,
+      message.returnTripCreated,
+      createdReturnTripData
+    );
+  } catch (err) {
+    errorResponse(res, err.statusCode || statusCode.serverError, err);
   }
 };
 

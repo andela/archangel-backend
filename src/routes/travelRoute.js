@@ -1,31 +1,42 @@
 import { Router } from 'express';
 
 import {
-  createOneWayTrip,
-  pendingManagerApproval,
-  getUserTravelStatus,
   approveTravelRequest,
+  createOneWayTrip,
+  createReturnTrip,
+  getUserTravelStatus,
+  mostTravelledDest,
+  pendingManagerApproval
 } from '../controllers/travelControllers';
 import {
+  validateReturnTrip,
   validateTravelRequest,
   validateResult,
 } from '../validation/travelValidation';
+import {
+  departureDateValidator,
+  futureDateValidator
+} from '../validation/dateValidator';
 import { verifyDeptManagerAndRequestStatus } from '../middlewares/travelsMiddleware';
 import { verifyRole } from '../middlewares/userMiddlewares';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
 
-const { 
-  createOneWayTrip,
-  pendingManagerApproval, 
-  getUserTravelStatus, 
-  mostTravelledDest
-  } = travelControllers;
-const { validateTravelRequest, validateResult } = travelValidator;
-
 // handles the api home route...
 route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
+
+// This is the route that will handle the request to create a valid return trip for a user....
+route.post(
+  '/travel/return_trip',
+  getToken,
+  verifyToken,
+  validateReturnTrip,
+  validateResult,
+  departureDateValidator,
+  futureDateValidator,
+  createReturnTrip
+);
 
 // handles manager pending req approvals route
 route.get('/requests/pending/:manager', getToken, verifyToken, pendingManagerApproval);
