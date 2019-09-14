@@ -6,17 +6,21 @@ import {
   createReturnTrip,
   getUserTravelStatus,
   mostTravelledDest,
+  userCanEditOpenRequest,
   pendingManagerApproval
 } from '../controllers/travelControllers';
+
 import {
   validateReturnTrip,
   validateTravelRequest,
   validateResult,
 } from '../validation/travelValidation';
+
 import {
   departureDateValidator,
   futureDateValidator
 } from '../validation/dateValidator';
+
 import { verifyDeptManagerAndRequestStatus } from '../middlewares/travelsMiddleware';
 import { verifyRole } from '../middlewares/userMiddlewares';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
@@ -39,7 +43,7 @@ route.post(
 );
 
 // handles manager pending req approvals route
-route.get('/requests/pending/:manager', getToken, verifyToken, pendingManagerApproval);
+route.get('/travel/pending_request/:manager', getToken, verifyToken, pendingManagerApproval);
 
 // user request status
 route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
@@ -54,5 +58,15 @@ route.patch(
 );
 // Most travelled to destinations
 route.get('/most', getToken, verifyToken, mostTravelledDest);
+
+// handles editing of user's pending request
+route.put(
+  '/travel/update_request/:travel_id',
+  getToken,
+  verifyToken,
+  validateTravelRequest,
+  validateResult,
+  userCanEditOpenRequest
+);
 
 export default route;

@@ -5,14 +5,16 @@ import dotenv from 'dotenv';
 
 import message from '../utils/messageUtils';
 import {
+  testUser1,
   returnTripTestData,
   testUser2,
   testTravelRequest,
   testManager1,
   testManager2,
-  user,
-  validTravelId
+  validTravelId,
+  approvedRequest,
 } from './mockData';
+
 import app from '../index';
 
 const prefix = '/api/v1';
@@ -20,16 +22,17 @@ const signupRoute = `${prefix}/auth/signup`;
 const approveRequestRoute = `${prefix}/travel/approve_request/${validTravelId}`;
 const loginRoute = `${prefix}/auth/login`;
 const onewayRoute = `${prefix}/travel/one_way_trip`;
+const rightUpdateRoute = `${prefix}/travel/update_request/1`;
+const wrongUpdateRoute = `${prefix}/travel/update_request/`;
 const returnTripRoute = `${prefix}/travel/return_trip`;
 
 dotenv.config();
 
 chai.use(chaiHttp);
 
-let token;
+let token, token2, approvedReqId;
 
 describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
-
   describe('Testing one way ticket feature', () => {
     before((done) => {
       chai
@@ -330,7 +333,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
       last_name: 'mylastnoamep',
       email: 'mygmailisj@gomail.com',
       password: 'protected123pass',
-      role: 'admin'
+      role: 'manager'
     };
 
     it('should successfully create an admin user', (done) => {
@@ -346,21 +349,21 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
 
-    // it('should successfully return manager pending requests', (done) => {
-    //   chai
-    //     .request(app)
-    //     .get(`${prefix}/requests/pending/Mr. Benchfort`)
-    //     .set('Authorization', adminToken)
-    //     .end((err, res) => {
-    //       expect(res).to.have.status(200);
-    //       done();
-    //     });
-    // });
+    it('should successfully return manager pending requests', (done) => {
+      chai
+        .request(app)
+        .get(`${prefix}/travel/pending_request/Mr. Benchfort`)
+        .set('Authorization', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
 
     it('should return an error if requester does not have admin privileges', (done) => {
       chai
         .request(app)
-        .get(`${prefix}/requests/pending/Mr. Benchfort`)
+        .get(`${prefix}/travel/pending_request/Mr. Benchfort`)
         .set('Authorization', token)
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -370,8 +373,8 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
   });
 
   // Get users request status
-  describe('Testing for users request status', ()=> {
-    it('should successfully return user request status', (done)=> {
+  describe('Testing for users request status', () => {
+    it('should successfully return user request status', (done) => {
       chai
         .request(app)
         .get(`${prefix}/user/status`)
@@ -381,16 +384,16 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           done();
         });
     });
-    // it('should return error when role is admin', (done) => {
-    //   chai
-    //     .request(app)
-    //     .get(`${prefix}/user/status`)
-    //     .set('Authorization', adminToken)
-    //     .end((err, res) => {
-    //       expect(res).to.have.status(401);
-    //       done();
-    //     });
-    // });
+    it('should return error when role is manager', (done) => {
+      chai
+        .request(app)
+        .get(`${prefix}/user/status`)
+        .set('Authorization', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done();
+        });
+    });
   });
 
   // Testing travel approval...
@@ -465,7 +468,6 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
   });
-
   // Most travelled to destinations
   describe('Testing for most travelled destinations', () => {
     it('should successfully return most travelled destination', (done) => {
@@ -476,7 +478,95 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           done();
-         });
+        });
+    });
+  });
+
+  // Users can edit pending requests
+  describe('Testing users can edit pending requests', () => {
+    before((done) => {
+      chai
+        .request(app)
+        .post(onewayRoute)
+        .set('Authorization', token)
+        .send(approvedRequest)
+        .end((err, res) => {
+          const { data } = res.body;
+          approvedReqId = data.id;
+          expect(res).to.have.status(201);
+          done();
+        });
+    });
+
+    before((done) => {
+      chai
+        .request(app)
+        .post(loginRoute)
+        .send(testUser1)
+        .end((err, res) => {
+          const { data } = res.body;
+          token2 = data.token;
+          done();
+        });
+    });
+
+    it('should successfully edit pending requests', (done) => {
+      chai
+        .request(app)
+        .put(rightUpdateRoute)
+        .set('Authorization', token)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('should return an error if token is not valid', (done) => {
+      chai
+        .request(app)
+        .put(rightUpdateRoute)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done();
+        });
+    });
+
+    it('should return an error if modifier is not the requester', (done) => {
+      chai
+        .request(app)
+        .put(rightUpdateRoute)
+        .set('Authorization', token2)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(500);
+          done();
+        });
+    });
+
+    it('should return an error if travel id not specified', (done) => {
+      chai
+        .request(app)
+        .put(wrongUpdateRoute)
+        .set('Authorization', token)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          done();
+        });
+    });
+
+    it('should return an error if request has been approved', (done) => {
+      chai
+        .request(app)
+        .put(`${prefix}/travel/update_request/${approvedReqId}`)
+        .set('Authorization', token)
+        .send(approvedRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
     });
   });
 });
