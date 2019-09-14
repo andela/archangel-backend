@@ -36,6 +36,7 @@
 		"no-param-reassign": 0,
 		"comma-dangle": 0,
 		"arrow-parens": 0,
+		"max-len": 0,
 		"curly": ["error", "multi-line"],
 		"import/no-unresolved": [2, { "commonjs": true }],
 		"import/no-named-as-default": 0,
