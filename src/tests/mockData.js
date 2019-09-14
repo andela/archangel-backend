@@ -81,6 +81,11 @@ const approvedRequest = {
   approval_status: 'accepted'
 };
 
+const validAccommodationId = '1653453';
+
+const testFeedback = {
+  feedback: 'sample feedback back on an accommodation facility.',
+};
 export {
   newUser,
   testUser1,
@@ -92,5 +97,7 @@ export {
   validTravelId,
   validCommentId,
   returnTripTestData,
-  approvedRequest
+  approvedRequest,
+  validAccommodationId,
+  testFeedback,
 };

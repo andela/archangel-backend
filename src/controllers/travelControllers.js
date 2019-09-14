@@ -1,7 +1,6 @@
-import socketEmission from '../services/websocket';
 /* eslint-disable no-else-return */
+import socketEmission from '../services/websocket';
 import {
-    onewayTripService,
     createTripService,
     showManagerPendingAppr,
     showUsertravelsStatus,
@@ -13,37 +12,27 @@ import {
 
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
-import sendVerificationEmail from '../utils/email';
-
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
+import sendVerificationEmail from '../utils/email';
 
 const { emission } = socketEmission;
 
 const createOneWayTrip = async(req, res) => {
     try {
         const user = await findUserByEmail(req.userData.email);
-        const { id, email, dept_id } = user.dataValues;
+        const { id, dept_id } = user.dataValues;
 
-        if (!dept_id) {
-            errorResponse(res, statusCode.badRequest, message.lineManager);
-        }
-
-        const data = await onewayTripService({
+        const data = await createTripService({
             user_id: id,
             travel_type: 'one-way',
             ...req.body,
             dept_id,
         });
 
-        const emailVerify = await sendVerificationEmail(email,
-            'Travel Confirmation', message.notifyUser);
-        emission('here', 'we made it');
-
         successResponseWithData(
             res,
             statusCode.created,
-            message.oneWayTripCreated,
             message.oneWayTripCreated,
             data
         );
@@ -51,6 +40,8 @@ const createOneWayTrip = async(req, res) => {
         errorResponse(res, statusCode.serverError, err);
     }
 };
+
+
 
 const createReturnTrip = async(req, res) => {
     try {
@@ -123,8 +114,6 @@ const getUserTravelStatus = async(req, res) => {
 };
 
 const approveTravelRequest = async(req, res) => {
-    const { role, id } = req.userData;
-
     try {
         const updatedTravel = await approveTravel(req.params.travel_id);
 
@@ -136,16 +125,6 @@ const approveTravelRequest = async(req, res) => {
         );
     } catch (err) {
         errorResponse(res, statusCode.serverError, err);
-        if (role === 'admin') {
-            return errorResponse(res, statusCode.unauthorized, message.unauthorized);
-        } else {
-            try {
-                const data = await showUsertravelsStatus(id);
-                return successResponseWithData(res, statusCode.success, message.userApproval, data);
-            } catch (error) {
-                errorResponse(res, statusCode.serverError, error);
-            }
-        }
     }
 };
 
