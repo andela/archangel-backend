@@ -12,7 +12,7 @@ const {
     DB_DIALECT
 } = process.env;
 
-module.exports = {
+export const db = {
     DB_USERNAME,
     DATABASE,
     DB_PASSWORD,
@@ -21,3 +21,16 @@ module.exports = {
     PORT,
     DB_DIALECT
 };
+
+
+let connection;
+
+if (process.env.NODE_ENV === 'test') {
+    connection = {
+        connectionString: process.env.TESTDB_URL
+    }
+}
+connection = {
+    connectionString: process.env.DATABASE_URL
+};
+

@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 let env = process.env.NODE_ENV || 'development';
-let config = require('../config')[env];
+let config = require('../database/config')[env];
 
 let db = {};
 
@@ -43,4 +43,4 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;

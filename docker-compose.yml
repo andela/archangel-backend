@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    db:
+      image: 'postgres:latest'
+      env_file: .env
+      restart: always
+      volumes:
+          - dbase_data:/var/lib/postgresql/data/
+      networks:
+        - db_nw
+
+    api:
+      build: 
+        context: .
+        dockerfile: Dockerfile.dev
+      command: 'npm run test'
+      depends_on:
+        - db
+      volumes:
+        - ./src:/app/
+      env_file: .env
+      networks:
+        - api_nw
+        - db_nw
+    nginx:
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile.dev
+      restart: always
+      volumes:
+        - ./nginx/log:/var/log/nginx
+      depends_on:
+        - api
+      build:
+        dockerfile: Dockerfile.dev
+        context:  ./nginx
+      networks:
+        - api_nw
+      ports:
+        - "3000:80"
+
+volumes:
+  dbase_data:
+
+
+networks:
+  db_nw:
+    driver: bridge
+  api_nw:
+    driver: bridge
+
+    

@@ -1,25 +1,24 @@
 module.exports = {
-    up: (queryInterface, Sequelize) => {
-        return queryInterface.bulkInsert('department', [{
-                id: '15327458',
-                dept_name: 'Business Admin',
-                line_manager: 'Mr. Benchfort',
-                manager_staff_id: 'GHJ-378-2838',
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-            {
-                id: '1536907',
-                dept_name: 'Software Engr',
-                line_manager: 'Ms. Querty',
-                manager_staff_id: 'RDS-256-5787',
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-        ], {});
+  up: function up(queryInterface, Sequelize) {
+    return queryInterface.bulkInsert('departments', [{
+      id: 1532745,
+      dept_name: 'Business Admin',
+      line_manager: 'Marshal Benchfort',
+      manager_user_id: 3433434,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
-
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.bulkDelete('department', null, {});
-    }
+    {
+      id: 1536907,
+      dept_name: 'Software Engr',
+      line_manager: 'Rose Querty',
+      manager_user_id: 6749460,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    ], {});
+  },
+  down: function down(queryInterface, Sequelize) {
+    return queryInterface.bulkDelete('departments', null, {});
+  }
 };
