@@ -112,20 +112,20 @@ const approveTravelRequest = async (req, res) => {
 };
 
 const userCanEditOpenRequest = async (req, res) => {
-  const { id } = req.body;
+  const { travel_id } = req.params;
 
   const userId = req.userData.id;
 
   try {
-    const result = await checkApprovalStatus(id, userId);
+    const result = await checkApprovalStatus(travel_id, userId);
 
     if (result[0].approval_status !== 'pending') {
       errorResponse(res, statusCode.badRequest, message.requestNotOpen);
     }
 
-    const updatedRequest = await editOpenRequests(req.body, userId);
+    const updatedRequest = await editOpenRequests(req.body, userId, travel_id);
 
-    successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest);
+    successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest[1][0]);
   } catch (err) {
     errorResponse(res, statusCode.serverError, err);
   }

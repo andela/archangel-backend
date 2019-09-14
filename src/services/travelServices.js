@@ -66,7 +66,6 @@ const checkApprovalStatus = async (id, userId) => {
 
 
 const editOpenRequests = async ({
-  id,
   travel_type = 'one-way',
   origin,
   destination,
@@ -76,7 +75,7 @@ const editOpenRequests = async ({
   accommodation_id,
   approval_status = 'pending',
   multi_city = false
-}, userId) => {
+}, userId, id) => {
   try {
     return await travel_requests.update({
       user_id: userId,
@@ -91,7 +90,8 @@ const editOpenRequests = async ({
       multi_city
     }, {
       where: { id },
-      returning: true
+      returning: true,
+      raw: true
     });
   } catch (error) {
     throw error;

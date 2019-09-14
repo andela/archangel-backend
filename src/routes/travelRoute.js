@@ -24,7 +24,7 @@ const route = Router();
 route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
 
 // handles manager pending req approvals route
-route.get('/travel/pending/:manager', getToken, verifyToken, pendingManagerApproval);
+route.get('/travel/pending_request/:manager', getToken, verifyToken, pendingManagerApproval);
 
 // user request status
 route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
@@ -41,6 +41,13 @@ route.patch(
 route.get('/most', getToken, verifyToken, mostTravelledDest);
 
 // handles editing of user's pending request
-route.put('/travel/pending', getToken, verifyToken, validateTravelRequest, validateResult, userCanEditOpenRequest);
+route.put(
+  '/travel/update_request/:travel_id',
+  getToken,
+  verifyToken,
+  validateTravelRequest,
+  validateResult,
+  userCanEditOpenRequest
+);
 
 export default route;

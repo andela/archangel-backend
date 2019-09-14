@@ -20,14 +20,15 @@ const prefix = '/api/v1';
 const signupRoute = `${prefix}/auth/signup`;
 const loginRoute = `${prefix}/auth/login`;
 const onewayRoute = `${prefix}/travel/one_way_trip`;
-const pendingRequestRoute = `${prefix}/travel/pending`;
+const rightUpdateRoute = `${prefix}/travel/update_request/1`;
+const wrongUpdateRoute = `${prefix}/travel/update_request/`;
 const approveRequestRoute = `${prefix}/travel/approve_request/${validTravelId}`;
 
 dotenv.config();
 
 chai.use(chaiHttp);
 
-let token, token2;
+let token, token2, approvedReqId;
 
 describe('Testing one way ticket feature', () => {
   before((done) => {
@@ -187,7 +188,7 @@ describe('Testing Avail request for approval', () => {
   it('should successfully return manager pending requests', (done) => {
     chai
       .request(app)
-      .get(`${prefix}/travel/pending/Mr. Benchfort`)
+      .get(`${prefix}/travel/pending_request/Mr. Benchfort`)
       .set('Authorization', adminToken)
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -198,7 +199,7 @@ describe('Testing Avail request for approval', () => {
   it('should return an error if requester does not have admin privileges', (done) => {
     chai
       .request(app)
-      .get(`${prefix}/travel/pending/Mr. Benchfort`)
+      .get(`${prefix}/travel/pending_request/Mr. Benchfort`)
       .set('Authorization', token)
       .end((err, res) => {
         expect(res).to.have.status(401);
@@ -325,7 +326,7 @@ describe('Testing users can edit pending requests', () => {
       .send(approvedRequest)
       .end((err, res) => {
         const { data } = res.body;
-        approvedRequest.id = data.id;
+        approvedReqId = data.id;
         expect(res).to.have.status(201);
         done();
       });
@@ -346,7 +347,7 @@ describe('Testing users can edit pending requests', () => {
   it('should successfully edit pending requests', (done) => {
     chai
       .request(app)
-      .put(pendingRequestRoute)
+      .put(rightUpdateRoute)
       .set('Authorization', token)
       .send(testTravelRequest)
       .end((err, res) => {
@@ -358,7 +359,7 @@ describe('Testing users can edit pending requests', () => {
   it('should return an error if token is not valid', (done) => {
     chai
       .request(app)
-      .put(pendingRequestRoute)
+      .put(rightUpdateRoute)
       .send(testTravelRequest)
       .end((err, res) => {
         expect(res).to.have.status(401);
@@ -369,7 +370,7 @@ describe('Testing users can edit pending requests', () => {
   it('should return an error if modifier is not the requester', (done) => {
     chai
       .request(app)
-      .put(pendingRequestRoute)
+      .put(rightUpdateRoute)
       .set('Authorization', token2)
       .send(testTravelRequest)
       .end((err, res) => {
@@ -378,10 +379,22 @@ describe('Testing users can edit pending requests', () => {
       });
   });
 
+  it('should return an error if travel id not specified', (done) => {
+    chai
+      .request(app)
+      .put(wrongUpdateRoute)
+      .set('Authorization', token)
+      .send(testTravelRequest)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+
   it('should return an error if request has been approved', (done) => {
     chai
       .request(app)
-      .put(pendingRequestRoute)
+      .put(`${prefix}/travel/update_request/${approvedReqId}`)
       .set('Authorization', token)
       .send(approvedRequest)
       .end((err, res) => {
