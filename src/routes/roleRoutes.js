@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import authValidator from '../validation/authValidation';
-import roleController from '../controllers/roleControllers';
+import roleController, { assignRole } from '../controllers/roleControllers';
 import { verifyRole } from '../middlewares/userMiddlewares';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
@@ -11,5 +11,5 @@ route.patch(
     getToken,
     verifyToken,
     verifyRole('super-admin'),
-    roleController
+    assignRole,
 );
