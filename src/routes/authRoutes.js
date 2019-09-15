@@ -11,7 +11,7 @@ const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 const route = Router();
 const {
- signup, fbgooglesignup, login, logout, getUserProfile, updateProfile 
+  signup, fbgooglesignup, login, logout, getUserProfile, updateProfile
 } = authControllers;
 const { validateLogin, validateSignup, validateResult } = authValidator;
 

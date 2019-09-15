@@ -5,35 +5,35 @@ import dotenv from 'dotenv';
 
 import message from '../utils/messageUtils';
 import {
+  testUser1,
+  returnTripTestData,
   testUser2,
   testTravelRequest,
   testManager1,
   testManager2,
   validTravelId,
+  approvedRequest,
 } from './mockData';
+
 import app from '../index';
 
 const prefix = '/api/v1';
 const signupRoute = `${prefix}/auth/signup`;
+const approveRequestRoute = `${prefix}/travel/approve_request/${validTravelId}`;
 const loginRoute = `${prefix}/auth/login`;
 const onewayRoute = `${prefix}/travel/one_way_trip`;
-const approveRequestRoute = `${prefix}/travel/approve_request/${validTravelId}`;
+const rightUpdateRoute = `${prefix}/travel/update_request/1`;
+const wrongUpdateRoute = `${prefix}/travel/update_request/`;
+const returnTripRoute = `${prefix}/travel/return_trip`;
 
 dotenv.config();
 
 chai.use(chaiHttp);
 
-let token;
+let token, token2, approvedReqId;
 
-describe('Testing one way ticket feature', () => {
-  // const user = {
-  //   first_name: 'namemy',
-  //   last_name: 'lastnamemy',
-  //   email: 'ismygmail@gmail.com',
-  //   password: 'protected123pass',
-  // };
-
-  it('should successfully create a user', () => {
+describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
+  describe('Testing one way ticket feature', () => {
     before((done) => {
       chai
         .request(app)
@@ -42,7 +42,6 @@ describe('Testing one way ticket feature', () => {
         .end((err, res) => {
           const { data } = res.body;
           token = data.token;
-          console.log('token', token);
           done();
         });
     });
@@ -162,6 +161,169 @@ describe('Testing one way ticket feature', () => {
     });
   });
 
+  // return trip route tests starts here.....................
+  describe('Test for return trip travel request route', () => {
+    it('Should throw an error if the request header does not have authorization token', (done) => {
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .send(returnTripTestData)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done(err);
+        });
+    });
+
+    it('should authenticate a user with a valid email and password', (done) => {
+      chai
+        .request(app)
+        .post(loginRoute)
+        .send(testUser2)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(body.data).to.not.eql(null);
+          expect(status).to.be.eql(200);
+          token = body.data.token;
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body travel_type is empty or not return-trip', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.travel_type = '';
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .include(message.emptyTravelType);
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body origin is empty', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.origin = '';
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .include(message.emptyOrigin);
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body departure_date is not the ISO standard', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.departure_date = '2010-1-02';
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .include(message.isNotISODate);
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body departure_date is a past date', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.departure_date = '2010-01-02';
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .equal(message.dateForToday);
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body return_date is not the ISO standard', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.return_date = '2010-1-02';
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .include(message.isNotISODate);
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body return_date is equal to or less than departure_date', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.return_date = returnTripTestData.departure_date;
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .equal(message.dateForFuture);
+          done(err);
+        });
+    });
+
+    it('Should throw an error if the request body accommodation_id is empty', (done) => {
+      const mutatedReturnTripTestData = { ...returnTripTestData };
+      mutatedReturnTripTestData.accommodation_id = null;
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(mutatedReturnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(400);
+          expect(body.error).to
+            .include(message.emptyAccommodation);
+          done(err);
+        });
+    });
+
+    it('Should create a new return trip request', (done) => {
+      chai
+        .request(app)
+        .post(returnTripRoute)
+        .set('Authorization', token)
+        .send(returnTripTestData)
+        .end((err, res) => {
+          const { body, status } = res;
+          expect(status).to.equal(201);
+          expect(body.message).to
+            .equal(message.returnTripCreated);
+          done(err);
+        });
+    });
+  });
+  // return trip tests route ends here.................
+
   // Avail request for approval
   let adminToken;
 
@@ -171,7 +333,7 @@ describe('Testing one way ticket feature', () => {
       last_name: 'mylastnoamep',
       email: 'mygmailisj@gomail.com',
       password: 'protected123pass',
-      role: 'manager',
+      role: 'manager'
     };
 
     it('should successfully create an admin user', (done) => {
@@ -190,7 +352,7 @@ describe('Testing one way ticket feature', () => {
     it('should successfully return manager pending requests', (done) => {
       chai
         .request(app)
-        .get(`${prefix}/requests/pending/Mr. Benchfort`)
+        .get(`${prefix}/travel/pending_request/Mr. Benchfort`)
         .set('Authorization', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -201,7 +363,7 @@ describe('Testing one way ticket feature', () => {
     it('should return an error if requester does not have admin privileges', (done) => {
       chai
         .request(app)
-        .get(`${prefix}/requests/pending/Mr. Benchfort`)
+        .get(`${prefix}/travel/pending_request/Mr. Benchfort`)
         .set('Authorization', token)
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -211,7 +373,6 @@ describe('Testing one way ticket feature', () => {
   });
 
   // Get users request status
-
   describe('Testing for users request status', () => {
     it('should successfully return user request status', (done) => {
       chai
@@ -223,7 +384,7 @@ describe('Testing one way ticket feature', () => {
           done();
         });
     });
-    it('should return error when role is a manager', (done) => {
+    it('should return error when role is manager', (done) => {
       chai
         .request(app)
         .get(`${prefix}/user/status`)
@@ -235,13 +396,14 @@ describe('Testing one way ticket feature', () => {
     });
   });
 
+  // Testing travel approval...
   describe('Testing the travel approval route', () => {
     let managerToken1, managerToken2;
 
     before((done) => {
       chai
         .request(app)
-        .post(`${prefix}/auth/login`)
+        .post(loginRoute)
         .send(testManager1)
         .end((err, res) => {
           const { data } = res.body;
@@ -252,7 +414,7 @@ describe('Testing one way ticket feature', () => {
     before((done) => {
       chai
         .request(app)
-        .post(`${prefix}/auth/login`)
+        .post(loginRoute)
         .send(testManager2)
         .end((err, res) => {
           const { data } = res.body;
@@ -272,6 +434,7 @@ describe('Testing one way ticket feature', () => {
           done();
         });
     });
+
     it('should successfully approve a travel request', (done) => {
       chai
         .request(app)
@@ -282,6 +445,7 @@ describe('Testing one way ticket feature', () => {
           done();
         });
     });
+
     it('should return error if the travel request is not pending', (done) => {
       chai
         .request(app)
@@ -292,6 +456,7 @@ describe('Testing one way ticket feature', () => {
           done();
         });
     });
+
     it('should not allow a normal user to approve a travel request', (done) => {
       chai
         .request(app)
@@ -304,7 +469,6 @@ describe('Testing one way ticket feature', () => {
     });
   });
   // Most travelled to destinations
-
   describe('Testing for most travelled destinations', () => {
     it('should successfully return most travelled destination', (done) => {
       chai
@@ -313,6 +477,94 @@ describe('Testing one way ticket feature', () => {
         .set('Authorization', token)
         .end((err, res) => {
           expect(res).to.have.status(200);
+          done();
+        });
+    });
+  });
+
+  // Users can edit pending requests
+  describe('Testing users can edit pending requests', () => {
+    before((done) => {
+      chai
+        .request(app)
+        .post(onewayRoute)
+        .set('Authorization', token)
+        .send(approvedRequest)
+        .end((err, res) => {
+          const { data } = res.body;
+          approvedReqId = data.id;
+          expect(res).to.have.status(201);
+          done();
+        });
+    });
+
+    before((done) => {
+      chai
+        .request(app)
+        .post(loginRoute)
+        .send(testUser1)
+        .end((err, res) => {
+          const { data } = res.body;
+          token2 = data.token;
+          done();
+        });
+    });
+
+    it('should successfully edit pending requests', (done) => {
+      chai
+        .request(app)
+        .put(rightUpdateRoute)
+        .set('Authorization', token)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('should return an error if token is not valid', (done) => {
+      chai
+        .request(app)
+        .put(rightUpdateRoute)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done();
+        });
+    });
+
+    it('should return an error if modifier is not the requester', (done) => {
+      chai
+        .request(app)
+        .put(rightUpdateRoute)
+        .set('Authorization', token2)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(500);
+          done();
+        });
+    });
+
+    it('should return an error if travel id not specified', (done) => {
+      chai
+        .request(app)
+        .put(wrongUpdateRoute)
+        .set('Authorization', token)
+        .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          done();
+        });
+    });
+
+    it('should return an error if request has been approved', (done) => {
+      chai
+        .request(app)
+        .put(`${prefix}/travel/update_request/${approvedReqId}`)
+        .set('Authorization', token)
+        .send(approvedRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
           done();
         });
     });
