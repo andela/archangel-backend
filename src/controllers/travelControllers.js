@@ -23,6 +23,7 @@ const createOneWayTrip = async (req, res) => {
       user_id: id,
       travel_type: 'one-way',
       ...req.body,
+      multi_city: req.destinationCount,
       dept_id,
     });
 

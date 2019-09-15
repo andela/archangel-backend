@@ -87,3 +87,10 @@ export const validateResult = (req, res, next) => {
   }
   return next();
 };
+export const destinationCounts = (req, res, next) => {
+  const { destination } = req.body;
+  let cityCount = destination.split("NEXT").length;
+  req.destinationCount = cityCount > 1 ? 1 : 0;
+  console.log(cityCount);
+  return next();
+};
