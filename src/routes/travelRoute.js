@@ -1,24 +1,25 @@
 import { Router } from 'express';
 
 import {
-  approveTravelRequest,
-  createOneWayTrip,
-  createReturnTrip,
-  getUserTravelStatus,
-  mostTravelledDest,
-  userCanEditOpenRequest,
-  pendingManagerApproval
+    approveTravelRequest,
+    createOneWayTrip,
+    createReturnTrip,
+    getUserTravelStatus,
+    mostTravelledDest,
+    userCanEditOpenRequest,
+    pendingManagerApproval,
+    countTravelsByTimeFrame
 } from '../controllers/travelControllers';
 
 import {
-  validateReturnTrip,
-  validateTravelRequest,
-  validateResult,
+    validateReturnTrip,
+    validateTravelRequest,
+    validateResult,
 } from '../validation/travelValidation';
 
 import {
-  departureDateValidator,
-  futureDateValidator
+    departureDateValidator,
+    futureDateValidator
 } from '../validation/dateValidator';
 
 import { verifyDeptManagerAndRequestStatus } from '../middlewares/travelsMiddleware';
@@ -32,14 +33,14 @@ route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest,
 
 // This is the route that will handle the request to create a valid return trip for a user....
 route.post(
-  '/travel/return_trip',
-  getToken,
-  verifyToken,
-  validateReturnTrip,
-  validateResult,
-  departureDateValidator,
-  futureDateValidator,
-  createReturnTrip
+    '/travel/return_trip',
+    getToken,
+    verifyToken,
+    validateReturnTrip,
+    validateResult,
+    departureDateValidator,
+    futureDateValidator,
+    createReturnTrip
 );
 
 // handles manager pending req approvals route
@@ -49,24 +50,33 @@ route.get('/travel/pending_request/:manager', getToken, verifyToken, pendingMana
 route.get('/user/status', getToken, verifyToken, getUserTravelStatus);
 
 route.patch(
-  '/travel/approve_request/:travel_id',
-  getToken,
-  verifyToken,
-  verifyRole('manager'),
-  verifyDeptManagerAndRequestStatus,
-  approveTravelRequest,
+    '/travel/approve_request/:travel_id',
+    getToken,
+    verifyToken,
+    verifyRole('manager'),
+    verifyDeptManagerAndRequestStatus,
+    approveTravelRequest,
 );
 // Most travelled to destinations
 route.get('/most', getToken, verifyToken, mostTravelledDest);
 
 // handles editing of user's pending request
 route.put(
-  '/travel/update_request/:travel_id',
-  getToken,
-  verifyToken,
-  validateTravelRequest,
-  validateResult,
-  userCanEditOpenRequest
+    '/travel/update_request/:travel_id',
+    getToken,
+    verifyToken,
+    validateTravelRequest,
+    validateResult,
+    userCanEditOpenRequest
+);
+
+route.get(
+    '/travel/timeframe?startDate&endDate',
+    getToken,
+    verifyToken,
+    departureDateValidator,
+    futureDateValidator,
+    countTravelsByTimeFrame,
 );
 
 export default route;
