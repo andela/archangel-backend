@@ -35,7 +35,6 @@ const sendPasswordResetEmail = async (req, res) => {
   const url = getPasswordResetURL(user, token);
   const emailTemplate = resetPasswordTemplate(user, url);
   transporter(emailTemplate, res);
-
 };
 
 
@@ -54,17 +53,17 @@ const receiveNewPassword = (req, res) => {
   queryById(userId)
 
     .then(user => {
-      const secret = `${user.password  }-${  user.createdAt}`;
+      const secret = `${user.password}-${user.createdAt}`;
       const payload = jwt.decode(token, secret);
       if (payload.userId === user.id) {
         bcrypt.genSalt(10, (err, salt) => {
-          if (err) return
-          bcrypt.hash(password, salt, function(err, hash) {
-            if (err) return
-            updatePassword(hash,userId)
-              .then(() => res.status(202).json("Password changed accepted"))
-              .catch(err => res.status(500).json(err))
-          })
+          if (err) return;
+          bcrypt.hash(password, salt, (err, hash) => {
+            if (err) return;
+            updatePassword(hash, userId)
+              .then(() => res.status(202).json('Password changed accepted'))
+              .catch(err => res.status(500).json(err));
+          });
         });
       }
     })
