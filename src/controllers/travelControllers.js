@@ -169,7 +169,7 @@ const countTravelsByTimeFrame = async(req, res) => {
                 }
             }
         });
-        formatStartDate !== formatEnDate ? successResponseWithData(res, statusCode.success, message.travelByTimeFrame, travelCount);
+        successResponseWithData(res, statusCode.success, message.travelByTimeFrame, travelCount);
     } catch (error) {
         errorResponse(res, statusCode.serverError, error);
     }
