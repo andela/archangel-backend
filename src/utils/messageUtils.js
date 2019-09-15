@@ -53,7 +53,7 @@ export default {
         'You have successfully commented on a travel request.',
         'You have successfully retrieved all comments for this travel request.',
     ],
-    travelByTimeFrame: `Number of trip requests between ${formatStartDate} and ${formatEnDate}.`,
+    travelByTimeFrame: `Number of trip requests between start date and end date.`,
     travelNotFound: 'The travel request does not exist.',
     unauthorized: 'Not authorized.',
     unauthorizedAccessToTravel: 'Access denied. Accessible only by travel requester or his/her line manager.',
