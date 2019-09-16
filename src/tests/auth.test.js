@@ -4,12 +4,14 @@ import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 
 import app from '../index';
+import { testUser1 } from './mockData';
 import message from '../utils/messageUtils';
 
 const prefix = '/api/v1';
 const signupRoute = `${prefix}/auth/signup`;
 const signinRoute = `${prefix}/auth/login`;
 const logoutRoute = `${prefix}/auth/logout`;
+const rememberMeRoute = `${prefix}/auth/remember_me`;
 const passwordResetToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU2NzUzNzkwNSwiZXhwIjoxNTY3NTQxNTA1fQ.nPMaVY0-y_FhF9eVroUIe08PXW9kqnmmqUvAcu8uD74';
 let passwordUserId;
 
@@ -351,6 +353,59 @@ describe('Send Password Reset', () => {
         expect(res.status).to.equal(202);
         expect(passwordResetData).to.have.property('password');
         done();
+      });
+  });
+});
+
+describe('TEST FOR REMEMBER ME UPDATE REQUEST', () => {
+  let token;
+  before((done) => {
+    chai
+      .request(app)
+      .post(signinRoute)
+      .send(testUser1)
+      .end((err, res) => {
+        const { data } = res.body;
+        token = data.token;
+        done();
+      });
+  });
+  it('Should throw an error if the request header does not have authorization token', (done) => {
+    chai
+      .request(app)
+      .patch(rememberMeRoute)
+      .send({remember_me: true})
+      .end((err, res) => {
+        expect(res).to.have.status(401);
+        done(err);
+      });
+  });
+  it('Should update a valid user remember me detail to true', (done) => {
+    chai
+      .request(app)
+      .patch(rememberMeRoute)
+      .set('Authorization', token)
+      .send({remember_me: true})
+      .end((err, res) => {
+        const { body, status } = res;
+        expect(status).to.equal(200);
+        expect(body.message).to
+          .equal(message.updateRememberMe);
+        done(err);
+      });
+  });
+  it('Should update a valid user remember me detail to false', (done) => {
+    chai
+      .request(app)
+      .patch(rememberMeRoute)
+      .set('Authorization', token)
+      .send({remember_me: false})
+      .end((err, res) => {
+        const { body, status } = res;
+        expect(status).to.equal(200);
+        expect(body.message).to
+          .equal(message.updateRememberMe);
+        done(err);
       });
   });
 });

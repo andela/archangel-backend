@@ -7,6 +7,7 @@ import {
   findUserByEmail,
   logoutService,
   signupService,
+  updateUserService
 } from '../services/authServices';
 import {
   successResponseWithData,
@@ -116,4 +117,21 @@ export default {
       errorResponse(res, statusCode.serverError, err.message);
     }
   },
+
+  updateUserController: async (req, res) => {
+    try {
+      const { remember_me } = req.body;
+      const { id } = req.userData;
+      const user = await updateUserService(id, remember_me);
+
+      successResponseWithData(
+        res,
+        statusCode.success,
+        message.updateRememberMe,
+        user[1]
+      );
+    } catch (err) {
+      errorResponse(res, statusCode.serverError, err.message);
+    }
+  }
 };

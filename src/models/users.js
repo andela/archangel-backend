@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     preferred_lang: DataTypes.TEXT,
     preferred_currency: DataTypes.TEXT,
     role: DataTypes.TEXT,
+    remember_me: DataTypes.BOOLEAN,
     is_active: DataTypes.BOOLEAN
   }, {});
 
