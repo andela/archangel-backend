@@ -1,13 +1,13 @@
 /* eslint-disable no-else-return */
 import {
-    createTripService,
-    showManagerPendingAppr,
-    showUsertravelsStatus,
-    approveTravel,
-    mostTraveled,
-    editOpenRequests,
-    checkApprovalStatus,
-    getUserTravelsStats
+  createTripService,
+  showManagerPendingAppr,
+  showUsertravelsStatus,
+  approveTravel,
+  mostTraveled,
+  editOpenRequests,
+  checkApprovalStatus,
+  getUserTravelsStats
 } from '../services/travelServices';
 import { isDateValid } from '../utils/dateUtils';
 
@@ -19,163 +19,163 @@ import statusCode from '../utils/statusCode';
 
 
 const createOneWayTrip = async(req, res) => {
-    try {
-        const user = await findUserByEmail(req.userData.email);
-        const { id, dept_id } = user.dataValues;
+  try {
+    const user = await findUserByEmail(req.userData.email);
+    const { id, dept_id } = user.dataValues;
 
-        const data = await createTripService({
-            user_id: id,
-            travel_type: 'one-way',
-            ...req.body,
-            dept_id,
-        });
+    const data = await createTripService({
+      user_id: id,
+      travel_type: 'one-way',
+      ...req.body,
+      dept_id,
+    });
 
-        successResponseWithData(
-            res,
-            statusCode.created,
-            message.oneWayTripCreated,
-            data
-        );
-    } catch (err) {
-        errorResponse(res, statusCode.serverError, err);
-    }
+    successResponseWithData(
+      res,
+      statusCode.created,
+      message.oneWayTripCreated,
+      data
+    );
+  } catch (err) {
+      errorResponse(res, statusCode.serverError, err);
+  }
 };
 
 const createReturnTrip = async(req, res) => {
-    try {
-        const user = await findUserByEmail(req.userData.email);
-        const { id, dept_id } = user.dataValues;
+  try {
+    const user = await findUserByEmail(req.userData.email);
+    const { id, dept_id } = user.dataValues;
 
-        const travelRequestData = {
-            user_id: id,
-            dept_id,
-            ...req.body
-        };
+    const travelRequestData = {
+      user_id: id,
+      dept_id,
+      ...req.body
+    };
 
-        const createdReturnTripData = await createTripService(travelRequestData);
+    const createdReturnTripData = await createTripService(travelRequestData);
 
-        successResponseWithData(
-            res,
-            statusCode.created,
-            message.returnTripCreated,
-            createdReturnTripData
-        );
-    } catch (err) {
-        errorResponse(res, err.statusCode || statusCode.serverError, err);
-    }
+    successResponseWithData(
+      res,
+      statusCode.created,
+      message.returnTripCreated,
+      createdReturnTripData
+    );
+  } catch (err) {
+      errorResponse(res, err.statusCode || statusCode.serverError, err);
+  }
 };
 
 const pendingManagerApproval = async(req, res) => {
-    const { role } = req.userData;
+  const { role } = req.userData;
 
-    const { manager } = req.params;
+  const { manager } = req.params;
 
-    if (role !== 'manager') {
-        errorResponse(res, statusCode.unauthorized, message.unauthorized);
-    }
+  if (role !== 'manager') {
+    errorResponse(res, statusCode.unauthorized, message.unauthorized);
+  }
 
-    try {
-        const requestsPending = await showManagerPendingAppr(manager);
+  try {
+    const requestsPending = await showManagerPendingAppr(manager);
 
-        const filteredRequests = requestsPending
-            .filter((request) => request['user.department.line_manager'] !== null);
-        const requestNumbers = filteredRequests.length;
+    const filteredRequests = requestsPending
+      .filter((request) => request['user.department.line_manager'] !== null);
+    const requestNumbers = filteredRequests.length;
 
-        successResponseWithData(
-            res,
-            statusCode.success,
-            message.managerApproval(requestNumbers),
-            filteredRequests
-        );
-    } catch (err) {
-        errorResponse(res, statusCode.serverError, err);
-    }
+    successResponseWithData(
+      res,
+      statusCode.success,
+      message.managerApproval(requestNumbers),
+      filteredRequests
+    );
+  } catch (err) {
+      errorResponse(res, statusCode.serverError, err);
+  }
 };
 
 const getUserTravelStatus = async(req, res) => {
-    const { role, id } = req.userData;
+  const { role, id } = req.userData;
 
-    if (role === 'manager') {
-        return errorResponse(res, statusCode.unauthorized, message.unauthorized);
-    }
-    try {
-        const data = await showUsertravelsStatus(id);
-        return successResponseWithData(
-            res,
-            statusCode.success,
-            message.userApproval,
-            data
-        );
-    } catch (error) {
-        errorResponse(res, statusCode.serverError, error);
-    }
+  if (role === 'manager') {
+    return errorResponse(res, statusCode.unauthorized, message.unauthorized);
+  }
+  try {
+    const data = await showUsertravelsStatus(id);
+    return successResponseWithData(
+      res,
+      statusCode.success,
+      message.userApproval,
+      data
+    );
+  } catch (error) {
+      errorResponse(res, statusCode.serverError, error);
+  }
 };
 
 const approveTravelRequest = async(req, res) => {
-    try {
-        const updatedTravel = await approveTravel(req.params.travel_id);
+  try {
+    const updatedTravel = await approveTravel(req.params.travel_id);
 
-        successResponseWithData(
-            res,
-            statusCode.success,
-            message.successfullyApproval(req.body.requesterName),
-            updatedTravel[1][0]
-        );
-    } catch (err) {
-        errorResponse(res, statusCode.serverError, err);
-    }
+    successResponseWithData(
+      res,
+      statusCode.success,
+      message.successfullyApproval(req.body.requesterName),
+      updatedTravel[1][0]
+    );
+  } catch (err) {
+      errorResponse(res, statusCode.serverError, err);
+  }
 };
 
 const userCanEditOpenRequest = async(req, res) => {
-    const { travel_id } = req.params;
+  const { travel_id } = req.params;
 
-    const userId = req.userData.id;
+  const userId = req.userData.id;
 
-    try {
-        const result = await checkApprovalStatus(travel_id, userId);
+  try {
+    const result = await checkApprovalStatus(travel_id, userId);
 
-        if (result[0].approval_status !== 'pending') {
-            errorResponse(res, statusCode.badRequest, message.requestNotOpen);
-        }
-
-        const updatedRequest = await editOpenRequests(req.body, userId, travel_id);
-
-        successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest[1][0]);
-    } catch (err) {
-        errorResponse(res, statusCode.serverError, err);
+    if (result[0].approval_status !== 'pending') {
+      errorResponse(res, statusCode.badRequest, message.requestNotOpen);
     }
+
+    const updatedRequest = await editOpenRequests(req.body, userId, travel_id);
+
+    successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest[1][0]);
+  } catch (err) {
+      errorResponse(res, statusCode.serverError, err);
+  }
 };
 
 const mostTravelledDest = async(req, res) => {
-    try {
-        const travelled = await mostTraveled();
-        successResponseWithData(res, statusCode.success, message.oneWayTripCreated, travelled);
-    } catch (error) {
-        errorResponse(res, statusCode.serverError, error);
-    }
+  try {
+    const travelled = await mostTraveled();
+    successResponseWithData(res, statusCode.success, message.oneWayTripCreated, travelled);
+  } catch (error) {
+      errorResponse(res, statusCode.serverError, error);
+  }
 };
 
 const countTravelsByStats = async(req, res) => {
-    const { start_date, end_date } = req.query;
-    const userId = req.userData.id;
-    try {
-        const travelCount = await getUserTravelsStats(userId, start_date, end_date);
-        successResponseWithData(
-            res, statusCode.success,
-            message.travelByTimeFrame,
-            travelCount[0]);
-    } catch (error) {
-        errorResponse(res, statusCode.serverError, error);
-    }
+  const { start_date, end_date } = req.query;
+  const userId = req.userData.id;
+  try {
+    const travelCount = await getUserTravelsStats(userId, start_date, end_date);
+    successResponseWithData(
+      res, statusCode.success,
+      message.travelByTimeFrame,
+      travelCount[0]);
+  } catch (error) {
+      errorResponse(res, statusCode.serverError, error);
+  }
 };
 
 export {
-    createOneWayTrip,
-    createReturnTrip,
-    pendingManagerApproval,
-    getUserTravelStatus,
-    approveTravelRequest,
-    userCanEditOpenRequest,
-    mostTravelledDest,
-    countTravelsByStats
+  createOneWayTrip,
+  createReturnTrip,
+  pendingManagerApproval,
+  getUserTravelStatus,
+  approveTravelRequest,
+  userCanEditOpenRequest,
+  mostTravelledDest,
+  countTravelsByStats
 };
