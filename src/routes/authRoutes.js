@@ -11,13 +11,13 @@ const { sendPasswordResetEmail, receiveNewPassword } = resetPassword;
 
 const route = Router();
 const {
-  signup, fbgooglesignup, login, logout, getUserProfile, updateProfile
+  signup, fbgooglesignup, login, logout, getUserProfile, updateProfile,
+  updateUserController
 } = authControllers;
 const { validateLogin, validateSignup, validateResult } = authValidator;
 
-// handles the api home route...
+// handles user signup request...
 route.post('/auth/signup', validateSignup, validateResult, signup);
-
 
 // handles social media authentication
 route.get('/auth/signup/facebook',
@@ -40,6 +40,9 @@ route.get('/auth/signup/google/callback',
 
 // route path subject to change
 route.get('/requests', fbgooglesignup);
+
+// handles the user remember me patch request...
+route.patch('/auth/remember_me', getToken, verifyToken, updateUserController);
 
 // handles the sign in request by email and password..
 route.post('/auth/login', validateLogin, validateResult, login);

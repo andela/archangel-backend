@@ -51,6 +51,13 @@ const testTravelRequest = {
   travel_purpose: 'This is a one way trip',
   accommodation_id: 1653453,
 };
+const multipleCityTravelRequest = {
+  origin: 'Lagos',
+  destination: 'KigaliNEXTAccraNEXTLagos',
+  departure_date: todayDate,
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453,
+};
 
 const validTravelId = '1891029';
 
@@ -100,6 +107,7 @@ export {
   approvedRequest,
   validAccommodationId,
   testFeedback,
+  multipleCityTravelRequest
 };
 
 // updateProfile Data

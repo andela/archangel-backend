@@ -64,6 +64,10 @@ module.exports = {
       preferred_currency: {
         type: Sequelize.TEXT,
       },
+      remember_me: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       role: {
         type: Sequelize.TEXT,
       },

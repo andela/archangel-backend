@@ -35,6 +35,17 @@ export const updateUserById = async (hash, id) => {
     throw err;
   }
 };
+
+export const updateUserService = async (id, updateValues) => {
+  try {
+    return await users.update(
+      { remember_me: updateValues },
+      { where: { id }, returning: true }
+    );
+  } catch (err) {
+    throw err;
+  }
+};
 /**
  *This function will get a user by email address...
  *@param {String} email - the user's email

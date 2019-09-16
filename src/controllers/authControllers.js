@@ -7,7 +7,8 @@ import {
   findUserByEmail,
   logoutService,
   signupService,
-  getUserProfileService
+  getUserProfileService,
+  updateUserService
 } from '../services/authServices';
 import {
   successResponseWithData,
@@ -156,6 +157,23 @@ export default {
         preferred_currency: preferred_currency || result.dataValues.preferred_currency
       }, options);
       successResponseWithData(res, statusCode.success, message.profileUpdated, newProfile);
+    } catch (err) {
+      errorResponse(res, statusCode.serverError, err.message);
+    }
+  },
+
+  updateUserController: async (req, res) => {
+    try {
+      const { remember_me } = req.body;
+      const { id } = req.userData;
+      const user = await updateUserService(id, remember_me);
+
+      successResponseWithData(
+        res,
+        statusCode.success,
+        message.updateRememberMe,
+        user[1]
+      );
     } catch (err) {
       errorResponse(res, statusCode.serverError, err.message);
     }
