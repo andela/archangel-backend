@@ -24,7 +24,7 @@ export default {
   emptyReturnDate: 'You must state your return date',
   emptyTravelPurpose: 'You must state your travel purpose',
   emptyTravelType: 'Sorry, travel type can not be empty.',
-  getFeedback: (accomm) => `You have successfully retrieved feedback on our accommodation facility with name, ${accomm}.`,
+  getFeedback: (accommodationName) => `You have successfully retrieved feedback on our accommodation facility with name, ${accommodationName}.`,
   incorrectPassword: 'Sorry, the password entered is not correct.',
   invalidAccommodationId: 'The Accommodation ID must be an integer value.',
   invalidEmail: 'Please, enter a valid email address.',
@@ -40,7 +40,7 @@ export default {
   logoutSuccess: 'Logged out successfully.',
   managerApproval: (pendingReq) => `You have ${pendingReq} requests requiring your approval`,
   managerNotFound: "Manager's detail missing",
-  newFeedback: (accomm) => `You have successfully dropped a feedback on our accomodation facility with name, ${accomm}.`,
+  newFeedback: (accommodationName) => `You have successfully dropped a feedback on our accomodation facility with name, ${accommodationName}.`,
   noDigitInPassword: 'Password must contain at least one digit.',
   noEmail: 'Email cannot be empty.',
   nonExistentTravel: 'The travel request does not exist.',
@@ -69,4 +69,10 @@ export default {
   updateRememberMe: 'You successfully updated your remember me record.',
   welcome: 'Welcome to Archangel Barefoot Nomad Web App API.',
   wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
+
+  getANotification: 'You have successfully retrieved a notification.',
+  getAllNotification: 'You have successfully retrieved all your notification.',
+  notificationNotFound: 'Notification not found.',
+  invalidNotificationId: 'The notification ID must be a string.',
+  notificationMessage: (date, origin) => `Your travel request created on ${date} with ${origin} as your origin has been approved.`
 };
