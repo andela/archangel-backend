@@ -8,7 +8,7 @@ import {
     mostTravelledDest,
     userCanEditOpenRequest,
     pendingManagerApproval,
-    countTravelsByTimeFrame
+    countTravelsByStats
 } from '../controllers/travelControllers';
 
 import {
@@ -22,8 +22,8 @@ import {
     futureDateValidator
 } from '../validation/dateValidator';
 
-import { verifyDeptManagerAndRequestStatus } from '../middlewares/travelsMiddleware';
-import { verifyRole } from '../middlewares/userMiddlewares';
+import { verifyDeptManagerAndRequestStatus, verifyValidDate } from '../middlewares/travelsMiddleware';
+import { verifyRole, verifyManagerOrRequester } from '../middlewares/userMiddlewares';
 import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 
 const route = Router();
@@ -71,12 +71,12 @@ route.put(
 );
 
 route.get(
-    '/travel/timeframe?startDate&endDate',
+    '/travel/request_count/:user_id',
     getToken,
     verifyToken,
-    departureDateValidator,
-    futureDateValidator,
-    countTravelsByTimeFrame,
+    verifyManagerOrRequester,
+    verifyValidDate,
+    countTravelsByStats,
 );
 
 export default route;
