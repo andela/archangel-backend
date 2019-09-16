@@ -93,6 +93,9 @@ const validAccommodationId = '1653453';
 const testFeedback = {
   feedback: 'sample feedback back on an accommodation facility.',
 };
+
+const validNotificationId = 899899;
+
 export {
   newUser,
   testUser1,
@@ -107,5 +110,6 @@ export {
   approvedRequest,
   validAccommodationId,
   testFeedback,
-  multipleCityTravelRequest
+  multipleCityTravelRequest,
+  validNotificationId,
 };
