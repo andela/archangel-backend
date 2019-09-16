@@ -2,7 +2,6 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-
 import message from '../utils/messageUtils';
 import {
     testUser1,
