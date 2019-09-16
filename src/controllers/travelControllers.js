@@ -166,7 +166,6 @@ const countTravelsByStats = async(req, res) => {
             travelCount[0]);
     } catch (error) {
         errorResponse(res, statusCode.serverError, error);
-        console.log(error);
     }
 };
 
