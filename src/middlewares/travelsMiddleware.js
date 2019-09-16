@@ -39,22 +39,22 @@ export const verifyDeptManagerAndRequestStatus = async(req, res, next) => {
 };
 
 export const verifyValidDate = (req, res, next) => {
-    const { start_date } = req.query;
-    let { end_date } = req.query;
-    if (start_date === null || start_date === undefined) {
-        return errorResponse(res, statusCode.badRequest, message.noStartDate)
-    };
-    if (end_date === null || end_date === undefined) {
-        req.query.end_date = new Date();
-        end_date = new Date();
-    };
-    if (!isDateValid(start_date)) {
-        return errorResponse(res, statusCode.badRequest, message.invalidStartDate)
-    };
-    if (!isDateValid(end_date)) {
-        return errorResponse(res, statusCode.badRequest, message.invalidEndDate)
-    };
-    return next();
+  const { start_date } = req.query;
+  let { end_date } = req.query;
+  if (start_date === null || start_date === undefined) {
+    return errorResponse(res, statusCode.badRequest, message.noStartDate)
+  };
+  if (end_date === null || end_date === undefined) {
+    req.query.end_date = new Date();
+    end_date = new Date();
+  };
+  if (!isDateValid(start_date)) {
+    return errorResponse(res, statusCode.badRequest, message.invalidStartDate)
+  };
+  if (!isDateValid(end_date)) {
+    return errorResponse(res, statusCode.badRequest, message.invalidEndDate)
+  };
+  return next();
 }
 
 export const verifyDeptManager = () => {};
