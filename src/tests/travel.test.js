@@ -9,6 +9,7 @@ import {
   returnTripTestData,
   testUser2,
   testTravelRequest,
+  multipleCityTravelRequest,
   testManager1,
   testManager2,
   validTravelId,
@@ -52,6 +53,17 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .post(onewayRoute)
         .set('Authorization', token)
         .send(testTravelRequest)
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          done();
+        });
+    });
+    it('should successfully create a multiple destination one way trip', (done) => {
+      chai
+        .request(app)
+        .post(onewayRoute)
+        .set('Authorization', token)
+        .send(multipleCityTravelRequest)
         .end((err, res) => {
           expect(res).to.have.status(201);
           done();

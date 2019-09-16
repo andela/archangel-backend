@@ -14,6 +14,7 @@ import {
   validateReturnTrip,
   validateTravelRequest,
   validateResult,
+  destinationCounts
 } from '../validation/travelValidation';
 
 import {
@@ -28,7 +29,7 @@ import { getToken, verifyToken } from '../middlewares/tokenMiddleware';
 const route = Router();
 
 // handles the api home route...
-route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, createOneWayTrip);
+route.post('/travel/one_way_trip', getToken, verifyToken, validateTravelRequest, validateResult, destinationCounts, createOneWayTrip);
 
 // This is the route that will handle the request to create a valid return trip for a user....
 route.post(
