@@ -1,5 +1,4 @@
 /* eslint-disable no-else-return */
-import sequelize from 'sequelize';
 import {
     createTripService,
     showManagerPendingAppr,
@@ -8,15 +7,16 @@ import {
     mostTraveled,
     editOpenRequests,
     checkApprovalStatus,
-    getUserTravelsTimeFrame
+    getUserTravelsStats
 } from '../services/travelServices';
+import { isDateValid } from '../utils/dateUtils';
 
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 
-const { Op } = sequelize;
+
 
 const createOneWayTrip = async(req, res) => {
     try {
@@ -155,23 +155,18 @@ const mostTravelledDest = async(req, res) => {
     }
 };
 
-const countTravelsByTimeFrame = async(req, res) => {
-    const { departure_date, arrival_date } = req.query;
+const countTravelsByStats = async(req, res) => {
+    const { start_date, end_date } = req.query;
     const userId = req.userData.id;
-    const formatStartDate = date.format(departure_date);
-    const formatEnDate = date.format(arrival_date);
     try {
-        const travelCount = await getUserTravelsTimeFrame({
-            userId,
-            where: {
-                createdAt: {
-                    [Op.between]: [departure_date, arrival_date]
-                }
-            }
-        });
-        successResponseWithData(res, statusCode.success, message.travelByTimeFrame, travelCount);
+        const travelCount = await getUserTravelsStats(userId, start_date, end_date);
+        successResponseWithData(
+            res, statusCode.success,
+            message.travelByTimeFrame,
+            travelCount[0]);
     } catch (error) {
         errorResponse(res, statusCode.serverError, error);
+        console.log(error);
     }
 };
 
@@ -183,5 +178,5 @@ export {
     approveTravelRequest,
     userCanEditOpenRequest,
     mostTravelledDest,
-    countTravelsByTimeFrame
+    countTravelsByStats
 };

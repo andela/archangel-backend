@@ -4,7 +4,10 @@ import sequelize from 'sequelize';
 import 'regenerator-runtime/runtime';
 import models from '../models';
 
+
 const { travel_requests, departments, users } = models;
+
+const { Op } = sequelize;
 
 /**
  *This function will create a new return trip in the database...
@@ -133,13 +136,17 @@ const mostTraveled = async() => {
     }
 };
 
-const getUserTravelsTimeFrame = async(userId) => {
+const getUserTravelsStats = async(userId, start_date, end_date) => {
     try {
         return await travel_requests.findAll({
-            departure_date,
-            arrival_date,
+            attributes: [
+                [sequelize.fn('count', sequelize.col('user_id')), 'count']
+            ],
             where: {
                 user_id: userId,
+                createdAt: {
+                    [Op.between]: [start_date, end_date]
+                }
             },
         });
     } catch (error) {
@@ -156,5 +163,5 @@ export {
     showUsertravelsStatus,
     approveTravel,
     mostTraveled,
-    getUserTravelsTimeFrame,
+    getUserTravelsStats,
 };
