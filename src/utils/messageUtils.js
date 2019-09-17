@@ -33,6 +33,10 @@ export default {
   invalidTravelId: 'The travel ID must be an integer value.',
   invalidUserId:
     'Sorry you can only create the request with the id of the logged in user.',
+  invalidDate: 'The date provided is not valid',
+  invalidUserIntId: 'User Id provided must be an integer',
+  invalidStartDate: 'The start date provided is not valid',
+  invalidEndDate: 'The end date provided is not valid',
   isNotInteger: 'You must enter a valid integer type.',
   isNotISODate: "Your date must be of ISO8601 standard '2019-01-10'.",
   lettersAlone: 'Only letters are allowed',
@@ -54,6 +58,7 @@ export default {
     'You have successfully commented on a travel request.',
     'You have successfully retrieved all comments for this travel request.',
   ],
+  travelByTimeFrame: 'Number of trip requests between start date and end date.',
   travelNotFound: 'The travel request does not exist.',
   unauthorized: 'Not authorized.',
   unauthorizedAccessToTravel:

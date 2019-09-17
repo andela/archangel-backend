@@ -2,14 +2,12 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-
 import message from '../utils/messageUtils';
 import {
   testUser1,
   returnTripTestData,
   testUser2,
   testTravelRequest,
-  multipleCityTravelRequest,
   testManager1,
   testManager2,
   validTravelId,
@@ -49,40 +47,29 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
 
     it('should successfully create a one way trip', (done) => {
       chai
-        .request(app)
-        .post(onewayRoute)
-        .set('Authorization', token)
-        .send(testTravelRequest)
-        .end((err, res) => {
-          expect(res).to.have.status(201);
-          done();
-        });
-    });
-    it('should successfully create a multiple destination one way trip', (done) => {
-      chai
-        .request(app)
-        .post(onewayRoute)
-        .set('Authorization', token)
-        .send(multipleCityTravelRequest)
-        .end((err, res) => {
-          expect(res).to.have.status(201);
-          done();
-        });
+          .request(app)
+          .post(onewayRoute)
+          .set('Authorization', token)
+          .send(testTravelRequest)
+          .end((err, res) => {
+            expect(res).to.have.status(201);
+            done();
+          });
     });
 
     it('should return an error if the token is invalid', (done) => {
       chai
-        .request(app)
-        .post(onewayRoute)
-        .send(testTravelRequest)
-        .end((err, res) => {
-          expect(res.status).to.equal(401);
-          done();
-        });
+          .request(app)
+          .post(onewayRoute)
+          .send(testTravelRequest)
+          .end((err, res) => {
+            expect(res.status).to.equal(401);
+            done();
+          });
     });
 
     it('should return an error if origin is empty', (done) => {
-      const mutatedtravelRequest = { ...testTravelRequest };
+      const mutatedtravelRequest = {...testTravelRequest };
       mutatedtravelRequest.origin = '';
 
       chai
@@ -97,7 +84,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
     it('should return an error message if origin contains integers', (done) => {
-      const mutatedtravelRequest = { ...testTravelRequest };
+      const mutatedtravelRequest = {...testTravelRequest };
       mutatedtravelRequest.origin = '4Lag12';
 
       chai
@@ -112,7 +99,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
     it('should return an error message if the destination is empty', (done) => {
-      const mutatedtravelRequest = { ...testTravelRequest };
+      const mutatedtravelRequest = {...testTravelRequest };
       mutatedtravelRequest.destination = '';
 
       chai
@@ -127,7 +114,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
     it('should return an error message if the destination contains integers', (done) => {
-      const mutatedtravelRequest = { ...testTravelRequest };
+      const mutatedtravelRequest = {...testTravelRequest };
       mutatedtravelRequest.destination = '4Kigs23';
 
       chai
@@ -142,7 +129,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
     it('should return an error message if the departure date is empty', (done) => {
-      const mutatedtravelRequest = { ...testTravelRequest };
+      const mutatedtravelRequest = {...testTravelRequest };
       mutatedtravelRequest.departure_date = '';
 
       chai
@@ -157,19 +144,19 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         });
     });
     it('should return an error message if travel_purpose', (done) => {
-      const mutatedtravelRequest = { ...testTravelRequest };
-      mutatedtravelRequest.travel_purpose = '';
+        const mutatedtravelRequest = {...testTravelRequest };
+        mutatedtravelRequest.travel_purpose = '';
 
-      chai
-        .request(app)
-        .post(onewayRoute)
-        .set('Authorization', token)
-        .send(mutatedtravelRequest)
-        .end((err, res) => {
-          expect(res.status).to.equal(400);
-          expect(res.body.error[0]).to.equal(message.emptyTravelPurpose);
-          done();
-        });
+        chai
+          .request(app)
+          .post(onewayRoute)
+          .set('Authorization', token)
+          .send(mutatedtravelRequest)
+          .end((err, res) => {
+            expect(res.status).to.equal(400);
+            expect(res.body.error[0]).to.equal(message.emptyTravelPurpose);
+            done();
+          });
     });
   });
 
@@ -201,92 +188,92 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
     });
 
     it('Should throw an error if the request body travel_type is empty or not return-trip', (done) => {
-      const mutatedReturnTripTestData = { ...returnTripTestData };
-      mutatedReturnTripTestData.travel_type = '';
-      chai
-        .request(app)
-        .post(returnTripRoute)
-        .set('Authorization', token)
-        .send(mutatedReturnTripTestData)
-        .end((err, res) => {
-          const { body, status } = res;
-          expect(status).to.equal(400);
-          expect(body.error).to
-            .include(message.emptyTravelType);
-          done(err);
-        });
+        const mutatedReturnTripTestData = {...returnTripTestData };
+        mutatedReturnTripTestData.travel_type = '';
+        chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status } = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+              .include(message.emptyTravelType);
+            done(err);
+          });
     });
 
     it('Should throw an error if the request body origin is empty', (done) => {
-      const mutatedReturnTripTestData = { ...returnTripTestData };
-      mutatedReturnTripTestData.origin = '';
-      chai
-        .request(app)
-        .post(returnTripRoute)
-        .set('Authorization', token)
-        .send(mutatedReturnTripTestData)
-        .end((err, res) => {
-          const { body, status } = res;
-          expect(status).to.equal(400);
-          expect(body.error).to
-            .include(message.emptyOrigin);
-          done(err);
-        });
+        const mutatedReturnTripTestData = {...returnTripTestData };
+        mutatedReturnTripTestData.origin = '';
+        chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status } = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+              .include(message.emptyOrigin);
+            done(err);
+          });
     });
 
     it('Should throw an error if the request body departure_date is not the ISO standard', (done) => {
-      const mutatedReturnTripTestData = { ...returnTripTestData };
-      mutatedReturnTripTestData.departure_date = '2010-1-02';
-      chai
-        .request(app)
-        .post(returnTripRoute)
-        .set('Authorization', token)
-        .send(mutatedReturnTripTestData)
-        .end((err, res) => {
-          const { body, status } = res;
-          expect(status).to.equal(400);
-          expect(body.error).to
-            .include(message.isNotISODate);
-          done(err);
-        });
+        const mutatedReturnTripTestData = {...returnTripTestData };
+        mutatedReturnTripTestData.departure_date = '2010-1-02';
+        chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status } = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+              .include(message.isNotISODate);
+            done(err);
+          });
     });
 
     it('Should throw an error if the request body departure_date is a past date', (done) => {
-      const mutatedReturnTripTestData = { ...returnTripTestData };
-      mutatedReturnTripTestData.departure_date = '2010-01-02';
-      chai
-        .request(app)
-        .post(returnTripRoute)
-        .set('Authorization', token)
-        .send(mutatedReturnTripTestData)
-        .end((err, res) => {
-          const { body, status } = res;
-          expect(status).to.equal(400);
-          expect(body.error).to
-            .equal(message.dateForToday);
-          done(err);
-        });
+        const mutatedReturnTripTestData = {...returnTripTestData };
+        mutatedReturnTripTestData.departure_date = '2010-01-02';
+        chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status } = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+              .equal(message.dateForToday);
+            done(err);
+          });
     });
 
     it('Should throw an error if the request body return_date is not the ISO standard', (done) => {
-      const mutatedReturnTripTestData = { ...returnTripTestData };
-      mutatedReturnTripTestData.return_date = '2010-1-02';
-      chai
-        .request(app)
-        .post(returnTripRoute)
-        .set('Authorization', token)
-        .send(mutatedReturnTripTestData)
-        .end((err, res) => {
-          const { body, status } = res;
-          expect(status).to.equal(400);
-          expect(body.error).to
-            .include(message.isNotISODate);
-          done(err);
-        });
+        const mutatedReturnTripTestData = {...returnTripTestData };
+        mutatedReturnTripTestData.return_date = '2010-1-02';
+        chai
+          .request(app)
+          .post(returnTripRoute)
+          .set('Authorization', token)
+          .send(mutatedReturnTripTestData)
+          .end((err, res) => {
+            const { body, status } = res;
+            expect(status).to.equal(400);
+            expect(body.error).to
+              .include(message.isNotISODate);
+            done(err);
+          });
     });
 
     it('Should throw an error if the request body return_date is equal to or less than departure_date', (done) => {
-      const mutatedReturnTripTestData = { ...returnTripTestData };
+      const mutatedReturnTripTestData = {...returnTripTestData };
       mutatedReturnTripTestData.return_date = returnTripTestData.departure_date;
       chai
         .request(app)
@@ -296,8 +283,7 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
         .end((err, res) => {
           const { body, status } = res;
           expect(status).to.equal(400);
-          expect(body.error).to
-            .equal(message.dateForFuture);
+          expect(body.error).to.equal(message.dateForFuture);
           done(err);
         });
     });
@@ -335,6 +321,70 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
     });
   });
   // return trip tests route ends here.................
+
+  // stats trip tests route starts here ----------------
+  describe('Testing stats of travel request', () => {
+    let userToken;
+    before((done) => {
+      chai
+        .request(app)
+        .post(loginRoute)
+        .send(testUser1)
+        .end((err, res) => {
+          const { data } = res.body;
+          userToken = data.token;
+          done();
+        });
+    });
+
+    it('should return the count of travel request created by a user', (done) => {
+      chai
+        .request(app)
+        .get(`${prefix}/travel/request_count/1215739?start_date=2019-09-15&end_date=2019-09-18`)
+        .set('Authorization', userToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          const { data } = res.body;
+          expect(parseInt(data.count)).to.equal(2);
+          done();
+        });
+    });
+
+    it('should return an error if start date is not defined', (done) => {
+        chai
+          .request(app)
+          .get(`${prefix}/travel/request_count/1215739?end_date=2019-09-17`)
+          .set('Authorization', userToken)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            done();
+          });
+    });
+
+    it('should return an error if start date is not valid', (done) => {
+        chai
+          .request(app)
+          .get(`${prefix}/travel/request_count/1215739?start_date=2019-08ghahghjas-14&end_date=2019-09-17`)
+          .set('Authorization', userToken)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            done();
+          });
+    });
+
+    it('should return an error if end date is not valid', (done) => {
+        chai
+          .request(app)
+          .get(`${prefix}/travel/request_count/1215739?start_date=2019-08-14&end_date=2019-hhdshhdsuids09-17`)
+          .set('Authorization', userToken)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            done();
+          });
+    });
+
+  });
+  // stats trip tests route ends here ----------------
 
   // Avail request for approval
   let adminToken;
@@ -382,10 +432,10 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           done();
         });
     });
-  });
+});
 
-  // Get users request status
-  describe('Testing for users request status', () => {
+// Get users request status
+describe('Testing for users request status', () => {
     it('should successfully return user request status', (done) => {
       chai
         .request(app)

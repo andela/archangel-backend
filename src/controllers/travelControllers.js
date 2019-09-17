@@ -6,15 +6,19 @@ import {
   approveTravel,
   mostTraveled,
   editOpenRequests,
-  checkApprovalStatus
+  checkApprovalStatus,
+  getUserTravelsStats
 } from '../services/travelServices';
+import { isDateValid } from '../utils/dateUtils';
 
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 
-const createOneWayTrip = async (req, res) => {
+
+
+const createOneWayTrip = async(req, res) => {
   try {
     const user = await findUserByEmail(req.userData.email);
     const { id, dept_id } = user.dataValues;
@@ -23,7 +27,6 @@ const createOneWayTrip = async (req, res) => {
       user_id: id,
       travel_type: 'one-way',
       ...req.body,
-      multi_city: req.destinationCount,
       dept_id,
     });
 
@@ -34,11 +37,11 @@ const createOneWayTrip = async (req, res) => {
       data
     );
   } catch (err) {
-    errorResponse(res, statusCode.serverError, err);
+      errorResponse(res, statusCode.serverError, err);
   }
 };
 
-const createReturnTrip = async (req, res) => {
+const createReturnTrip = async(req, res) => {
   try {
     const user = await findUserByEmail(req.userData.email);
     const { id, dept_id } = user.dataValues;
@@ -58,11 +61,11 @@ const createReturnTrip = async (req, res) => {
       createdReturnTripData
     );
   } catch (err) {
-    errorResponse(res, err.statusCode || statusCode.serverError, err);
+      errorResponse(res, err.statusCode || statusCode.serverError, err);
   }
 };
 
-const pendingManagerApproval = async (req, res) => {
+const pendingManagerApproval = async(req, res) => {
   const { role } = req.userData;
 
   const { manager } = req.params;
@@ -85,11 +88,11 @@ const pendingManagerApproval = async (req, res) => {
       filteredRequests
     );
   } catch (err) {
-    errorResponse(res, statusCode.serverError, err);
+      errorResponse(res, statusCode.serverError, err);
   }
 };
 
-const getUserTravelStatus = async (req, res) => {
+const getUserTravelStatus = async(req, res) => {
   const { role, id } = req.userData;
 
   if (role === 'manager') {
@@ -104,11 +107,11 @@ const getUserTravelStatus = async (req, res) => {
       data
     );
   } catch (error) {
-    errorResponse(res, statusCode.serverError, error);
+      errorResponse(res, statusCode.serverError, error);
   }
 };
 
-const approveTravelRequest = async (req, res) => {
+const approveTravelRequest = async(req, res) => {
   try {
     const updatedTravel = await approveTravel(req.params.travel_id);
 
@@ -119,11 +122,11 @@ const approveTravelRequest = async (req, res) => {
       updatedTravel[1][0]
     );
   } catch (err) {
-    errorResponse(res, statusCode.serverError, err);
+      errorResponse(res, statusCode.serverError, err);
   }
 };
 
-const userCanEditOpenRequest = async (req, res) => {
+const userCanEditOpenRequest = async(req, res) => {
   const { travel_id } = req.params;
 
   const userId = req.userData.id;
@@ -139,16 +142,30 @@ const userCanEditOpenRequest = async (req, res) => {
 
     successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest[1][0]);
   } catch (err) {
-    errorResponse(res, statusCode.serverError, err);
+      errorResponse(res, statusCode.serverError, err);
   }
 };
 
-const mostTravelledDest = async (req, res) => {
+const mostTravelledDest = async(req, res) => {
   try {
     const travelled = await mostTraveled();
     successResponseWithData(res, statusCode.success, message.oneWayTripCreated, travelled);
   } catch (error) {
-    errorResponse(res, statusCode.serverError, error);
+      errorResponse(res, statusCode.serverError, error);
+  }
+};
+
+const countTravelsByStats = async(req, res) => {
+  const { start_date, end_date } = req.query;
+  const userId = req.userData.id;
+  try {
+    const travelCount = await getUserTravelsStats(userId, start_date, end_date);
+    successResponseWithData(
+      res, statusCode.success,
+      message.travelByTimeFrame,
+      travelCount[0]);
+  } catch (error) {
+      errorResponse(res, statusCode.serverError, error);
   }
 };
 
@@ -159,5 +176,6 @@ export {
   getUserTravelStatus,
   approveTravelRequest,
   userCanEditOpenRequest,
-  mostTravelledDest
+  mostTravelledDest,
+  countTravelsByStats
 };
