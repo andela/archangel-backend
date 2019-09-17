@@ -76,13 +76,12 @@ export default {
     'Access denied. Accessible only by travel requester or his/her line manager.',
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
 
-  userApproval: 'Here are your request status',
-  wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
-  usedEmail: (email) => `User with this email (${email}) already exist.`,
-  userEmailNotFound: (email) => `Sorry, there is no user with email ${email} in the database.`,
-  userIdNotFound: (id) => `Sorry, there is no user with id: ${id} in the database.`,
   unregisteredEmail: (email) => `User with this email (${email}) not found in our database.`,
   updateRememberMe: 'You successfully updated your remember me record.',
+  usedEmail: (email) => `User with this email (${email}) already exist.`,
+  userApproval: 'Here are your request status',
+  userEmailNotFound: (email) => `Sorry, there is no user with email ${email} in the database.`,
+  userIdNotFound: (id) => `Sorry, there is no user with id: ${id} in the database.`,
   welcome: 'Welcome to Archangel Barefoot Nomad Web App API.',
-  wrongRole: (role) => `Sorry, you are not a/an ${role}.`
+  wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
 };

@@ -17,7 +17,6 @@ import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 import { createNotification } from '../services/notificationServices';
 
-
 const createOneWayTrip = async(req, res) => {
   try {
     const user = await findUserByEmail(req.userData.email);
