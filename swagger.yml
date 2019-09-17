@@ -46,3 +46,47 @@ paths:
                 type: string
               error:
                 type: string
+
+
+/**
+   * @swagger
+   * components:
+   *  schemas:
+   *    User:
+   *      properties:
+   *        first_name:
+   *          type: string
+   *        last_name:
+   *          type: string
+   *        address:
+   *          type: string
+   *        preferred_lang:
+   *         type: string
+   *        preferred_currency:
+   *          type: string
+   *        gender:
+   *          type: string
+   */
+
+  /**
+   * @swagger
+   * /api/v1/profile:
+   *   put:
+   *     tags:
+   *       - Users
+   *     description: Update user profile
+   *     produces:
+   *       - application/json
+   *     requestBody:
+   *      description: User data object
+   *      required: true
+   *      content:
+   *       application/json:
+   *          schema:
+   *            $ref: '#/components/schemas/User'
+   *     responses:
+   *       200:
+   *         description: Profile updated successfully
+   *       500:
+   *         description: Internal Server error
+   */

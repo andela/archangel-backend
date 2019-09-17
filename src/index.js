@@ -6,23 +6,17 @@ import logger from 'morgan';
 import debug from 'debug';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import http from 'http';
-import socketIo from 'socket.io';
+
 import { fbStrategy, googleStrategy } from './config/passport';
 import message from './utils/messageUtils';
 import { successResponse } from './utils/response';
 import statusCode from './utils/statusCode';
 import routes from './routes';
-import socketEmission from './services/websocket';
 
 dotenv.config();
 const debugLog = debug('web-app');
 // Create global app object
 const app = express();
-const server = http.createServer(app);
-
-const io = socketIo(server);
-const emission = new socketEmission(io);
 
 
 const PORT = process.env.PORT || 5000;
@@ -52,7 +46,7 @@ passport.deserializeUser((user, cb) => {
 
 
 // serve the api endpoints built in routes folder
-routes(prefix, app, io);
+routes(prefix, app);
 // handles the api home route...
 app.all('/', (req, res) => successResponse(res, statusCode.success, message.defaultWelcome));
 // serve the api endpoints built in routes folder
@@ -121,19 +115,9 @@ app.use((err, req, res, next) => {
   next();
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   debugLog(`Barefoot-Nomad [Backend] Server is running on port ${PORT}`);
 });
 
-// Creating the client connection of Socket.io
-io.on('connection', (client) => {
-  logger(`A client connected ${client.id}`);
-  client.emit('confirmation', 'We are successfully connected');
-
-  client.on('disconnect', () => {
-    logger(`A user connected ${client.id}`);
-  });
-});
-
 // for testing
-module.exports = server;
+export default app;

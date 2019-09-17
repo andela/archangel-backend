@@ -35,6 +35,17 @@ export const updateUserById = async (hash, id) => {
     throw err;
   }
 };
+
+export const updateUserService = async (id, updateValues) => {
+  try {
+    return await users.update(
+      { remember_me: updateValues },
+      { where: { id }, returning: true }
+    );
+  } catch (err) {
+    throw err;
+  }
+};
 /**
  *This function will get a user by email address...
  *@param {String} email - the user's email
@@ -53,6 +64,18 @@ export const comparePassword = (password, hashedPassword) => compareSync(passwor
 export const logoutService = async (token) => {
   try {
     return await blacklists.create({ expired_tokens: token });
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getUserProfileService = async (id) => {
+  try {
+    const user = await users.findOne({
+      where: { id },
+    });
+    delete user.dataValues.password;
+    return user;
   } catch (err) {
     throw err;
   }

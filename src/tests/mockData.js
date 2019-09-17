@@ -51,6 +51,13 @@ const testTravelRequest = {
   travel_purpose: 'This is a one way trip',
   accommodation_id: 1653453,
 };
+const multipleCityTravelRequest = {
+  origin: 'Lagos',
+  destination: 'KigaliNEXTAccraNEXTLagos',
+  departure_date: todayDate,
+  travel_purpose: 'This is a one way trip',
+  accommodation_id: 1653453,
+};
 
 const validTravelId = '1891029';
 
@@ -86,6 +93,9 @@ const validAccommodationId = '1653453';
 const testFeedback = {
   feedback: 'sample feedback back on an accommodation facility.',
 };
+
+const validNotificationId = 899899;
+
 export {
   newUser,
   testUser1,
@@ -100,4 +110,24 @@ export {
   approvedRequest,
   validAccommodationId,
   testFeedback,
+  multipleCityTravelRequest,
+  validNotificationId,
 };
+
+// updateProfile Data
+
+export const userDetail = {
+  first_name: 'myname',
+  last_name: 'mylastname',
+  email: 'mygmailis@gmail.com',
+  password: 'protected123pass',
+};
+export const updateProfile = {
+  first_name: 'myname',
+  last_name: 'mylastname',
+  address: '14 downtown road',
+  preferred_lang: 'English',
+  preferred_currency: 'Dollars',
+  gender: 'Female'
+};
+

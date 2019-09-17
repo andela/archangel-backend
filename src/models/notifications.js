@@ -1,29 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
   const notifications = sequelize.define('notifications', {
-    user_id: DataTypes.INTEGER,
+    recipient_id: DataTypes.INTEGER,
     travel_id: DataTypes.INTEGER,
-    line_manager_email: DataTypes.TEXT,
-    line_manager_id: DataTypes.INTEGER,
-    is_read: DataTypes.BOOLEAN,
-    message: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'notification content cannot be empty'
-        }
-      }
-    }
+    message: DataTypes.TEXT,
+    is_read: DataTypes.BOOLEAN
   }, {});
   notifications.associate = (models) => {
     notifications.belongsTo(models.users, {
-      foreignKey: 'user_id',
-      onDelete: 'CASCADE'
-    });
-
-    notifications.belongsTo(models.travel_requests, {
-      foreignKey: 'travel_id',
-      onDelete: 'CASCADE'
+      foreignKey: 'recipient_id',
     });
   };
   return notifications;

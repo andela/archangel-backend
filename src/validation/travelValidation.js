@@ -9,13 +9,13 @@ export const validateTravelRequest = [
     .not()
     .isEmpty()
     .withMessage(message.emptyOrigin)
-    .isAlpha()
+    .matches(/[a-zA-Z0-9_ ]*/)
     .withMessage(message.lettersAlone),
   check('destination')
     .not()
     .isEmpty()
     .withMessage(message.emptyDestination)
-    .isAlpha()
+    .matches(/[a-zA-Z0-9_ ]*/)
     .withMessage(message.lettersAlone),
   check('departure_date')
     .not()
@@ -28,53 +28,53 @@ export const validateTravelRequest = [
 ];
 
 export const validateReturnTrip = [
-    check('travel_type')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyTravelType)
-      .not()
-      .custom(value => {
-        if (value !== 'return') {
-          throw new Error(message.invalidTravelType);
-        }
-      }),
-    check('origin')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyOrigin)
-      .isAlpha()
-      .withMessage(message.lettersAlone),
-    check('destination')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyDestination)
-      .isAlpha()
-      .withMessage(message.lettersAlone),
-    check('departure_date')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyDepartureDate)
-      .isISO8601()
-      .withMessage(message.isNotISODate)
-      .bail(),
-    check('return_date')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyReturnDate)
-      .isISO8601()
-      .withMessage(message.isNotISODate)
-      .bail(),
-    check('travel_purpose')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyTravelPurpose),
-    check('accommodation_id')
-      .not()
-      .isEmpty()
-      .withMessage(message.emptyAccommodation)
-      .isInt()
-      .withMessage(message.isNotInteger)
-  ];
+  check('travel_type')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyTravelType)
+    .not()
+    .custom(value => {
+      if (value !== 'return') {
+        throw new Error(message.invalidTravelType);
+      }
+    }),
+  check('origin')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyOrigin)
+    .matches(/[a-zA-Z0-9_ ]*/)
+    .withMessage(message.lettersAlone),
+  check('destination')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyDestination)
+    .matches(/[a-zA-Z0-9_ ]*/)
+    .withMessage(message.lettersAlone),
+  check('departure_date')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyDepartureDate)
+    .isISO8601()
+    .withMessage(message.isNotISODate)
+    .bail(),
+  check('return_date')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyReturnDate)
+    .isISO8601()
+    .withMessage(message.isNotISODate)
+    .bail(),
+  check('travel_purpose')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyTravelPurpose),
+  check('accommodation_id')
+    .not()
+    .isEmpty()
+    .withMessage(message.emptyAccommodation)
+    .isInt()
+    .withMessage(message.isNotInteger)
+];
 
 export const validateResult = (req, res, next) => {
   const errors = validationResult(req);
@@ -85,5 +85,11 @@ export const validateResult = (req, res, next) => {
     });
     return errorResponse(res, statusCode.badRequest, error);
   }
+  return next();
+};
+export const destinationCounts = (req, res, next) => {
+  const { destination } = req.body;
+  const cityCount = destination.split('NEXT').length;
+  req.destinationCount = cityCount > 1 ? 1 : 0;
   return next();
 };

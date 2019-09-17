@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Testing Approved Travel Request Notification</title>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+	</head>
+	<body>
+		<h1>Testing Approved Travel Request Notification</h1>
+		<h3>Updated some info...</h3>
+		<script>
+			const pusher = new Pusher('89356d2fe3911f22e19f', { cluster: 'eu' });
+
+			pusher.connection.bind('connected', () => {
+				axios.defaults.headers.common['X-Socket-Id'] =
+                    pusher.connection.socket_id;
+            });
+
+			Notification.requestPermission();
+			pusher
+				.subscribe('notifications')
+				.bind('new-travel-6749460', (notify) => {
+					const notification = new Notification(notify.title);
+					notification.onclick = function(event) {
+						window.location.href = `http://localhost:3000/api/v1/notification/${notify.id}`;
+						event.preventDefault();
+						notification.close();
+					};
+				});
+		</script>
+	</body>
+</html>
