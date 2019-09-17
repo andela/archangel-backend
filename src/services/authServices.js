@@ -82,8 +82,8 @@ export const getUserProfileService = async (id) => {
 };
 
 // Get the user together with the department data of that user..
-export const findUserAndDepartment = async (id) => {
-  return await users.findOne({
+export const findUserAndDepartment = (id) => {
+  return users.findOne({
     where: { id },
     include: [departments]
   });
