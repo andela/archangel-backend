@@ -59,6 +59,15 @@ export default {
   unauthorizedAccessToTravel:
     'Access denied. Accessible only by travel requester or his/her line manager.',
   unauthorizedCommentDelete: "comment can only be deleted by it's author",
+  commentNotFound: 'The comment does not exist.',
+  deleteComment: 'Comment successfully deleted.',
+
+  // profile messages
+  profilefetched: 'Profile rendered sucessfully',
+  profileUpdated: 'Profile updated successfully',
+  requestNotPending: 'This Travel Request is not Pending.',
+  diffDepartment: 'You are not in the same department as the Travel Requester.',
+  wrongRole: (role) => `Sorry, you are not a/an ${role}.`,
   userApproval: 'Here are your request status',
   signupSuccess: (email) => `You have successfully registered with this email, ${email}.`,
   successfullyApproval: (requester) => `You have successfully approved a travel request from ${requester}.`,

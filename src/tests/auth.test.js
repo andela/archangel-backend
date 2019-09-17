@@ -4,17 +4,20 @@ import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
 
 import app from '../index';
-import { testUser1 } from './mockData';
+import { testUser1, userDetail, updateProfile } from './mockData';
 import message from '../utils/messageUtils';
+
+
+dotenv.config();
 
 const prefix = '/api/v1';
 const signupRoute = `${prefix}/auth/signup`;
 const signinRoute = `${prefix}/auth/login`;
 const logoutRoute = `${prefix}/auth/logout`;
+const profile = `${prefix}/profile`;
 const rememberMeRoute = `${prefix}/auth/remember_me`;
 const passwordResetToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU2NzUzNzkwNSwiZXhwIjoxNTY3NTQxNTA1fQ.nPMaVY0-y_FhF9eVroUIe08PXW9kqnmmqUvAcu8uD74';
 let passwordUserId;
-
 
 
 chai.use(chaiHttp);
@@ -148,8 +151,6 @@ describe('Test for the Auth controller functions', () => {
 
 // This is the tests that will run for the user signin with username and password..
 describe('TEST USER LOGIN ROUTE', () => {
-
-
   const loginData = {
     email: 'emma.k@yahoo.com',
     password: 'testing123'
@@ -357,8 +358,48 @@ describe('Send Password Reset', () => {
   });
 });
 
+// Test for updating user setting
+let token;
+describe('Testing get and update user profile routes', () => {
+  it('should successfully create a user', (done) => {
+    chai
+      .request(app)
+      .post(signupRoute)
+      .send(userDetail)
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        const { data } = res.body;
+        token = data.token;
+        done();
+      });
+  });
+
+
+  it('should successfully get a user profile', (done) => {
+    chai
+      .request(app)
+      .get(profile)
+      .set('Authorization', token)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+  it('should successfully update a user profile', (done) => {
+    chai.request(app)
+      .put(profile)
+      .set('Authorization', token)
+      .send(updateProfile)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        done();
+      });
+  });
+});
+
 describe('TEST FOR REMEMBER ME UPDATE REQUEST', () => {
-  let token;
+  // let token;
   before((done) => {
     chai
       .request(app)
@@ -374,7 +415,7 @@ describe('TEST FOR REMEMBER ME UPDATE REQUEST', () => {
     chai
       .request(app)
       .patch(rememberMeRoute)
-      .send({remember_me: true})
+      .send({ remember_me: true })
       .end((err, res) => {
         expect(res).to.have.status(401);
         done(err);
@@ -385,7 +426,7 @@ describe('TEST FOR REMEMBER ME UPDATE REQUEST', () => {
       .request(app)
       .patch(rememberMeRoute)
       .set('Authorization', token)
-      .send({remember_me: true})
+      .send({ remember_me: true })
       .end((err, res) => {
         const { body, status } = res;
         expect(status).to.equal(200);
@@ -399,7 +440,7 @@ describe('TEST FOR REMEMBER ME UPDATE REQUEST', () => {
       .request(app)
       .patch(rememberMeRoute)
       .set('Authorization', token)
-      .send({remember_me: false})
+      .send({ remember_me: false })
       .end((err, res) => {
         const { body, status } = res;
         expect(status).to.equal(200);
