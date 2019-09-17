@@ -1,4 +1,3 @@
-/* eslint-disable no-else-return */
 import {
   createTripService,
   showManagerPendingAppr,
@@ -15,6 +14,8 @@ import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
+import { createNotification } from '../services/notificationServices';
+import pusher from '../config/pusher';
 
 
 
@@ -113,13 +114,33 @@ const getUserTravelStatus = async(req, res) => {
 
 const approveTravelRequest = async(req, res) => {
   try {
-    const updatedTravel = await approveTravel(req.params.travel_id);
+    const updatedTravelObj = await approveTravel(req.params.travel_id);
+    const updatedTravel = updatedTravelObj[1][0];
 
+    const notificationObj = await createNotification({
+      recipient_id: updatedTravel.user_id,
+      travel_id: updatedTravel.id,
+      message: message.notificationMessage(
+        updatedTravel.createdAt,
+        updatedTravel.origin,
+      )
+    });
+    const notificationMessage = notificationObj.dataValues;
+
+    delete notificationMessage.recipient_id;
+    notificationMessage.title = 'Approved Travel Request.';
+
+    pusher.trigger(
+      'notifications',
+      `approved-travel-${updatedTravel.user_id}`,
+      notificationMessage,
+      req.headers['x-socket-id']
+    );
     successResponseWithData(
       res,
       statusCode.success,
       message.successfullyApproval(req.body.requesterName),
-      updatedTravel[1][0]
+      updatedTravel
     );
   } catch (err) {
       errorResponse(res, statusCode.serverError, err);
