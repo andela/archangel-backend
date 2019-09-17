@@ -1,20 +1,21 @@
 // import nodemailer from 'nodemailer';
 import sgMail from '@sendgrid/mail';
-sgMail.setApiKey(process.env.SENDGRID_API);
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
+sgMail.setApiKey(process.env.SENDGRID_API);
+
 dotenv.config();
 
 
-export const transporter = async (msg,res) => {
-try{
-   await sgMail.send(msg);
-   return res.status(200).json({"message":"Mail sent successfully"})
-}catch(err){
-  return res.status(500).json({"Error sending email":err})
-}
-}
-
+export const transporter = async (msg, res) => {
+  try {
+    await sgMail.send(msg);
+    return res.status(200).json({ message: 'Mail sent successfully' });
+  } catch (err) {
+    return res.status(500).json({ 'Error sending email': err });
+  }
+};
 
 
 export const usePasswordHashToMakeToken = ({
@@ -45,5 +46,7 @@ export const resetPasswordTemplate = (user, url) => {
   <p>Do something outside today! </p>
   <p>–Your friends at Barefoot Nomad</p>
   `;
-  return { from, to, subject, html } 
-}
+  return {
+    from, to, subject, html
+  };
+};

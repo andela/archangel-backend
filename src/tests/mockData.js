@@ -109,3 +109,21 @@ export {
   testFeedback,
   multipleCityTravelRequest
 };
+
+// updateProfile Data
+
+export const userDetail = {
+  first_name: 'myname',
+  last_name: 'mylastname',
+  email: 'mygmailis@gmail.com',
+  password: 'protected123pass',
+};
+export const updateProfile = {
+  first_name: 'myname',
+  last_name: 'mylastname',
+  address: '14 downtown road',
+  preferred_lang: 'English',
+  preferred_currency: 'Dollars',
+  gender: 'Female'
+};
+

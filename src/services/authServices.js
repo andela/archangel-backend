@@ -68,3 +68,15 @@ export const logoutService = async (token) => {
     throw err;
   }
 };
+
+export const getUserProfileService = async (id) => {
+  try {
+    const user = await users.findOne({
+      where: { id },
+    });
+    delete user.dataValues.password;
+    return user;
+  } catch (err) {
+    throw err;
+  }
+};
