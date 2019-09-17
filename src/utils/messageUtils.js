@@ -48,6 +48,8 @@ export default {
   noDigitInPassword: 'Password must contain at least one digit.',
   noEmail: 'Email cannot be empty.',
   nonExistentTravel: 'The travel request does not exist.',
+  notificationTravelMessage: (name, origin) => `${name} just requested for a travel from ${origin}`,
+  notificationReturnMessage: (name, origin) => `${name} just requested for a return trip from ${origin}`,
   oneWayTripCreated: 'Your request has been successfully created',
   requestNotPending: 'This Travel Request is not Pending.',
   returnTripCreated: 'Your return trip request was created successfully.',

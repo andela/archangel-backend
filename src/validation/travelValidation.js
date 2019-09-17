@@ -9,13 +9,13 @@ export const validateTravelRequest = [
     .not()
     .isEmpty()
     .withMessage(message.emptyOrigin)
-    .isAlpha()
+    .matches(/[a-zA-Z0-9_ ]*/)
     .withMessage(message.lettersAlone),
   check('destination')
     .not()
     .isEmpty()
     .withMessage(message.emptyDestination)
-    .isAlpha()
+    .matches(/[a-zA-Z0-9_ ]*/)
     .withMessage(message.lettersAlone),
   check('departure_date')
     .not()
@@ -42,13 +42,13 @@ export const validateReturnTrip = [
     .not()
     .isEmpty()
     .withMessage(message.emptyOrigin)
-    .isAlpha()
+    .matches(/[a-zA-Z0-9_ ]*/)
     .withMessage(message.lettersAlone),
   check('destination')
     .not()
     .isEmpty()
     .withMessage(message.emptyDestination)
-    .isAlpha()
+    .matches(/[a-zA-Z0-9_ ]*/)
     .withMessage(message.lettersAlone),
   check('departure_date')
     .not()

@@ -9,7 +9,7 @@
 		<h1>Testing Approved Travel Request Notification</h1>
 		<h3>Updated some info...</h3>
 		<script>
-			const pusher = new Pusher('a8d96c1afa4c3634189f', { cluster: 'mt1' });
+			const pusher = new Pusher('89356d2fe3911f22e19f', { cluster: 'eu' });
 
 			pusher.connection.bind('connected', () => {
 				axios.defaults.headers.common['X-Socket-Id'] =
@@ -19,7 +19,7 @@
 			Notification.requestPermission();
 			pusher
 				.subscribe('notifications')
-				.bind('approved-travel-1215739', (notify) => {
+				.bind('new-travel-6749460', (notify) => {
 					const notification = new Notification(notify.title);
 					notification.onclick = function(event) {
 						window.location.href = `http://localhost:3000/api/v1/notification/${notify.id}`;

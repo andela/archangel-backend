@@ -16,12 +16,14 @@ import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
 import { createNotification } from '../services/notificationServices';
 import pusher from '../config/pusher';
+import { getADepartment } from '../services/departmentServices';
 
 
 
 const createOneWayTrip = async(req, res) => {
   try {
-    const user = await findUserByEmail(req.userData.email);
+    const { first_name, email } = req.userData;
+    const user = await findUserByEmail(email);
     const { id, dept_id } = user.dataValues;
 
     const data = await createTripService({
@@ -30,6 +32,29 @@ const createOneWayTrip = async(req, res) => {
       ...req.body,
       dept_id,
     });
+
+    const dept = await getADepartment(dept_id);
+    
+    const notificationObj = await createNotification({
+      recipient_id: dept.manager_user_id,
+      travel_id: data.dataValues.id,
+      message: message.notificationTravelMessage(
+        first_name, data.dataValues.origin
+      )
+    });
+    const notificationMessage = notificationObj.dataValues;
+
+    console.log(notificationMessage);
+
+    delete notificationMessage.recipient_id;
+    notificationMessage.title = 'New Travel Request.';
+    console.log(`new-travel-${dept.manager_user_id}`)
+    pusher.trigger(
+      'notifications',
+      `new-travel-${dept.manager_user_id}`,
+      notificationMessage,
+      req.headers['x-socket-id']
+    );
 
     successResponseWithData(
       res,
@@ -44,7 +69,8 @@ const createOneWayTrip = async(req, res) => {
 
 const createReturnTrip = async(req, res) => {
   try {
-    const user = await findUserByEmail(req.userData.email);
+    const { first_name, email } = req.userData;
+    const user = await findUserByEmail(email);
     const { id, dept_id } = user.dataValues;
 
     const travelRequestData = {
@@ -53,7 +79,30 @@ const createReturnTrip = async(req, res) => {
       ...req.body
     };
 
+    const dept = await getADepartment(dept_id);
+
     const createdReturnTripData = await createTripService(travelRequestData);
+
+    const notificationObj = await createNotification({
+      recipient_id: dept.manager_user_id,
+      travel_id: data.dataValues.id,
+      message: message.notificationReturnMessage(
+        first_name, data.dataValues.origin
+      )
+    });
+    const notificationMessage = notificationObj.dataValues;
+    
+    console.log(notificationMessage);
+
+    delete notificationMessage.recipient_id;
+    notificationMessage.title = 'New Travel Request.';
+
+    pusher.trigger(
+      'notifications',
+      `return-travel-${dept.manager_user_id}`,
+      notificationMessage,
+      req.headers['x-socket-id']
+    );
 
     successResponseWithData(
       res,
