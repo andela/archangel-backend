@@ -1,4 +1,5 @@
 /* eslint-disable no-else-return */
+import pusher from '../config/pusher'
 import {
   createTripService,
   showManagerPendingAppr,
@@ -8,11 +9,12 @@ import {
   editOpenRequests,
   checkApprovalStatus
 } from '../services/travelServices';
-
 import { findUserByEmail } from '../services/authServices';
 import { successResponseWithData, errorResponse } from '../utils/response';
 import message from '../utils/messageUtils';
 import statusCode from '../utils/statusCode';
+import { createNotification } from '../services/notificationServices';
+import { findUserAndDepartment } from '../services/authServices';
 
 const createOneWayTrip = async (req, res) => {
   try {
@@ -55,7 +57,7 @@ const createReturnTrip = async (req, res) => {
       res,
       statusCode.created,
       message.returnTripCreated,
-      createdReturnTripData
+      createdReturnTripData.dataValues
     );
   } catch (err) {
     errorResponse(res, err.statusCode || statusCode.serverError, err);
@@ -136,8 +138,31 @@ const userCanEditOpenRequest = async (req, res) => {
     }
 
     const updatedRequest = await editOpenRequests(req.body, userId, travel_id);
+    const editedRequestData = updatedRequest[1][0];
+    const { id } = editedRequestData;
 
-    successResponseWithData(res, statusCode.success, message.requestUpdated, updatedRequest[1][0]);
+    // Get the user together with the department data of that user..
+    const userManageData = await findUserAndDepartment(userId);
+    const { manager_user_id } = userManageData.dataValues.department.dataValues;
+
+    const editedRequestNotification = await createNotification({
+      recipient_id: manager_user_id,
+      travel_id: id,
+      message: message.editedTravelRequest(id)
+    });
+    const editedRequestMessage = editedRequestNotification.dataValues;
+
+    pusher.trigger(
+      'notifications',
+      `edited-travel-request-${userId}`,
+      {
+        message: message.editedTravelRequest(id),
+        editedRequestMessage
+      },
+      req.headers['x-socket-id']
+    );
+
+    successResponseWithData(res, statusCode.success, message.requestUpdated, editedRequestData);
   } catch (err) {
     errorResponse(res, statusCode.serverError, err);
   }
@@ -151,6 +176,17 @@ const mostTravelledDest = async (req, res) => {
     errorResponse(res, statusCode.serverError, error);
   }
 };
+
+// const userManager = async (req, res) =>{
+//   try {
+//     const userId = req.userData.id;
+//     const userManageData = await findUserAndDepartment(userId);
+//     userManageData.dataValues.department.dataValues;
+//     successResponseWithData(res, statusCode.success, message.oneWayTripCreated, userManageData);
+//   } catch (err) {
+//     errorResponse(res, statusCode.serverError, err)
+//   }
+// }
 
 export {
   createOneWayTrip,

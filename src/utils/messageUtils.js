@@ -12,6 +12,7 @@ export default {
     "Please your departure date must be equal to or greater than today's date.",
   deleteComment: 'Comment successfully deleted.',
   diffDepartment: 'You are not in the same department as the Travel Requester.',
+  editedTravelRequest: (travel_id) => `Travel request with id ${travel_id} was edited.`,
   emptyAccommodation: 'You must select an accommodation.',
   emptyComment: 'comment cannot be empty.',
   emptyDepartureDate: 'You must state your departure date',

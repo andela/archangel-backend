@@ -128,7 +128,7 @@ export default {
         res,
         statusCode.success,
         message.updateRememberMe,
-        user[1]
+        user[1][0]
       );
     } catch (err) {
       errorResponse(res, statusCode.serverError, err.message);

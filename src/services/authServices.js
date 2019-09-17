@@ -4,7 +4,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import models from '../models';
 
-const { users, blacklists } = models;
+const { users, blacklists, departments } = models;
 
 export const signupService = async (userObj) => {
   try {
@@ -68,3 +68,11 @@ export const logoutService = async (token) => {
     throw err;
   }
 };
+
+// Get the user together with the department data of that user..
+export const findUserAndDepartment = async (id) => {
+  return await users.findOne({
+    where: { id },
+    include: [departments]
+  });
+}
