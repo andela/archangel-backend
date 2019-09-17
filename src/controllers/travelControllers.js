@@ -1,5 +1,5 @@
 /* eslint-disable no-else-return */
-import pusher from '../config/pusher'
+import pusher from '../config/pusher';
 import {
   createTripService,
   showManagerPendingAppr,
