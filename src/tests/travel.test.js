@@ -351,38 +351,37 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
     });
 
     it('should return an error if start date is not defined', (done) => {
-        chai
-          .request(app)
-          .get(`${prefix}/travel/request_count/1215739?end_date=2019-09-17`)
-          .set('Authorization', userToken)
-          .end((err, res) => {
-            expect(res).to.have.status(400);
-            done();
-          });
+      chai
+        .request(app)
+        .get(`${prefix}/travel/request_count/1215739?end_date=2019-09-17`)
+        .set('Authorization', userToken)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
     });
 
     it('should return an error if start date is not valid', (done) => {
-        chai
-          .request(app)
-          .get(`${prefix}/travel/request_count/1215739?start_date=2019-08ghahghjas-14&end_date=2019-09-17`)
-          .set('Authorization', userToken)
-          .end((err, res) => {
-            expect(res).to.have.status(400);
-            done();
-          });
+      chai
+        .request(app)
+        .get(`${prefix}/travel/request_count/1215739?start_date=2019-08ghahghjas-14&end_date=2019-09-17`)
+        .set('Authorization', userToken)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
     });
 
     it('should return an error if end date is not valid', (done) => {
-        chai
-          .request(app)
-          .get(`${prefix}/travel/request_count/1215739?start_date=2019-08-14&end_date=2019-hhdshhdsuids09-17`)
-          .set('Authorization', userToken)
-          .end((err, res) => {
-            expect(res).to.have.status(400);
-            done();
-          });
+      chai
+        .request(app)
+        .get(`${prefix}/travel/request_count/1215739?start_date=2019-08-14&end_date=2019-hhdshhdsuids09-17`)
+        .set('Authorization', userToken)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
+        });
     });
-
   });
   // stats trip tests route ends here ----------------
 
@@ -432,10 +431,10 @@ describe('TEST FOR TRAVEL REQUEST FUNCTIONS', () => {
           done();
         });
     });
-});
+  });
 
-// Get users request status
-describe('Testing for users request status', () => {
+  // Get users request status
+  describe('Testing for users request status', () => {
     it('should successfully return user request status', (done) => {
       chai
         .request(app)
