@@ -58,7 +58,7 @@
     "sendgrid": "^5.2.3",
     "sequelize": "^5.15.2",
     "sequelize-cli": "^5.5.0",
-    "underscore": "^1.9.1"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
